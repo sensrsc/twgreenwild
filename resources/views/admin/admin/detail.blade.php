@@ -60,8 +60,7 @@
 									<div class="control-label col-md-2">暱稱：</div>
 									<div class="col-md-10">
 										<div class="input-icon right">
-											<input type="text" placeholder="暱稱" class="form-control" name="a_name" value="{{ isset($data['a_name'])? $data['a_name
-										'] : '' }}" />
+											<input type="text" placeholder="暱稱" class="form-control" name="a_name" value="{{ isset($data['a_name'])? $data['a_name'] : '' }}" />
 										</div>
 									</div>
 								</div>
@@ -83,8 +82,8 @@
 										<div class="input-icon right">
 											<select class="form-control" name="a_status">
 												<option value="">請選擇</option>
-												@if (!empty(config('common.admin_status')))
-													@foreach (config('common.admin_status') as $status => $status_title)
+												@if (!empty($adminStatus))
+													@foreach ($adminStatus as $status => $status_title)
 														<option value="{{ $status }}" {{ (isset($data['a_status']) && $data['a_status'] == $status)? 'selected' : '' }}> {{ $status_title }} </option>
 													@endforeach
 												@endif		

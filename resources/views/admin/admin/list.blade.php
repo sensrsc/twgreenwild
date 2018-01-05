@@ -60,14 +60,10 @@
                                 <th>暱稱</th>
                                 <th>狀態</th>
                                 <th>最後登入</th>
-                                <th>test</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @inject('adminPresenter', 'App\Presenters\AdminPresenter')
-                            @inject('dateFormatPresenter', 'App\Presenters\DateFormat\DateFormatPresenterInterface')
-
                             @if (!empty($lists))
                                 @foreach ($lists as $list)
                                 <tr>
@@ -75,15 +71,13 @@
                                     	{{ $list['a_account'] }}
                                     </td>
                                     <td class="hidden-xs">
-                                        {{ $list['a_displayname'] }}
+                                        {{ $list['a_name'] }}
                                     </td>
                                     <td>
-                                        {{ $adminPresenter->showStatus($list['a_status']) }}
-
                                         {{ isset(config('common.admin_status')[$list['a_status']])? config('common.admin_status')[$list['a_status']] : '' }}
                                     </td>
                                     <td>
-                                        {{ $adminPresenter->showDate($dateFormatPresenter, $list['last_login']) }}
+                                        {{ $list['last_login'] }}
                                     </td>
                                     <td>
                                         <a href="/admin/admin/detail/{{ $list['a_id'] }}" class="btn btn-outline btn-circle btn-sm blue">

@@ -35,4 +35,20 @@ class AdminService extends BaseService
         return false;
     }
 
+    public function insertAdmin($posts)
+    {
+        if (!empty($posts['a_password'])) {
+            $posts['a_password'] = password_hash($posts['a_password'], PASSWORD_DEFAULT);
+        }
+        return $this->insertData($posts);
+    }
+
+    public function updateAdmin($id, $posts)
+    {
+        if (!empty($posts['a_password'])) {
+            $posts['a_password'] = password_hash($posts['a_password'], PASSWORD_DEFAULT);
+        }
+        return $this->updateData($id, $posts);
+    }
+
 }

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\AdminService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use App\Services\AdminService;
-use App\Presenters\DateFormat\DateFormatPresenterFactory;
-
 use Validator;
 
 class Admin extends Controller
@@ -20,47 +18,42 @@ class Admin extends Controller
     }
 
     //
-    public function index(Request $request, DateFormatPresenterFactory $dateFormatPresenterFactory)
+    public function index(Request $request)
     {
-        $queryData = $request->query();
-        $lists     = $this->adminService->pages(env('PRE_PAGE'), $queryData);
-        $viewData  = ['lists' => $lists];
+        $queryData               = $request->query();
+        $lists                   = $this->adminService->pages(env('PRE_PAGE'), $queryData);
+        $this->viewData['lists'] = $lists;
 
-        $locale = 'en';
-        $dateFormatPresenterFactory->create($locale);
-
-        return view('admin.admin.list', $viewData);
+        return view('admin.admin.list', $this->viewData);
     }
 
     public function add(Request $request)
     {
-        // var_dump($request->route()->uri());
-        // var_dump($request->route()->methods());
-        // var_dump($request->route()->getPrefix());
-        // var_dump($request->route()->getName());
-        // var_dump($request->route()->getActionName());
-        // var_dump($request->route()->getAction());
+        $this->viewData['adminStatus'] = config('common.admin_status');
+        unset($this->viewData['adminStatus'][2]);
 
         return view('admin.admin.detail', $this->viewData);
     }
 
     public function detail(Request $request, $id)
     {
-
-        // var_dump($request->route()->uri());
-        // var_dump($request->route()->methods());
-        // var_dump($request->route()->getPrefix());
-        // var_dump($request->route()->getName());
-        // var_dump($request->route()->getActionName());
-        // var_dump($request->route()->getAction());
-
         $data = $this->adminService->getByID($id);
         if ($data) {
+            $this->viewData['adminStatus'] = config('common.admin_status');
+            unset($this->viewData['adminStatus'][2]);
+
             $this->viewData['data'] = $data;
 
             return view('admin.admin.detail', $this->viewData);
         }
-
+        $message = array(
+            'title'    => '錯誤',
+            'caption'  => '錯誤',
+            'message'  => '查無管理者資料',
+            'url'      => '/admin/admin',
+            'linkName' => '反回管理者管理',
+        );
+        return view('admin.message', $message);
     }
 
     public function ajaxAdd(Request $request)
@@ -68,10 +61,12 @@ class Admin extends Controller
         $validator = $this->validateForm($request, __FUNCTION__);
 
         if ($validator->passes()) {
-
             $posts = $request->input();
 
-            $this->responseData['status'] = true;
+            $this->responseData['status'] = $this->adminService->insertAdmin($posts);
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '新增成功';
+            }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
         }
@@ -86,7 +81,10 @@ class Admin extends Controller
         if ($validator->passes() && $id == $request->input('a_id')) {
             $posts = $request->input();
 
-            $this->responseData['status'] = true;
+            $this->responseData['status'] = $this->adminService->updateAdmin($id, $posts);
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '修改成功';
+            }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
         }
@@ -106,6 +104,10 @@ class Admin extends Controller
             $rules['a_password']  = 'required|min:4|max:20';
             $rules['re_password'] = 'required|min:4|max:20|same:a_password';
         } else {
+            if (!empty($request->a_password)) {
+                $rules['a_password']  = 'required|min:4|max:20';
+                $rules['re_password'] = 'required|min:4|max:20|same:a_password';
+            }
             $rules['a_account'] .= ',' . $request->input('a_id') . ',a_id';
         }
 
@@ -118,6 +120,7 @@ class Admin extends Controller
             'a_account'   => '帳號',
             'a_password'  => '密碼',
             're_password' => '確認密碼',
+            'a_name'      => '暱稱',
             'a_status'    => '狀態',
         ];
 

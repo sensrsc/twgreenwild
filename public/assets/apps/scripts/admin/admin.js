@@ -9,45 +9,45 @@ var Admin = function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                a_account: {
-                    required: true,
-                    minlength: 3,
-                    account_format: true
-                },               
-                a_email: {
-                    required: true,
-                    email: true
-                },
-                a_displayname: {
-                	required: true
-                },
-                re_password: {
-                    equalTo: "#a_password"
-                },
-                a_status: {
-                	required: true
-                }
+                // a_account: {
+                //     required: true,
+                //     minlength: 3,
+                //     account_format: true
+                // },               
+                // a_email: {
+                //     required: true,
+                //     email: true
+                // },
+                // a_displayname: {
+                // 	required: true
+                // },
+                // re_password: {
+                //     equalTo: "#a_password"
+                // },
+                // a_status: {
+                // 	required: true
+                // }
             },
 
             messages: {
-            	a_account: {
-                    required: '請輸入帳號',
-                    minlength: '最少需要輸入3個字元',
-                    account_format: '帳號格式錯誤'
-                },                
-                a_email: {
-                    required: '請輸入Email',
-                    email: '請確認Email格式'
-                },
-                a_displayname: {
-                	required: '請輸入暱稱'	
-                },
-                re_password: {
-                    equalTo: '確認密碼要與密碼相同'
-                },
-                a_status: {
-                	required: '請選擇狀態'
-                }
+            	// a_account: {
+             //        required: '請輸入帳號',
+             //        minlength: '最少需要輸入3個字元',
+             //        account_format: '帳號格式錯誤'
+             //    },                
+             //    a_email: {
+             //        required: '請輸入Email',
+             //        email: '請確認Email格式'
+             //    },
+             //    a_displayname: {
+             //    	required: '請輸入暱稱'	
+             //    },
+             //    re_password: {
+             //        equalTo: '確認密碼要與密碼相同'
+             //    },
+             //    a_status: {
+             //    	required: '請選擇狀態'
+             //    }
             },
 
             invalidHandler: function(event, validator) { //display error alert on form submit                   
@@ -85,18 +85,18 @@ var Admin = function() {
         });
         
         //新增需要輸入帳號 
-        if (parseInt($('[name=a_id]').val()) == 0){
-        	$( "#a_password" ).rules( "add", {
-        		required: true,
-        		minlength: 4,
-        		maxlength: 12,
-        		messages: {
-        			required: '請輸入密碼',
-					minlength: '最少需要輸入4個字元',
-					maxlength: '最多只能輸入12個字元'
-    		  	}
-    		});              
-        }
+     //    if (parseInt($('[name=a_id]').val()) == 0){
+     //    	$( "#a_password" ).rules( "add", {
+     //    		required: true,
+     //    		minlength: 4,
+     //    		maxlength: 12,
+     //    		messages: {
+     //    			required: '請輸入密碼',
+					// minlength: '最少需要輸入4個字元',
+					// maxlength: '最多只能輸入12個字元'
+    	// 	  	}
+    	// 	});              
+     //    }
 
         $('form input').keypress(function(e) {
             if (e.which == 13) {
