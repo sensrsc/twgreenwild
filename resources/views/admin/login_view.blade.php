@@ -53,10 +53,10 @@
                 {{ csrf_field() }}
                 <h3 class="form-title">後台管理系統</h3>
 
-                    @if (isset($error_msg))
+                    @if (isset($errorMsg))
                     <div class="alert alert-danger">
                         <button class="close" data-close="alert"></button>
-                        <span>{{ $error_msg }}</span>
+                        <span>{{ $errorMsg }}</span>
                     </div>
                     @endif
 

@@ -11,6 +11,4 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public $responseData = [];
-    public $viewData     = [];
 }

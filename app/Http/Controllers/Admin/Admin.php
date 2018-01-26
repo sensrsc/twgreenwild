@@ -3,48 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\AdminService;
+use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Validator;
 
 class Admin extends Controller
 {
-    protected $adminService;
+    protected $adminRepository;
+    protected $responseData;
 
-    public function __construct(AdminService $adminService)
+    public function __construct(AdminRepository $adminRepository)
     {
-        $this->adminService = $adminService;
+        $this->adminRepository = $adminRepository;
+        $this->responseData    = [
+            'status'  => false,
+            'message' => '',
+        ];
     }
 
-    //
     public function index(Request $request)
     {
-        $queryData               = $request->query();
-        $lists                   = $this->adminService->pages(env('PRE_PAGE'), $queryData);
-        $this->viewData['lists'] = $lists;
+        $queryData = $request->query();
+        $lists     = $this->adminRepository->pages(env('PRE_PAGE'), $queryData);
 
-        return view('admin.admin.list', $this->viewData);
+        return view('admin.admin.list', compact('lists'));
     }
 
     public function add(Request $request)
     {
-        $this->viewData['adminStatus'] = config('common.admin_status');
-        unset($this->viewData['adminStatus'][2]);
+        $adminStatus = config('common.admin_status');
+        unset($adminStatus[2]);
 
-        return view('admin.admin.detail', $this->viewData);
+        return view('admin.admin.detail', compact('adminStatus'));
     }
 
     public function detail(Request $request, $id)
     {
-        $data = $this->adminService->getByID($id);
+        $data = $this->adminRepository->getByID($id);
         if ($data) {
-            $this->viewData['adminStatus'] = config('common.admin_status');
-            unset($this->viewData['adminStatus'][2]);
+            $adminStatus = config('common.admin_status');
+            unset($adminStatus[2]);
 
-            $this->viewData['data'] = $data;
-
-            return view('admin.admin.detail', $this->viewData);
+            return view('admin.admin.detail', compact('data', 'adminStatus'));
         }
         $message = array(
             'title'    => '錯誤',
@@ -63,7 +64,7 @@ class Admin extends Controller
         if ($validator->passes()) {
             $posts = $request->input();
 
-            $this->responseData['status'] = $this->adminService->insertAdmin($posts);
+            $this->responseData['status'] = $this->adminRepository->insertAdmin($posts);
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '新增成功';
             }
@@ -77,13 +78,17 @@ class Admin extends Controller
     public function ajaxUpdate(Request $request, $id)
     {
         $validator = $this->validateForm($request, __FUNCTION__);
-
         if ($validator->passes() && $id == $request->input('a_id')) {
-            $posts = $request->input();
+            $admin = $this->adminRepository->getByID($id);
+            if ($admin) {
+                $posts = $request->input();
 
-            $this->responseData['status'] = $this->adminService->updateAdmin($id, $posts);
-            if ($this->responseData['status']) {
-                $this->responseData['message'] = '修改成功';
+                $this->responseData['status'] = $this->adminRepository->updateAdmin($admin, $posts);
+                if ($this->responseData['status']) {
+                    $this->responseData['message'] = '修改成功';
+                }    
+            } else {
+                $this->responseData['message'] = '查無管理者資料';
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());

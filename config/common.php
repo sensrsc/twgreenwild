@@ -24,6 +24,14 @@ return [
         '1' => '上架',
         '2' => '刪除',
     ],
+    'general_status' => [
+        '0' => '停用',
+        '1' => '啟用',
+    ],
+    'description_types' => [
+        '1' => '純文字',
+        '2' => '圖文編輯器',
+    ],
     'menu'         => [
         'admin'    => [
             'title'      => '管理者管理',
@@ -35,25 +43,25 @@ return [
         //     'icon_class' => 'icon-home',
         //     'link'       => '/admin/indexslide',
         // ],
-        'news'     => [
-            'title'      => '最新消息管理',
-            'icon_class' => 'icon-home',
-            'link'       => '/admin/news',
-        ],
+        // 'news'     => [
+        //     'title'      => '最新消息管理',
+        //     'icon_class' => 'icon-home',
+        //     'link'       => '/admin/news',
+        // ],
         'category' => [
             'title'      => '分類管理',
             'icon_class' => 'icon-home',
             'link'       => '/admin/category',
         ],
-        'product'  => [
-            'title'      => '商品管理',
-            'icon_class' => 'icon-home',
-            'link'       => '/admin/product',
-        ],
-        'system'   => [
-            'title'      => '系統變數管理',
-            'icon_class' => 'icon-home',
-            'link'       => '/admin/systemvariable',
-        ],
+        // 'product'  => [
+        //     'title'      => '商品管理',
+        //     'icon_class' => 'icon-home',
+        //     'link'       => '/admin/product',
+        // ],
+        // 'system'   => [
+        //     'title'      => '系統變數管理',
+        //     'icon_class' => 'icon-home',
+        //     'link'       => '/admin/systemvariable',
+        // ],
     ],
 ];

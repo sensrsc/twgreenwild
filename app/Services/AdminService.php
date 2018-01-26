@@ -3,14 +3,20 @@
 namespace App\Services;
 
 use App\Repositories\AdminRepository;
+use App\Models\Admin;
 use Session;
 use Request;
 
-class AdminService extends BaseService
+class AdminService
 {
-    public function __construct(AdminRepository $repository)
+    public function checkLogin(Admin $admin, $account, $password)
     {
-        parent::__construct($repository);
+        if (!empty($admin) && $admin->a_status == 1 && 
+            password_verify($password, $admin->a_password)) {
+
+            return true;
+        }
+        return false;
     }
 
     public function checkCaptcha($checkCode)
@@ -18,37 +24,18 @@ class AdminService extends BaseService
         return (strtolower(session()->get('captcha_word')) == strtolower($checkCode))? true : false;
     }
 
-    public function login($account, $password)
+    public function login(Admin $admin)
     {
-        $admin = $this->repository->getByAccount($account);
-        if (!empty($admin) && $admin->a_status == 1 && 
-            password_verify($password, $admin->a_password)) {
+        if (!empty($admin)) {
             $admin->ip = Request::ip();
             $admin->last_login = date('Y-m-d H:i:s');
             $admin->save();
 
             session()->put('admin', $admin);
             session()->put('admin_ckfinder', '9');
-
             return true;
         }
         return false;
-    }
-
-    public function insertAdmin($posts)
-    {
-        if (!empty($posts['a_password'])) {
-            $posts['a_password'] = password_hash($posts['a_password'], PASSWORD_DEFAULT);
-        }
-        return $this->insertData($posts);
-    }
-
-    public function updateAdmin($id, $posts)
-    {
-        if (!empty($posts['a_password'])) {
-            $posts['a_password'] = password_hash($posts['a_password'], PASSWORD_DEFAULT);
-        }
-        return $this->updateData($id, $posts);
     }
 
 }
