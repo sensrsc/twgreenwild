@@ -1,6 +1,6 @@
-var Category = function() {
+var Album = function() {
 
-    var handleCategory = function() {
+    var handleAlbum = function() {
     	
         $('#data-form').validate({
             errorElement: 'span', //default input error message container
@@ -42,9 +42,9 @@ var Category = function() {
 
             submitHandler: function(form) {
                 // form.submit(); // form validation success, call ajax form submit
-            	var url = '/admin/category/';
-                if (parseInt($('[name=c_id]').val()) > 0){
-                    url += 'ajaxUpdate/' + $('[name=c_id]').val();
+            	var url = '/admin/album/';
+                if (parseInt($('[name=a_id]').val()) > 0){
+                    url += 'ajaxUpdate/' + $('[name=a_id]').val();
                 }else {
                     url += 'ajaxAdd'
                 }
@@ -56,13 +56,6 @@ var Category = function() {
             }
         });
 
-        $('[name=num]').change(function(){
-            var num = $('#description_block .form-group').length,
-                val = parseInt($(this).val()),
-                total = val - num;
-            descriptionProcess(total);
-        });
-
         $('#data-form input').keypress(function(e) {
             if (e.which == 13 && $('#data-form #peronsal_login').attr('disabled') !== 'disabled') {
                 if ($('#data-form').validate().form()) {
@@ -72,32 +65,11 @@ var Category = function() {
             }
         });
     }
-
-    var descriptionProcess = function(num) {
-        var type = 'add';
-        if (num < 0) {
-            type = 'sub';
-        }
-        for (i = 0; i < Math.abs(num); i ++) {
-            if (type == 'add') {
-                addDescripton();
-            } else {
-                subDescription();
-            }
-        }
-    }
-    var addDescripton = function () {
-        var temp = $('#description_temp').html();
-        $('#description_block').append(temp);
-    }
-    var subDescription = function () {
-        $('#description_block .form-group').last().remove();
-    }
     
     var formCallback = function(response) {
    	    // console.log(response);
     	if (response.status) {
-            Site.showAlert(true, 'success', '成功', response.message, "success", "/admin/category");
+            Site.showAlert(true, 'success', '成功', response.message, "success", "/admin/album");
     	} else {
     		$("#data-form-btn").removeAttr("disabled");
     		Site.showAlert(true, 'error', '失敗', response.message);
@@ -107,12 +79,12 @@ var Category = function() {
     return {
         //main function to initiate the module
         init: function() {
-            handleCategory();
+            handleAlbum();
         }
     };
 
 }();
 
 jQuery(document).ready(function() {
-    Category.init();        
+    Album.init();        
 });

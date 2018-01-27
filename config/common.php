@@ -53,8 +53,13 @@ return [
             'icon_class' => 'icon-home',
             'link'       => '/admin/category',
         ],
+        'album' => [
+            'title'      => '相簿管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/album',
+        ],
         // 'product'  => [
-        //     'title'      => '商品管理',
+        //     'title'      => '行程管理',
         //     'icon_class' => 'icon-home',
         //     'link'       => '/admin/product',
         // ],

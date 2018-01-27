@@ -49,15 +49,20 @@ class AdminRepository
 
         if ($queryData) {
             foreach ($queryData as $field => $search) {
-                if (strpos($field, 'status') !== false) {
-                    $query->where($field, $search);
+                if (strpos($field, 'title') !== false) {
+                    $query->where($field, "LIKE", '%'.$search.'%');
                 } else if ($search) {
-                    $query->where($field, "LIKE", '%' . $search . '%');
+                    $query->where($field, $search);
                 }
             }
         }
 
-        return $query->paginate($rows);
+        $lists = $query->paginate($rows);
+        if ($queryData) {
+            $lists->appends($queryData);    
+        }
+        
+        return $lists;
     }
 
     public function getByAccount($account)

@@ -94,7 +94,7 @@
 							</div>
                         
                         <div class="form-actions right">
-                            <a href="" class="btn btn-default"> 返回管理者列表 </a>
+                            <a href="/admin/admin" class="btn btn-default"> 返回管理者列表 </a>
                             <button class="btn green" id="data-form-btn" type="submit"> 儲存修改 </button>
                         </div>
 

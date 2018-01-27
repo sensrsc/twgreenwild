@@ -60,9 +60,7 @@ class CategoryLevel extends Controller
     {
         $data = $this->categoryLevelRepository->getByID($id);
         if ($data) {
-            var_dump($data->c_id);
             $category = $this->categoryRepository->getByID($data->c_id);
-            $this->viewData['descriptions'] = $this->categoryRepository->getByID($data);
             return view('admin.category.level_detail', compact('data', 'category'));
         }
         // error not found

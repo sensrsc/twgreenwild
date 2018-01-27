@@ -1,6 +1,6 @@
-var Category = function() {
+var AlbumPicture = function() {
 
-    var handleCategory = function() {
+    var handleAlbumPicture = function() {
     	
         $('#data-form').validate({
             errorElement: 'span', //default input error message container
@@ -42,25 +42,18 @@ var Category = function() {
 
             submitHandler: function(form) {
                 // form.submit(); // form validation success, call ajax form submit
-            	var url = '/admin/category/';
-                if (parseInt($('[name=c_id]').val()) > 0){
-                    url += 'ajaxUpdate/' + $('[name=c_id]').val();
+            	var url = '/admin/picture/';
+                if (parseInt($('[name=ap_id]').val()) > 0){
+                    url += 'ajaxUpdate/' + $('[name=ap_id]').val();
                 }else {
                     url += 'ajaxAdd'
                 }
 
                 var formData = new FormData($('form')[0]);
                 Site.ajaxTask("post", true, false, url, formData, formCallback, null, false);
-               
+
                 return false;
             }
-        });
-
-        $('[name=num]').change(function(){
-            var num = $('#description_block .form-group').length,
-                val = parseInt($(this).val()),
-                total = val - num;
-            descriptionProcess(total);
         });
 
         $('#data-form input').keypress(function(e) {
@@ -72,32 +65,15 @@ var Category = function() {
             }
         });
     }
-
-    var descriptionProcess = function(num) {
-        var type = 'add';
-        if (num < 0) {
-            type = 'sub';
-        }
-        for (i = 0; i < Math.abs(num); i ++) {
-            if (type == 'add') {
-                addDescripton();
-            } else {
-                subDescription();
-            }
-        }
-    }
-    var addDescripton = function () {
-        var temp = $('#description_temp').html();
-        $('#description_block').append(temp);
-    }
-    var subDescription = function () {
-        $('#description_block .form-group').last().remove();
-    }
     
     var formCallback = function(response) {
    	    // console.log(response);
     	if (response.status) {
-            Site.showAlert(true, 'success', '成功', response.message, "success", "/admin/category");
+            url = '/admin/picture/index/';
+            if (typeof response.a_id != 'undefind') {
+                url += response.a_id
+            }
+            Site.showAlert(true, 'success', '成功', response.message, "success", url);
     	} else {
     		$("#data-form-btn").removeAttr("disabled");
     		Site.showAlert(true, 'error', '失敗', response.message);
@@ -107,12 +83,12 @@ var Category = function() {
     return {
         //main function to initiate the module
         init: function() {
-            handleCategory();
+            handleAlbumPicture();
         }
     };
 
 }();
 
 jQuery(document).ready(function() {
-    Category.init();        
+    AlbumPicture.init();        
 });

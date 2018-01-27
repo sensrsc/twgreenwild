@@ -14,7 +14,7 @@
                 <div class="portlet-title tabbable-line">
                     <div class="caption caption-md">
                         <i class="icon-globe theme-font hide"></i>
-                        <span class="caption-subject font-blue-madison bold uppercase">行程分類等級資料</span>
+                        <span class="caption-subject font-blue-madison bold uppercase">{{ $category->c_title }} 行程分類等級資料</span>
                     </div>
                 </div>                
                 <div class="portlet-body form">                    

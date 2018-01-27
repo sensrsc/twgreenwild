@@ -23,7 +23,7 @@ class Category extends Controller
             'status'  => false,
             'message' => '',
         ];
-        $this->destinationPath = public_path('upload/file/');
+        $this->destinationPath = public_path('upload/file/category/');
     }
 
     public function index(Request $request)
@@ -89,6 +89,11 @@ class Category extends Controller
         $data      = $this->categoryRepository->getByID($id);
         if ($validator->passes() && !empty($data)) {
             $posts = $request->input();
+            if ($request->hasFile('c_file')) {
+                $fileName        = $request->file('c_file')->getClientOriginalName();
+                $posts['c_file'] = $fileName;
+                $request->file('c_file')->move($this->destinationPath, $fileName);
+            }
 
             $isUpdate = $this->categoryRepository->update($id, $posts);
             $isDescriptionUpdate = $this->categoryDescriptionRepository->processCategoryDescription($id, $posts);

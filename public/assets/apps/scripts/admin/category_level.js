@@ -67,7 +67,7 @@ var CategoryLevel = function() {
     }
 
     var formCallback = function(response) {
-   	    console.log(response);
+   	    // console.log(response);
     	if (response.status) {
             url = '/admin/level/index/';
             if (typeof response.c_id != 'undefind') {

@@ -2,26 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Models\CategoryLevel;
+use App\Models\AlbumPicture;
 
-class CategoryLevelRepository
+class AlbumPictureRepository
 {
     protected $model;
 
-    public function __construct(CategoryLevel $model)
+    public function __construct(AlbumPicture $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $categoryLevel = new CategoryLevel;
-        $categoryLevel->c_id = $datas['c_id'] ?? 0;
-        $categoryLevel->cl_title = $datas['cl_title'] ?? '';
-        $categoryLevel->cl_status = $datas['cl_status'] ?? 1;
-        $categoryLevel->save();
+        $albumPicture                 = new AlbumPicture;
+        $albumPicture->a_id           = $datas['a_id'] ?? 0;
+        $albumPicture->ap_image       = $datas['ap_image'] ?? '';
+        $albumPicture->ap_description = $datas['ap_description'] ?? '';
+        $albumPicture->ap_status      = $datas['ap_status'] ?? 1;
+        $albumPicture->save();
 
-        return $categoryLevel->cl_id;
+        return $albumPicture->ap_id;
     }
 
     public function update($id, $datas)
@@ -32,6 +33,13 @@ class CategoryLevelRepository
             return $data->save();
         }
         return false;
+    }
+
+    public function getAlbumPicture($aId)
+    {
+        return AlbumPicture::where('a_id', $aId)
+            ->where('ap_status', 1)
+            ->get();
     }
 
     public function getByID($id)
@@ -48,16 +56,18 @@ class CategoryLevelRepository
                 if (strpos($field, 'status') !== false) {
                     $query->where($field, $search);
                 } else if ($search) {
-                    $query->where($field, "LIKE", '%'.$search.'%');
+                    $query->where($field, "LIKE", '%' . $search . '%');
                 }
             }
         }
 
+        $query->where('ap_status', '!=', 2);
+
         $lists = $query->paginate($rows);
         if ($queryData) {
-            $lists->appends($queryData);    
+            $lists->appends($queryData);
         }
-        
+
         return $lists;
     }
 

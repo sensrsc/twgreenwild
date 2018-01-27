@@ -2,26 +2,28 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
+use App\Models\Album;
 
-class CategoryRepository
+class AlbumRepository
 {
     protected $model;
 
-    public function __construct(Category $model)
+    public function __construct(Album $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $category = new Category;
-        $category->c_title = $datas['c_title'] ?? '';
-        $category->c_file = $datas['c_file'] ?? '';
-        $category->c_status = $datas['c_status'] ?? 1;
-        $category->save();
+        $album = new Album;
+        $album->c_id = $datas['c_id'];
+        $album->a_title = $datas['a_title'] ?? '';
+        $album->a_description = $datas['a_description'] ?? '';
+        $album->a_status = $datas['a_status'] ?? 1;
+        $album->a_outside_link = $datas['a_outside_link'] ?? '';
+        $album->save();
 
-        return $category->c_id;
+        return $album->a_id;
     }
 
     public function update($id, $datas)
@@ -59,12 +61,6 @@ class CategoryRepository
         }
         
         return $lists;
-    }
-
-    public function getAll()
-    {
-        return $this->model->where('c_status', 1)
-                        ->get();
     }
 
 }

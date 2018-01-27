@@ -90,7 +90,7 @@
 							</div>
                         	
 	                        <div class="form-actions right">
-	                            <a href="" class="btn btn-default"> 返回管理者列表 </a>
+	                            <a href="/admin/category" class="btn btn-default"> 返回行程分類列表 </a>
 	                            <button class="btn green" id="data-form-btn" type="submit"> 儲存修改 </button>
 	                        </div>
                     	</div>
@@ -106,9 +106,9 @@
 </div>
 @endsection
 
-@select('css_link')
+@section('css_link')
 	<link href="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
-@endselect
+@endsection
 
 @section('js_script')
     <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
