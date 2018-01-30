@@ -37,9 +37,14 @@
 <div class="col-md-12 portlet light">    
     
     <div class="portlet light portlet-fit ">
+        <div class="actions">
+            <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/category">
+                <span>返回行程分類</span>
+            </a>
+        </div>
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-user"></i>{{ $category->c_title }} 分類列表
+                <i class="fa fa-user"></i>{{ $category->c_title }} 等級列表
             </div>
             <div class="actions">
                 <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/level/add/{{ $category->c_id }}">

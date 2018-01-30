@@ -57,6 +57,8 @@ class AdminRepository
             }
         }
 
+        $query->where('a_status', '!=', 2);
+
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);    

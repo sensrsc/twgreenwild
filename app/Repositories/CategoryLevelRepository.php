@@ -39,6 +39,13 @@ class CategoryLevelRepository
         return $this->model->find($id);
     }
 
+    public function getByCategory($cId)
+    {
+        return $this->model->where('c_id', $cId)
+                            ->where('cl_status', 1)
+                            ->get(['cl_id', 'cl_title']);
+    }
+
     public function pages($rows, $queryData)
     {
         $query = $this->model->query();

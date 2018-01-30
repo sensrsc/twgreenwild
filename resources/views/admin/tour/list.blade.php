@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label">名稱</label>
                         <div class="col-md-2">
-                            <input type="text" name="a_title" class="form-control" placeholder="請輸入相簿名稱">
+                            <input type="text" name="t_name" class="form-control" placeholder="請輸入行程名稱">
                         </div>
 
                         <label class="col-md-1 control-label">分類</label>
@@ -50,11 +50,11 @@
     <div class="portlet light portlet-fit ">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-user"></i>相簿列表
+                <i class="fa fa-user"></i>行程列表
             </div>
             <div class="actions">
-                <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/album/add">
-                    <span>新增相簿</span>
+                <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/tour/add">
+                    <span>新增行程</span>
                 </a>
             </div>
         </div>
@@ -64,9 +64,10 @@
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
                             <tr>
-                                <th>相簿名稱(張數)</th>
-                                <th>行程類型</th>
+                                <th>行程名稱</th>
+                                <th>類型</th>
                                 <th>狀態</th>
+                                <th>金額</th>
                                 <th>修改時間</th>
                                 <th></th>
                             </tr>
@@ -82,18 +83,16 @@
                                         {{ isset($list->category->c_title)? $list->category->c_title : '' }}
                                     </td>
                                     <td>
-                                        {{ isset(config('common.general_status')[$list['a_status']])? config('common.general_status')[$list['a_status']] : '' }}
+                                        {{ isset(config('common.general_status')[$list['t_status']])? config('common.general_status')[$list['t_status']] : '' }}
                                     </td>
                                     <td>
                                         {{ $list['updated_at'] }}
                                     </td>
                                     <td>
-                                        <a href="/admin/album/detail/{{ $list['a_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
+                                        <a href="/admin/tour/detail/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
                                             <i class="fa fa-edit">查看/編輯</i></a>
-                                        <a href="/admin/picture/index/{{ $list['a_id'] }}" class="btn btn-outline btn-circle btn-sm green">
-                                            <i class="fa fa-edit">照片管理</i></a>
-                                        <a href="#" data-id="{{ $list['a_id'] }}" class="btn btn-outline btn-circle btn-sm red del_btn">
-                                            <i class="fa fa-edit">刪除</i></a>
+                                        <!-- <a href="#" data-id="{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm red del_btn">
+                                            <i class="fa fa-edit">刪除</i></a> -->
                                     </td>                                    
                                 </tr>
                                 @endforeach
@@ -139,8 +138,4 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-@endsection
-
-@section('js_script')
-    <script src="/assets/apps/scripts/admin/album_list.js"></script>
 @endsection

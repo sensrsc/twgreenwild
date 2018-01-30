@@ -2,28 +2,32 @@
 
 namespace App\Repositories;
 
+use App\Models\Category;
+use App\Models\CategoryDescription;
+use App\Models\CategoryLevel;
 use App\Models\Album;
+use App\Models\Area;
+use App\Models\Tour;
 
-class AlbumRepository
+
+class TourRepository
 {
     protected $model;
-
-    public function __construct(Album $model)
+    
+    public function __construct(Tour $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $album = new Album;
-        $album->c_id = $datas['c_id'];
-        $album->a_title = $datas['a_title'] ?? '';
-        $album->a_description = $datas['a_description'] ?? '';
-        $album->a_status = $datas['a_status'] ?? 1;
-        $album->a_outside_link = $datas['a_outside_link'] ?? '';
-        $album->save();
+        $tour = new Tour;
+        $tour->c_title = $datas['c_title'] ?? '';
+        $tour->c_file = $datas['c_file'] ?? '';
+        $tour->c_status = $datas['c_status'] ?? 1;
+        $tour->save();
 
-        return $album->a_id;
+        return $tour->t_id;
     }
 
     public function update($id, $datas)
@@ -41,13 +45,6 @@ class AlbumRepository
         return $this->model->find($id);
     }
 
-    public function getByCategory($cId)
-    {
-        return $this->model->where('c_id', $cId)
-                            ->where('a_status', 1)
-                            ->get(['a_id', 'a_title', 'a_description']);
-    }
-
     public function pages($rows, $queryData)
     {
         $query = $this->model->query();
@@ -62,14 +59,33 @@ class AlbumRepository
             }
         }
 
-        $query->where('a_status', '!=', 2);
-
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);    
         }
         
         return $lists;
+    }
+
+    // category
+    public function getCategorys()
+    {
+        return Category::where('c_status', 1)
+                        ->get();
+    }
+
+    // album
+    public function getAlbumByCategory($cId)
+    {
+        return Album::where('c_id', $cId)
+                    ->where('a_status', 1)
+                    ->get();
+    }
+
+    // area
+    public function getAreas()
+    {
+        return Area::get(['area_id', 'area_name']);
     }
 
 }

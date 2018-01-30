@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\AlbumPictureRepository;
 use App\Repositories\AlbumRepository;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
@@ -14,11 +15,12 @@ class Album extends Controller
     protected $categoryRepository;
     protected $responseData;
 
-    public function __construct(AlbumRepository $repository, CategoryRepository $categoryRepository)
+    public function __construct(AlbumRepository $repository, CategoryRepository $categoryRepository, AlbumPictureRepository $albumPictureRepository)
     {
-        $this->albumRepository    = $repository;
-        $this->categoryRepository = $categoryRepository;
-        $this->responseData       = [
+        $this->albumRepository        = $repository;
+        $this->categoryRepository     = $categoryRepository;
+        $this->albumPictureRepository = $albumPictureRepository;
+        $this->responseData           = [
             'status'  => false,
             'message' => '',
         ];
@@ -94,12 +96,66 @@ class Album extends Controller
         return response()->json($this->responseData);
     }
 
+    public function ajaxCover(Request $request, $id)
+    {
+        $album = $this->albumRepository->getByID($id);
+        if ($album) {
+            $apId         = $request->input('ap_id');
+            $albumPicture = $this->albumPictureRepository->getByID($apId);
+
+            if ($albumPicture->a_id == $album->a_id) {
+                $this->responseData['status'] = $this->albumRepository->update($id, ['a_cover' => $apId]);
+                if ($this->responseData['status']) {
+                    $this->responseData['message'] = '設定封面成功';
+                }
+            } else {
+                $this->responseData['message'] = '請確認資料是否正確';
+            }
+        } else {
+            $this->responseData['message'] = '請確認資料是否正確';
+        }
+
+        return response()->json($this->responseData);
+    }
+
+    public function ajaxDelete(Request $request)
+    {
+        $aId         = $request->input('a_id');
+        $album = $this->albumRepository->getByID($aId);
+        if ($album) {
+            $this->responseData['status'] = $this->albumRepository->update($aId, ['a_status' => 2]);
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '刪除成功';
+            }
+        } else {
+            $this->responseData['message'] = '請確認資料是否正確';
+        }
+
+        return response()->json($this->responseData);
+    }
+
+    public function ajaxCategoryAlbum($cId)
+    {
+        $albums = $this->albumRepository->getByCategory($cId);
+        if ($albums) {
+            $this->responseData['status'] = ($albums)? true : false;
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '成功';
+                $this->responseData['albums'] = $albums;
+            }
+        } else {
+            $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        }
+
+        return response()->json($this->responseData);
+    }
+
     protected function validateForm(Request $request)
     {
         $rules = [
-            'a_title'        => 'required|max:50',
-            'c_id'           => 'required',
-            'a_status'       => 'required',
+            'a_title'  => 'required|max:50',
+            'c_id'     => 'required',
+            'a_status' => 'required',
         ];
 
         if ($request->input('a_outside_link')) {

@@ -64,13 +64,13 @@ class AlbumPicture extends Controller
         $validator = $this->validateForm($request);
         if ($validator->passes()) {
             $posts = $request->input();
-            $posts['ap_image'] = $this->uploadFile($request);
 
-            $apId                         = $this->albumPictureRepository->insert($posts);
-            $this->responseData['status'] = ($apId > 0) ? true : false;
+            $uploadResult                 = $this->uploadFile($request);
+            $this->responseData['status'] = ($uploadResult) ? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['a_id']    = $posts['a_id'];
                 $this->responseData['message'] = '新增成功';
+                $this->responseData['files']   = $uploadResult;
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
@@ -81,34 +81,34 @@ class AlbumPicture extends Controller
 
     public function ajaxUpdate(Request $request, $id)
     {
-        $validator = $this->validateForm($request);
-        $data      = $this->albumPictureRepository->getByID($id);
-        if ($validator->passes() && !empty($data)) {
-            $posts = $request->input();
-            if ($fileName = $this->uploadFile($request)) {
-                $posts['ap_image'] = $fileName;
-            }
+        // $validator = $this->validateForm($request);
+        // $data      = $this->albumPictureRepository->getByID($id);
+        // if ($validator->passes() && !empty($data)) {
+        //     $posts = $request->input();
+        //     if ($fileName = $this->uploadFile($request)) {
+        //         $posts['ap_image'] = $fileName;
+        //     }
 
-            $this->responseData['status'] = $this->albumPictureRepository->update($id, $posts);
-            if ($this->responseData['status']) {
-                $this->responseData['a_id']    = $posts['a_id'];
-                $this->responseData['message'] = '修改成功';
-            }
-        } else {
-            $this->responseData['message'] = join('<br />', $validator->messages()->all());
-        }
+        //     $this->responseData['status'] = $this->albumPictureRepository->update($id, $posts);
+        //     if ($this->responseData['status']) {
+        //         $this->responseData['a_id']    = $posts['a_id'];
+        //         $this->responseData['message'] = '修改成功';
+        //     }
+        // } else {
+        //     $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        // }
 
-        return response()->json($this->responseData);
+        // return response()->json($this->responseData);
     }
 
     public function ajaxDelete(Request $request, $aId)
     {
-        $album      = $this->albumRepository->getByID($aId);
+        $album = $this->albumRepository->getByID($aId);
         if ($album) {
-            $apId = $request->input('ap_id');
+            $apId         = $request->input('ap_id');
             $albumPicture = $this->albumPictureRepository->getByID($apId);
             if ($albumPicture->a_id == $album->a_id) {
-                $this->responseData['status'] = $this->albumPictureRepository->update($apId, ['ap_status' => 2]);
+                $this->responseData['status'] = $this->albumPictureRepository->delete($apId, ['ap_status' => 2]);
                 if ($this->responseData['status']) {
                     $this->responseData['message'] = '刪除成功';
                 }
@@ -125,19 +125,35 @@ class AlbumPicture extends Controller
     private function uploadFile(Request $request)
     {
         $posts = $request->input();
-        if ($request->hasFile('ap_image')) {
-            $fileName          = $request->file('ap_image')->getClientOriginalName();
-            $posts['ap_image'] = $fileName;
+        $files = $request->file('ap_image');
 
+        $uploadResult = [];
+        if ($request->hasFile('ap_image')) {
             $this->destinationPath .= $posts['a_id'];
-            if (!is_dir($this->destinationPath)) {
-                mkdir($this->destinationPath);
+
+            foreach ($files as $file) {
+                $fileName          = $file->getClientOriginalName();
+                $posts['ap_image'] = $fileName;
+
+                if (!is_dir($this->destinationPath)) {
+                    mkdir($this->destinationPath);
+                }
+                $move = $file->move($this->destinationPath, $fileName);
+
+                $imageData = [
+                    'error' => ($move) ? 0 : 1,
+                    'name'  => $posts['ap_image'],
+                    'size'  => $file->getClientSize(),
+                    'type'  => $file->getClientMimeType(),
+                ];
+                array_push($uploadResult, $imageData);
+
+                $apId = $this->albumPictureRepository->insert($posts);
             }
-            $request->file('ap_image')->move($this->destinationPath, $fileName);
-            return $fileName;
+            return $uploadResult;
         }
 
-        return '';
+        return false;
     }
 
     private function notFound()
@@ -155,9 +171,9 @@ class AlbumPicture extends Controller
     protected function validateForm(Request $request)
     {
         $rules = [
-            'a_id'      => 'required',
-            'ap_image'  => 'image',
-            'ap_status' => 'required',
+            'a_id'     => 'required',
+            'ap_image' => 'required',
+            // 'ap_status' => 'required',
         ];
 
         $attributes = [

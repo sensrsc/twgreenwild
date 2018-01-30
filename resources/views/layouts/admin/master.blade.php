@@ -156,7 +156,6 @@
         <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
 
         <script src="/assets/global/plugins/js.cookie.min.js"></script>
-        <script src="/assets/global/plugins/js.cookie.min.js"></script>
         <script src="/js/jquery-i18n-properties/jquery.i18n.properties.min.js"></script>
         <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/assets/global/plugins/jquery.blockui.min.js"></script>
@@ -167,7 +166,7 @@
         <script src="/assets/layouts/layout/scripts/demo.min.js"></script>
         <script src="/assets/layouts/global/scripts/quick-sidebar.min.js"></script>
         <script src="/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
-        <script src="/assets/apps/scripts/admin/general.js"></script>        
+        <script src="/assets/apps/scripts/admin/general.js"></script>
         @section('js_script')
 
         @show

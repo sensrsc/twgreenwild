@@ -25,9 +25,8 @@
                         <input type="hidden" id="role_permission" value="{{ isset($role_permission)? $role_permission : '' }}" />
                         <div class="form-body">
 
-
                         	<div class="form-group">
-                        		<div class="col-md-6">
+                        		<!-- <div class="col-md-6">
 	                                <label class="control-label col-md-3">相片：</label>
 	                                <div class="col-md-9">                                  
 	                                    <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -43,37 +42,24 @@
 	                                        </div>
 	                                    </div>
 	                                </div>
-                            	</div>
-								<div class="col-md-6">
+                            	</div> -->
+								<!-- <div class="col-md-6">
 									<div class="control-label col-md-3">相片說明：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
 											<input type="text" placeholder="相片說明" class="form-control" name="ap_description" value="{{ isset($data['ap_description'])? $data['ap_description'] : '' }}" />
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 							<div class="form-group">
-	                            <div class="col-md-6">
-	                            	<div class="control-label col-md-3">狀態：</div>
-									<div class="col-md-9">
-										<div class="input-icon right">
-											<select class="form-control" name="ap_status">
-												<option value="">請選擇</option>
-												@if (!empty(config('common.general_status')))
-													@foreach (config('common.general_status') as $status => $statusTitle)
-														<option value="{{ $status }}" {{ (isset($data['ap_status']) && $data['ap_status'] == $status)? 'selected' : '' }}> {{ $statusTitle }} </option>
-													@endforeach
-												@endif		
-											</select>
-										</div>
-									</div>
-	                           	</div>
-                            </div>
+								@include('admin.album.multi_fileupload')
+							</div>
+
                         	
 	                        <div class="form-actions right">
 	                            <a href="/admin/picture/index/{{ $album->a_id }}" class="btn btn-default"> 返回相片列表 </a>
-	                            <button class="btn green" id="data-form-btn" type="submit"> 儲存修改 </button>
+	                            <!-- <button class="btn green" id="data-form-btn" type="submit"> 儲存修改 </button> -->
 	                        </div>
                     	</div>
                 	</form>
@@ -86,11 +72,31 @@
 @endsection
 
 @section('css_link')
-	<link href="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+	<!-- <link href="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" /> -->
+	
+	<link href="/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('js_script')
     <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
-    <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+    <!-- <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script> -->
+
+    <script src="/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js" type="text/javascript"></script>
+
+
     <script src="/assets/apps/scripts/admin/album_picture.js"></script>
 @endsection

@@ -22,6 +22,9 @@ class AlbumPictureRepository
         $albumPicture->ap_status      = $datas['ap_status'] ?? 1;
         $albumPicture->save();
 
+        $albumPicture->album->a_total_pic += 1;
+        $albumPicture->album->save();
+
         return $albumPicture->ap_id;
     }
 
@@ -31,6 +34,24 @@ class AlbumPictureRepository
         if ($data) {
             $data->fill($datas);
             return $data->save();
+        }
+        return false;
+    }
+
+    public function delete($id, $datas)
+    {
+        $data = $this->getByID($id);
+        if ($data) {
+            $data->fill($datas);
+            $isUpdate = $data->save();
+
+            if ($id == $data->album->a_cover) {
+                $data->album->a_cover = 0;
+            }
+            $data->album->a_total_pic -= 1;
+            $data->album->save();
+
+            return $isUpdate;
         }
         return false;
     }
@@ -50,7 +71,7 @@ class AlbumPictureRepository
     public function pages($rows, $queryData)
     {
         $query = $this->model->query();
-
+        unset($queryData['page']);
         if ($queryData) {
             foreach ($queryData as $field => $search) {
                 if (strpos($field, 'status') !== false) {

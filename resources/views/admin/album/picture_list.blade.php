@@ -36,6 +36,11 @@
 <div class="col-md-12 portlet light">    
     
     <div class="portlet light portlet-fit ">
+        <div class="actions">
+            <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/album">
+                <span>返回相簿</span>
+            </a>
+        </div>
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-user"></i>{{ $album->a_title }} 相片列表
@@ -54,7 +59,6 @@
                             <tr>
                                 <th>相片名稱</th>
                                 <th>相片縮圖</th>
-                                <th>狀態</th>
                                 <th>修改時間</th>
                                 <th></th>
                             </tr>
@@ -68,14 +72,11 @@
                                     </td>
                                     <td><img src="{{ '/upload/picture/' . $album->a_id . '/' . $list['ap_image'] }}" width="120px" /></td>
                                     <td>
-                                        {{ isset(config('common.general_status')[$list['ap_status']])? config('common.general_status')[$list['ap_status']] : '' }}
-                                    </td>
-                                    <td>
                                         {{ $list['updated_at'] }}
                                     </td>
                                     <td>
-                                        <a href="/admin/picture/detail/{{ $list['ap_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
-                                            <i class="fa fa-edit">查看/編輯</i></a>
+                                        <a href="#" data-id="{{ $list['ap_id'] }}" class="btn btn-outline btn-circle btn-sm green cover_btn" data-toggle="modal">
+                                            <i class="fa fa-edit">設為封面</i></a>
                                         <a href="#" data-id="{{ $list['ap_id'] }}" class="btn btn-outline btn-circle btn-sm red del_btn" data-toggle="modal">
                                             <i class="fa fa-edit">刪除</i></a>
                                     </td>                                    
@@ -117,6 +118,7 @@
                     <input type="hidden" name="ap_id" id="ap_id" value="">
                 </form>
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal">關閉</button>
+                <button type="button" id="default_btn" style="display: none;" class="btn green">設為封面</button>
                 <button type="button" id="delete_btn" class="btn red">刪除</button>
             </div>
         </div>

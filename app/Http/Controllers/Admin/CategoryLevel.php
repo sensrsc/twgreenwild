@@ -112,6 +112,22 @@ class CategoryLevel extends Controller
         return response()->json($this->responseData);
     }
 
+    public function ajaxCategoryLevel($cId)
+    {
+        $levels = $this->categoryLevelRepository->getByCategory($cId);
+        if ($levels) {
+            $this->responseData['status'] = ($levels)? true : false;
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '成功';
+                $this->responseData['levels'] = $levels;
+            }
+        } else {
+            $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        }
+
+        return response()->json($this->responseData);
+    }
+
     protected function validateForm(Request $request)
     {
         $rules = [

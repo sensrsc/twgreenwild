@@ -24,6 +24,10 @@ return [
         '1' => '上架',
         '2' => '刪除',
     ],
+    'item_status'       => [
+        '0' => '下架',
+        '1' => '上架',
+    ],
     'general_status' => [
         '0' => '停用',
         '1' => '啟用',
@@ -58,11 +62,11 @@ return [
             'icon_class' => 'icon-home',
             'link'       => '/admin/album',
         ],
-        // 'product'  => [
-        //     'title'      => '行程管理',
-        //     'icon_class' => 'icon-home',
-        //     'link'       => '/admin/product',
-        // ],
+        'tour'  => [
+            'title'      => '行程管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/tour',
+        ],
         // 'system'   => [
         //     'title'      => '系統變數管理',
         //     'icon_class' => 'icon-home',
