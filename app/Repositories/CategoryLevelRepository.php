@@ -43,7 +43,7 @@ class CategoryLevelRepository
     {
         return $this->model->where('c_id', $cId)
                             ->where('cl_status', 1)
-                            ->get(['cl_id', 'cl_title']);
+                            ->get(['cl_id as id', 'cl_title as title']);
     }
 
     public function pages($rows, $queryData)

@@ -141,7 +141,7 @@ class Album extends Controller
             $this->responseData['status'] = ($albums)? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '成功';
-                $this->responseData['albums'] = $albums;
+                $this->responseData['datas'] = $albums;
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());

@@ -7,6 +7,7 @@ use App\Repositories\CategoryDescriptionRepository;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Validator;
+use View;
 
 class Category extends Controller
 {
@@ -69,9 +70,9 @@ class Category extends Controller
                 $request->file('c_file')->move($this->destinationPath, $fileName);
             }
 
-            $cId = $this->categoryRepository->insert($posts);
-            $insertDescription = $this->categoryDescriptionRepository->processCategoryDescription($cId, $posts);
-            $this->responseData['status'] = ($cId > 0 && $insertDescription)? true : false;
+            $cId                          = $this->categoryRepository->insert($posts);
+            $insertDescription            = $this->categoryDescriptionRepository->processCategoryDescription($cId, $posts);
+            $this->responseData['status'] = ($cId > 0 && $insertDescription) ? true : false;
             if ($this->responseData['status']) {
 
                 $this->responseData['message'] = '新增成功';
@@ -95,11 +96,33 @@ class Category extends Controller
                 $request->file('c_file')->move($this->destinationPath, $fileName);
             }
 
-            $isUpdate = $this->categoryRepository->update($id, $posts);
-            $isDescriptionUpdate = $this->categoryDescriptionRepository->processCategoryDescription($id, $posts);
-            $this->responseData['status'] = ($isUpdate && $isDescriptionUpdate)? true : false;
+            $isUpdate                     = $this->categoryRepository->update($id, $posts);
+            $isDescriptionUpdate          = $this->categoryDescriptionRepository->processCategoryDescription($id, $posts);
+            $this->responseData['status'] = ($isUpdate && $isDescriptionUpdate) ? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '修改成功';
+            }
+        } else {
+            $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        }
+
+        return response()->json($this->responseData);
+    }
+
+    public function ajaxCategoryDescription($cId)
+    {
+        $descriptions = $this->categoryDescriptionRepository->getByCategory($cId);
+        if ($descriptions) {
+            $this->responseData['status'] = ($descriptions) ? true : false;
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '成功';
+
+                $views = [];
+                foreach ($descriptions as $cd) {
+                    $views[] = view('admin.tour.description', compact('cd'))->__toString();
+                }
+
+                $this->responseData['datas']   = $views;
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());

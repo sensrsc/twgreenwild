@@ -77,13 +77,16 @@
                                 @foreach ($lists as $list)
                                 <tr>
                                     <td class="highlight">
-                                    	{{ $list['a_title'] }} ({{ $list['a_total_pic'] }})
+                                    	{{ $list['t_title'] }}
                                     </td>
                                     <td>
                                         {{ isset($list->category->c_title)? $list->category->c_title : '' }}
                                     </td>
                                     <td>
                                         {{ isset(config('common.general_status')[$list['t_status']])? config('common.general_status')[$list['t_status']] : '' }}
+                                    </td>
+                                    <td>
+                                        {{ $list['t_price'] }}
                                     </td>
                                     <td>
                                         {{ $list['updated_at'] }}

@@ -45,7 +45,7 @@ class AlbumRepository
     {
         return $this->model->where('c_id', $cId)
                             ->where('a_status', 1)
-                            ->get(['a_id', 'a_title', 'a_description']);
+                            ->get(['a_id as id', 'a_title as title', 'a_description']);
     }
 
     public function pages($rows, $queryData)

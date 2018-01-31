@@ -69,6 +69,8 @@ var Tour = function() {
 
         $('[name=c_id]').change(function(){
             var cID = $(this).val();
+            categoryAlbum(cID);
+            categoryLevel(cID);
             categoryDescription(cID);
         });
 
@@ -83,11 +85,62 @@ var Tour = function() {
 
     };
 
+    var categoryAlbum = function (cID) {
+        var url = '/admin/album/ajaxAlbum/' + cID,
+            params = {el : $('[name=a_id]'), 'type' : 'album'};
+
+        Site.ajaxTask("get", true, false, url, {}, selectCallback, params, false);
+    };
+
+    var categoryLevel = function (cID) {
+        var url = '/admin/level/ajaxLevel/' + cID,
+            params = {el : $('[name=cl_id]'), 'type' : 'level'};
+        Site.ajaxTask("get", true, false, url, {}, selectCallback, params, false);
+    };
+
     var categoryDescription = function (cID) {
-        Site.ajaxTask("post", true, false, url, formData, selectCallback, null, false);
+        var url = '/admin/category/ajaxDescription/' + cID;
+        Site.ajaxTask("get", true, false, url, {}, descriptionCallback, null, false);
+    };
+
+    var selectCallback = function (response, params) {
+        console.log(response);
+        if (params) {
+            $.each(params.el.find('option'), function(index, e){
+                if ($(e).val() != '') {
+                    $(e).remove();
+                }
+            });
+            if (response.status) {
+                if (response.datas) {
+                    var options = '';
+                    $.each(response.datas, function(index, data){
+                        options += '<option value="' + data.id + '">' + data.title + '</option>';
+                    });
+                    params.el.append(options);
+                }
+            }    
+        }
+        
+    };
+
+    var descriptionCallback = function (response) {
+        console.log(response);
+        if (response.status) {
+            $('#description_block').empty();
+            if (response.datas) {
+                $.each(response.datas, function(index, data){
+                    $('#description_block').append(data);
+                    var id = $(data).find('textarea.ckeditor').prop('id');
+                    if (typeof(id) != 'undefined') {
+                        CKEDITOR.replace( id );
+                    }
+                });
+            }
+        }
     };
     
-    var formCallback = function(response) {
+    var formCallback = function (response) {
         // console.log(response);
         if (response.status) {
             Site.showAlert(true, 'success', '成功', response.message, "success", "/admin/tour");

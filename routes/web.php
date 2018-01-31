@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 	Route::group(['middleware' => 'admin'], function () {
 		Route::get('index', 'Admin\\Index@index');
+		Route::get('index/test', 'Admin\\Index@test');
 
 		Route::get('admin', 'Admin\\Admin@index');
 		Route::get('admin/add', 'Admin\\Admin@add');
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('category/detail/{id}', 'Admin\\Category@detail');
 		Route::post('category/ajaxAdd', 'Admin\\Category@ajaxAdd');
 		Route::post('category/ajaxUpdate/{id}', 'Admin\\Category@ajaxUpdate');
+		Route::get('category/ajaxDescription/{id}', 'Admin\\Category@ajaxCategoryDescription');
 
 		Route::get('level/index/{cId}', 'Admin\\CategoryLevel@index');
 		Route::get('level/add/{cId}', 'Admin\\CategoryLevel@add');

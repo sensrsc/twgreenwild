@@ -40,10 +40,11 @@ class Tour extends Controller
 
     public function detail($id)
     {
-        $data = $this->getCategorys->getByID($id);
+        $data = $this->tourRepository->getByID($id);
         if ($data) {
             $categorys = $this->tourRepository->getCategorys();
-            return view('admin.tour.detail', compact('data', 'categorys'));
+            $areas     = $this->tourRepository->getAreas();
+            return view('admin.tour.detail', compact('data', 'categorys', 'areas'));
         }
         // error not found
         $message = array(
@@ -63,6 +64,7 @@ class Tour extends Controller
             $posts = $request->input();
 
             $tId                          = $this->tourRepository->insert($posts);
+            $isInsert                     = $this->tourRepository->processTourDescriptions($tId, $posts);
             $this->responseData['status'] = ($tId > 0) ? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '新增成功';
@@ -111,9 +113,12 @@ class Tour extends Controller
     protected function validateForm(Request $request)
     {
         $rules = [
-            'a_title'  => 'required|max:50',
-            'c_id'     => 'required',
-            'a_status' => 'required',
+            't_title'     => 'required|max:50',
+            't_status'    => 'required',
+            't_price'     => 'required|numeric',
+            'min_people'  => 'required|numeric',
+            'full_people' => 'required|numeric',
+            'cd_id'       => 'required|array',
         ];
 
         if ($request->input('a_outside_link')) {
@@ -121,10 +126,12 @@ class Tour extends Controller
         }
 
         $attributes = [
-            'a_title'        => '相簿名稱',
-            'c_id'           => '行程分類',
-            'a_status'       => '相簿狀態',
-            'a_outside_link' => '外部連結',
+            't_title'     => '行程名稱',
+            't_status'    => '行程狀態',
+            't_price'     => '行程金額',
+            'min_people'  => '最低人數',
+            'full_people' => '滿團人數',
+            'cd_id'       => '行程類型說明',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);

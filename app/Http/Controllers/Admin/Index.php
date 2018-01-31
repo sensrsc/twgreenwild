@@ -13,4 +13,11 @@ class Index extends Controller
     	// var_dump(session()->get('admin')->a_account);
     	return view('admin.index');
     }
+
+    public function test()
+    {
+    	$desc = [];
+    	$a = view('admin.tour.description', ['data' => $desc])->__toString();
+    	var_dump($a);
+    }
 }

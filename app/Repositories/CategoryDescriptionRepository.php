@@ -43,4 +43,11 @@ class CategoryDescriptionRepository
     								->get();
     }
 
+    public function getByCategory($cId)
+    {
+        return $this->model->where('c_id', $cId)
+                            ->where('cd_status', 1)
+                            ->get(['cd_id', 'cd_title', 'cd_type']);
+    }
+
 }

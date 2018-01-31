@@ -119,7 +119,7 @@ class CategoryLevel extends Controller
             $this->responseData['status'] = ($levels)? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '成功';
-                $this->responseData['levels'] = $levels;
+                $this->responseData['datas'] = $levels;
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
