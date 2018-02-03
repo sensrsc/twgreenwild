@@ -26,5 +26,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about', groups: [ 'about' ] }
 	];
 
-	config.removeButtons = 'Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Flash,Iframe,Save,NewPage,Preview,Language';
+	// config.removeButtons = 'Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Flash,Save,NewPage,Preview,Language';
+	// config.allowedContent ='*';
 };

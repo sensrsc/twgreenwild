@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Repositories\SystemVariableRepository;
 use Illuminate\Http\Request;
 use Validator;
-use View;
 
 class SystemVariable extends Controller
 {

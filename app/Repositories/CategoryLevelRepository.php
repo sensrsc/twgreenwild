@@ -60,6 +60,8 @@ class CategoryLevelRepository
             }
         }
 
+        $query->where('cl_status', '!=', 2);
+
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);    

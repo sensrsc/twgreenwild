@@ -106,7 +106,7 @@
 													@foreach (config('common.general_status') as $status => $statusTitle)
 														<option value="{{ $status }}" {{ (isset($data->t_status) && $data->t_status == $status)? 'selected' : '' }}> {{ $statusTitle }} </option>
 													@endforeach
-												@endif		
+												@endif
 											</select>
 										</div>
 									</div>

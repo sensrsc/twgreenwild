@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('level/detail/{id}', 'Admin\\CategoryLevel@detail');
 		Route::post('level/ajaxAdd', 'Admin\\CategoryLevel@ajaxAdd');
 		Route::post('level/ajaxUpdate/{id}', 'Admin\\CategoryLevel@ajaxUpdate');
+		Route::post('level/ajaxDelete', 'Admin\\CategoryLevel@ajaxDelete');
 		Route::get('level/ajaxLevel/{cId}', 'Admin\\CategoryLevel@ajaxCategoryLevel');
 
 

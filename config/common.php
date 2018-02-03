@@ -47,11 +47,11 @@ return [
         //     'icon_class' => 'icon-home',
         //     'link'       => '/admin/indexslide',
         // ],
-        // 'news'     => [
-        //     'title'      => '最新消息管理',
-        //     'icon_class' => 'icon-home',
-        //     'link'       => '/admin/news',
-        // ],
+        'news'     => [
+            'title'      => '最新消息管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/news',
+        ],
         'category' => [
             'title'      => '分類管理',
             'icon_class' => 'icon-home',

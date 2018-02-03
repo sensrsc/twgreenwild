@@ -33,7 +33,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<!-- <div class="col-md-6">
 									<div class="control-label col-md-3">等級狀態：</div>
 									<div class="col-md-9">
 										<select id="country" name="cl_status" class="form-control country">
@@ -45,7 +45,7 @@
 											@endif
 				                        </select>
 									</div>
-								</div>
+								</div> -->
 							</div>
                         	
 	                        <div class="form-actions right">

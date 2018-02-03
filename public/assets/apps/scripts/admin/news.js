@@ -1,7 +1,7 @@
 var News = function() {
 
     var handleNews = function() {
-//    	baseHref = '';
+
         var body = CKEDITOR.replace('n_content',
         {
             baseFloatZIndex:30000,
@@ -62,7 +62,7 @@ var News = function() {
                 $('[name=n_content]').val(body.getData());
 
                 var formData = new FormData($('form')[0]);
-                Site.ajaxTask("post", true, false, url, formData, formCallback, null, false);
+                Site.ajaxTask('post', true, false, url, formData, formCallback, null, false);
                
                 return false;
             }
@@ -91,9 +91,9 @@ var News = function() {
 var formCallback = function(response) {
     console.log(response);
     if (response.status) {
-        Site.showAlert(true, 'success', '成功', response.message, "success", "/admin/news");
+        Site.showAlert(true, 'success', '成功', response.message, 'success', '/admin/news');
     } else {
-        $("#data-form-btn").removeAttr("disabled");
+        $('#data-form-btn').removeAttr('disabled');
         Site.showAlert(true, 'error', '失敗', response.message);
     }
 };

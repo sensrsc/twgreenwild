@@ -112,6 +112,22 @@ class CategoryLevel extends Controller
         return response()->json($this->responseData);
     }
 
+    public function ajaxDelete(Request $request)
+    {
+        $clId         = $request->input('cl_id');
+        $data = $this->categoryLevelRepository->getByID($clId);
+        if ($data) {
+            $this->responseData['status'] = $this->categoryLevelRepository->update($clId, ['cl_status' => 2]);
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '刪除成功';
+            }
+        } else {
+            $this->responseData['message'] = '請確認資料是否正確';
+        }
+
+        return response()->json($this->responseData);
+    }
+
     public function ajaxCategoryLevel($cId)
     {
         $levels = $this->categoryLevelRepository->getByCategory($cId);
@@ -133,13 +149,13 @@ class CategoryLevel extends Controller
         $rules = [
             'c_id'      => 'required',
             'cl_title'  => 'required|max:20',
-            'cl_status' => 'required',
+            // 'cl_status' => 'required',
         ];
 
         $attributes = [
             'c_id'      => '分類',
             'cl_title'  => '等級名稱',
-            'cl_status' => '等級狀態',
+            // 'cl_status' => '等級狀態',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);

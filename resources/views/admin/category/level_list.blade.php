@@ -80,6 +80,8 @@
                                     <td>
                                         <a href="/admin/level/detail/{{ $list['cl_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
                                             <i class="fa fa-edit">查看/編輯</i></a>
+                                        <a href="#" data-id="{{ $list['cl_id'] }}" class="btn btn-outline btn-circle btn-sm red del_btn">
+                                            <i class="fa fa-edit">刪除</i></a>
                                     </td>                                    
                                 </tr>
                                 @endforeach
@@ -102,6 +104,32 @@
             </div>
         </div>        
     </div>
-    
+</div>
+
+<div class="modal fade" id="basic_modal" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">確認</h4>
+            </div>
+            <div class="modal-body" id="modal_body"></div>
+            <div class="modal-footer">
+                <form method="post" id="modal_form" class="form-horizontal" role="form">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="cl_id" id="cl_id" value="">
+                </form>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">關閉</button>
+                <button type="button" id="delete_btn" class="btn red">刪除</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 @endsection
+
+@section('js_script')
+    <script src="/assets/apps/scripts/admin/category_level_list.js"></script>
+@endsection
+

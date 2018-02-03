@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label">標題</label>
                         <div class="col-md-2">
-                            <input type="text" name="n_title" class="form-control" placeholder="請輸標題">
+                            <input type="text" name="n_subject" class="form-control" placeholder="請輸標題">
                         </div>
                     </div>                
                 </div>
@@ -63,13 +63,13 @@
                                 @foreach ($lists as $list)
                                 <tr>
                                     <td class="highlight">
-                                    	{{ $list['n_title'] }}
+                                    	{{ $list->n_subject }}
                                     </td>
                                     <td>
-                                        {{ isset(config('common.status')[$list['n_status']])? config('common.status')[$list['n_status']] : '' }}
+                                        {{ isset(config('common.general_status')[$list->n_status])? config('common.general_status')[$list->n_status] : '' }}
                                     </td>
                                     <td>
-                                        {{ $list['created_at'] }}
+                                        {{ $list->created_at }}
                                     </td>
                                     <td>
                                         <a href="/admin/news/detail/{{ $list['n_id'] }}" class="btn btn-outline btn-circle btn-sm blue">

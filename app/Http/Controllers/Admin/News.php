@@ -2,55 +2,67 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\NewsService;
+use App\Repositories\NewsRepository;
+use Illuminate\Http\Request;
 use Validator;
 
 class News extends Controller
 {
-    protected $newsService;
+    protected $newsRepository;
+    protected $responseData;
 
-    public function __construct(NewsService $newsService)
+    public function __construct(NewsRepository $repository)
     {
-        $this->newsService = $newsService;
+        $this->newsRepository = $repository;
+        $this->responseData   = [
+            'status'  => false,
+            'message' => '',
+        ];
     }
 
     public function index(Request $request)
     {
-        $queryData              = $request->query();
-        $this->viewData['lists'] = $this->newsService->pages(env('PRE_PAGE'), $queryData);
 
-        return view('admin.news.list', $this->viewData);
+        $queryData = $request->query();
+        $lists     = $this->newsRepository->pages(env('PRE_PAGE'), $queryData);
+
+        return view('admin.news.list', compact('lists'));
     }
 
     public function add()
     {
-        return view('admin.news.detail', $this->viewData);
+        return view('admin.news.detail');
     }
 
     public function detail($id)
     {
-        $this->viewData['data'] = $this->newsService->getByID($id);
-        if ($this->viewData['data']) {
-            return view('admin.news.detail', $this->viewData);
+        $data = $this->newsRepository->getByID($id);
+        if ($data) {
+            return view('admin.news.detail', compact('data'));
         }
-
         // error not found
-
+        $message = array(
+            'title'    => '錯誤',
+            'caption'  => '錯誤',
+            'message'  => '查無最新消息資料',
+            'url'      => '/admin/news',
+            'linkName' => '反回最新消息管理',
+        );
+        return view('admin.message', $message);
     }
 
     public function ajaxAdd(Request $request)
     {
         $validator = $this->validateForm($request);
 
-        $this->uploadFile($request);
         if ($validator->passes()) {
             $posts = $request->input();
 
-            $this->responseData['status'] = $this->newsService->insertData($posts);
+            $nId                          = $this->newsRepository->insert($posts);
+            $this->responseData['status'] = ($nId > 0) ? true : false;
             if ($this->responseData['status']) {
-                $this->responseData['message'] = '修改成功';
+                $this->responseData['message'] = '新增成功';
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
@@ -62,11 +74,12 @@ class News extends Controller
     public function ajaxUpdate(Request $request, $id)
     {
         $validator = $this->validateForm($request);
-        $data = $this->newsService->getByID($id);
+        $data      = $this->newsRepository->getByID($id);
         if ($validator->passes() && !empty($data)) {
             $posts = $request->input();
 
-            $this->responseData['status'] = $this->newsService->updateData($id, $posts);
+            $isUpdate                     = $this->newsRepository->update($id, $posts);
+            $this->responseData['status'] = ($isUpdate) ? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '修改成功';
             }
@@ -80,10 +93,9 @@ class News extends Controller
     protected function validateForm(Request $request)
     {
         $rules = [
-            'n_title'   => 'required|max:50',
+            'n_subject' => 'required|max:50',
             'n_content' => 'required',
             'n_status'  => 'required',
-            'n_cover'   => 'mimes:jpeg,jpg,png',
         ];
 
         $messages = [
@@ -93,26 +105,6 @@ class News extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         return $validator;
-    }
-
-    protected function uploadFile(Request $request)
-    {
-        $this->responseData['files'] = $request->allFiles();
-
-        $this->responseData['cover'] = $request->hasFile('cover');
-        $this->responseData['file']  = $request->file('cover');
-        if ($request->hasFile('cover')) {
-            $path                           = public_path('upload/images/news/');
-            $this->responseData['mimetype'] = $request->file('cover')->getMimeType();
-
-            $this->responseData['name']      = $request->file('cover')->getClientOriginalName();
-            $this->responseData['extension'] = $request->file('cover')->getClientOriginalExtension();
-            $this->responseData['types']     = $request->file('cover')->getClientMimeType();
-            // $this->responseData['move'] = $request->file('cover')->move($path, 'test.jpg');
-            $this->responseData['path'] = $path;
-            return $request->file('cover');
-        }
-        return [];
     }
 
 }
