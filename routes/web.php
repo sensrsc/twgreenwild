@@ -66,6 +66,15 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::post('picture/ajaxAdd', 'Admin\\AlbumPicture@ajaxAdd');
 		Route::post('picture/ajaxDelete/{aId}', 'Admin\\AlbumPicture@ajaxDelete');
 
+
+		// 最新消息
+		Route::get('news', 'Admin\\News@index');
+		Route::get('news/add', 'Admin\\News@add');
+		Route::get('news/detail/{id}', 'Admin\\News@detail');
+		Route::post('news/ajaxAdd', 'Admin\\News@ajaxAdd');
+		Route::post('news/ajaxUpdate/{id}', 'Admin\\News@ajaxUpdate');
+
+
 		// 行程
 		Route::get('tour', 'Admin\\Tour@index');
 		Route::get('tour/add', 'Admin\\Tour@add');
@@ -74,12 +83,12 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::post('tour/ajaxUpdate/{id}', 'Admin\\Tour@ajaxUpdate');
 
 		
-
-		Route::get('news', 'Admin\\News@index');
-		Route::get('news/add', 'Admin\\News@add');
-		Route::get('news/detail/{id}', 'Admin\\News@detail');
-		Route::post('news/ajaxAdd', 'Admin\\News@ajaxAdd');
-		Route::post('news/ajaxUpdate/{id}', 'Admin\\News@ajaxUpdate');
+		// 系統變數
+		Route::get('system', 'Admin\\SystemVariable@index');
+		Route::get('system/add', 'Admin\\SystemVariable@add');
+		Route::get('system/detail/{id}', 'Admin\\SystemVariable@detail');
+		Route::post('system/ajaxAdd', 'Admin\\SystemVariable@ajaxAdd');
+		Route::post('system/ajaxUpdate/{id}', 'Admin\\SystemVariable@ajaxUpdate');
 
 	});
 });

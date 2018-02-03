@@ -9,9 +9,11 @@
 /*============================ PHP Error Reporting ====================================*/
 // http://docs.cksource.com/ckfinder3-php/debugging.html
 
-require __DIR__.'/../../../bootstrap/autoload.php';
-$app = require_once __DIR__.'/../../../bootstrap/app.php';
-$app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
+session_start();
+// require __DIR__.'/../../../bootstrap/autoload.php';
+// require_once __DIR__.'/../../../vendor/autoload.php';
+// $app = require_once __DIR__.'/../../../bootstrap/app.php';
+// $app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
 
 // Production
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
@@ -31,7 +33,8 @@ $config = array();
 
 
 $config['authentication'] = function () {
-    return (session()->has('admin') && session()->get('admin_ckfinder') == '9')? true : false;
+    return isset($_SESSION['IsAuthorized']) && $_SESSION['IsAuthorized'];
+    // return (session()->has('admin') && session()->get('admin_ckfinder') == '9')? true : false;
     // return false;
 };
 
@@ -127,6 +130,24 @@ $config['accessControl'][] = array(
     'IMAGE_RESIZE'        => true,
     'IMAGE_RESIZE_CUSTOM' => true
 );
+$config['accessControl'][] = array(
+    'role'                => 'admin',
+    'resourceType'        => '*',
+    'folder'              => '/',
+
+    'FOLDER_VIEW'         => true,
+    'FOLDER_CREATE'       => true,
+    'FOLDER_RENAME'       => true,
+    'FOLDER_DELETE'       => true,
+
+    'FILE_VIEW'           => true,
+    'FILE_CREATE'         => true,
+    'FILE_RENAME'         => true,
+    'FILE_DELETE'         => true,
+
+    'IMAGE_RESIZE'        => true,
+    'IMAGE_RESIZE_CUSTOM' => true
+);
 
 
 /*================================ Other Settings =====================================*/
@@ -144,7 +165,7 @@ $config['forceAscii'] = false;
 $config['xSendfile'] = false;
 
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_debug
-$config['debug'] = false;
+$config['debug'] = true;
 
 /*==================================== Plugins ========================================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_plugins

@@ -1,17 +1,15 @@
 var Tour = function() {
+    var editorConfig = {
+        baseFloatZIndex:30000,
+        filebrowserBrowseUrl : '/js/ckfinder/ckfinder.html',
+        filebrowserImageBrowseUrl: '/js/ckfinder/ckfinder.html?type=Images',
+        filebrowserFlashBrowseUrl : '/js/ckfinder/ckfinder.html?type=Flash',
+        filebrowserUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+        filebrowserImageUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+        filebrowserFlashUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+    };
 
     var handleTour = function() {
-//    	baseHref = '';
-//        var body = CKEDITOR.replace('n_body',
-//        {
-//            baseFloatZIndex:30000,
-//            filebrowserBrowseUrl : baseHref+'ckfinder/ckfinder.html',
-//            filebrowserImageBrowseUrl: baseHref+'ckfinder/ckfinder.html?type=Images',
-//            filebrowserFlashBrowseUrl : baseHref+'ckfinder/ckfinder.html?type=Flash',
-//            filebrowserUploadUrl : baseHref+'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-//            filebrowserImageUploadUrl : baseHref+'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-//            filebrowserFlashUploadUrl : baseHref+'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
-//        });
     	
         $('#data-form').validate({
             errorElement: 'span', //default input error message container
@@ -53,15 +51,20 @@ var Tour = function() {
 
             submitHandler: function(form) {
             	var url = '/admin/tour/';
+                params = {};
                 if (parseInt($('[name=t_id]').val()) > 0){
-                    url += 'ajaxUpdate';
+                    url += 'ajaxUpdate/' + $('[name=t_id]').val();
+                    $('[name=c_id]').prop('disabled', false);
+                    params.type = 'update';
                 }else {
                     url += 'ajaxAdd'
+                    params.type = 'add';
                 }
-                // $('[name=n_body]').val(body.getData());
+
+                putEditorData();
 
                 var formData = new FormData($('form')[0]);
-                Site.ajaxTask("post", true, false, url, formData, formCallback, null, false);
+                Site.ajaxTask("post", true, false, url, formData, formCallback, params, false);
                
                 return false;
             }
@@ -81,8 +84,9 @@ var Tour = function() {
                 }
                 return false;
             }
-        });      
+        });  
 
+        checkEditor();
     };
 
     var categoryAlbum = function (cID) {
@@ -104,7 +108,7 @@ var Tour = function() {
     };
 
     var selectCallback = function (response, params) {
-        console.log(response);
+        // console.log(response);
         if (params) {
             $.each(params.el.find('option'), function(index, e){
                 if ($(e).val() != '') {
@@ -125,28 +129,52 @@ var Tour = function() {
     };
 
     var descriptionCallback = function (response) {
-        console.log(response);
+        // console.log(response);
         if (response.status) {
             $('#description_block').empty();
             if (response.datas) {
                 $.each(response.datas, function(index, data){
                     $('#description_block').append(data);
-                    var id = $(data).find('textarea.ckeditor').prop('id');
+                    var id = $(data).find('textarea.editor').prop('id');
                     if (typeof(id) != 'undefined') {
-                        CKEDITOR.replace( id );
+                        replaceEditor(id);
                     }
                 });
             }
         }
     };
+
+    var checkEditor = function () {
+        if ($('[name=t_id]').val() > 0) {
+            $.each($('textarea.editor'), function(index, el){
+                var id = $(this).prop('id');
+                replaceEditor(id);
+            });
+        }
+    };
+
+    var replaceEditor = function (id) {
+        CKEDITOR.replace(id, editorConfig);
+    };
+
+    var putEditorData = function () {
+        var instances = CKEDITOR.instances;
+        $.each (instances, function (index, e){
+            // CKEDITOR.instances[index]
+            $('#' + index).val(e.getData());
+        });
+    };
     
-    var formCallback = function (response) {
+    var formCallback = function (response, params) {
         // console.log(response);
         if (response.status) {
-            Site.showAlert(true, 'success', '成功', response.message, "success", "/admin/tour");
+            Site.showAlert(true, 'success', '成功', response.message, 'success', '/admin/tour');
         } else {
             $("#data-form-btn").removeAttr("disabled");
             Site.showAlert(true, 'error', '失敗', response.message);
+        }
+        if (params.type == 'update') {
+            $('[name=c_id]').prop('disabled', true);
         }
     };
 

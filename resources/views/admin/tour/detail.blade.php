@@ -35,7 +35,7 @@
 								<div class="col-md-6">
 									<div class="control-label col-md-3">行程分類：</div>
 									<div class="col-md-9">
-										<select id="country" name="c_id" class="form-control country">
+										<select id="country" name="c_id" {{ isset($data->c_id)? 'disabled' : '' }} class="form-control country">
 											<option value="">請選擇</option>
 											@if (isset($categorys))
 				                            	@foreach ($categorys as $category)
@@ -69,6 +69,11 @@
 										<div class="input-icon right">
 											<select class="form-control" name="cl_id">
 												<option value="">請選擇</option>
+												@if (isset($levels))
+				                            		@foreach ($levels as $level)
+				                            			<option value="{{ $level->cl_id }}" {{ (isset($data->cl_id) && $data->cl_id == $level->cl_id)? 'selected' : '' }}>{{ $level->cl_title }}</option>
+				                            		@endforeach
+				                            	@endif
 											</select>
 										</div>
 									</div>
@@ -82,6 +87,11 @@
 										<div class="input-icon right">
 											<select class="form-control" name="a_id">
 												<option value="">請選擇</option>
+												@if (isset($albums))
+				                            		@foreach ($albums as $album)
+				                            			<option value="{{ $album->a_id }}" {{ (isset($data->a_id) && $data->a_id == $album->a_id)? 'selected' : '' }}>{{ $album->a_title }}</option>
+				                            		@endforeach
+				                            	@endif
 											</select>
 										</div>
 									</div>
@@ -108,7 +118,7 @@
 									<div class="control-label col-md-3">最低人數：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<input type="number" placeholder="最低人數" class="form-control" name="min_people" value="{{ isset($data->min_people)? $data->min_people : '' }}" />
+											<input type="number" min="0" placeholder="最低人數" class="form-control" name="min_people" value="{{ isset($data->min_people)? $data->min_people : '' }}" />
 										</div>
 									</div>
 								</div>
@@ -116,7 +126,7 @@
 									<div class="control-label col-md-3">滿團人數：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<input type="number" placeholder="滿團人數" class="form-control" name="full_people" value="{{ isset($data->full_people)? $data->full_people : '' }}" />
+											<input type="number" min="0" placeholder="滿團人數" class="form-control" name="full_people" value="{{ isset($data->full_people)? $data->full_people : '' }}" />
 										</div>
 									</div>
 								</div>
@@ -127,7 +137,7 @@
 									<div class="control-label col-md-3">行程價格：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<input type="number" placeholder="行程價格" class="form-control" name="t_price" value="{{ isset($data->t_price)? $data->t_price : '' }}" />
+											<input type="number" min="0" placeholder="行程價格" class="form-control" name="t_price" value="{{ isset($data->t_price)? $data->t_price : '' }}" />
 										</div>
 									</div>
 								</div>
@@ -135,7 +145,7 @@
 									<div class="control-label col-md-3">接單截止日：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<input type="number" placeholder="接單截止日" class="form-control" name="days_apply" value="{{ isset($data->days_apply)? $data->days_apply : '' }}" />
+											<input type="number" min="0" placeholder="接單截止日" class="form-control" name="days_apply" value="{{ isset($data->days_apply)? $data->days_apply : '' }}" />
 										</div>
 									</div>
 								</div>
@@ -145,7 +155,7 @@
 								<div class="col-md-12">
 									<div class="control-label col-md-2"> 行程說明：</div>
 									<div class="col-md-10">
-							            <textarea name="t_description" class="form-control {{ isset($data->t_description)? $data->t_description : '' }}" rows="3"></textarea>
+							            <textarea name="t_description" class="form-control" rows="3">{{ isset($data->t_description)? $data->t_description : '' }}</textarea>
 									</div>
 								</div>
 							</div>

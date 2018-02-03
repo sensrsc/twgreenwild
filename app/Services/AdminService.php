@@ -32,7 +32,13 @@ class AdminService
             $admin->save();
 
             session()->put('admin', $admin);
-            session()->put('admin_ckfinder', '9');
+            // session()->put('admin_ckfinder', '9');
+            // session()->put('CKFinder_UserRole', 'admin');
+
+            session_start();
+            $_SESSION['IsAuthorized'] = true;
+            $_SESSION['CKFinder_UserRole'] = 'admin';
+
             return true;
         }
         return false;

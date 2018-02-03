@@ -67,10 +67,10 @@ return [
             'icon_class' => 'icon-home',
             'link'       => '/admin/tour',
         ],
-        // 'system'   => [
-        //     'title'      => '系統變數管理',
-        //     'icon_class' => 'icon-home',
-        //     'link'       => '/admin/systemvariable',
-        // ],
+        'system'   => [
+            'title'      => '系統變數管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/system',
+        ],
     ],
 ];

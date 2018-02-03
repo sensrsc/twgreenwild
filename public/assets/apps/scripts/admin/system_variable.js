@@ -7,15 +7,11 @@ var Variable = function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                sv_value: {
-                	required: true
-                }
+                
             },
 
             messages: {
-            	sv_value: {
-                	required: '請輸入值的資料'
-                }
+            	
             },
 
             invalidHandler: function(event, validator) { //display error alert on form submit   
@@ -46,13 +42,15 @@ var Variable = function() {
 
             submitHandler: function(form) {
                 // form.submit(); // form validation success, call ajax form submit
-            	var url = '/admin/systemvariable/';
+            	var url = '/admin/system/';
                 if (parseInt($('[name=sv_id]').val()) > 0){
-                    url += 'update_variable';
+                    url += 'ajaxUpdate/' + $('[name=sv_id]').val();
+                } else {
+                    url += 'ajaxAdd';
                 }
 
                 var formData = new FormData($('form')[0]);
-                Common.ajaxTask("post", true, false, url, formData, formCallback, null, false);                
+                Site.ajaxTask("post", true, false, url, formData, formCallback, null, false);
                 return false;
             }
         });
@@ -65,17 +63,16 @@ var Variable = function() {
                 return false;
             }
         });
-
     }
     
     var formCallback = function(response) {
-//    	 console.log("Company.FormSubmitCallback", response);
-    	if (response.Status) {
-    		Common.showAlert(true, 'success', '成功', response.Message, "success", "/admin/systemvariable");
-    	} else {
-    		$("#data-form-btn").removeAttr("disabled");
-    		Common.showAlert(true, 'error', '失敗', response.Message);
-    	}
+        // console.log(response);
+        if (response.status) {
+            Site.showAlert(true, 'success', '成功', response.message, 'success', '/admin/system');
+        } else {
+            $('#data-form-btn').removeAttr('disabled');
+            Site.showAlert(true, 'error', '失敗', response.message);
+        }
     };
 
 
@@ -84,9 +81,7 @@ var Variable = function() {
         init: function() {
             handleVariable();
         }
-
     };
-
 }();
 
 jQuery(document).ready(function() {

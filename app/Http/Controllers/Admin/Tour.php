@@ -41,10 +41,12 @@ class Tour extends Controller
     public function detail($id)
     {
         $data = $this->tourRepository->getByID($id);
-        if ($data) {
+        if ($data) {            
             $categorys = $this->tourRepository->getCategorys();
             $areas     = $this->tourRepository->getAreas();
-            return view('admin.tour.detail', compact('data', 'categorys', 'areas'));
+            $levels    = $this->tourRepository->getLevelByCategory($data->c_id);
+            $albums    = $this->tourRepository->getAlbumByCategory($data->c_id);
+            return view('admin.tour.detail', compact('data', 'categorys', 'areas', 'levels', 'albums'));
         }
         // error not found
         $message = array(
@@ -83,7 +85,9 @@ class Tour extends Controller
         if ($validator->passes() && !empty($data)) {
             $posts = $request->input();
 
-            $this->responseData['status'] = $this->tourRepository->update($id, $posts);
+            $isUpdate                     = $this->tourRepository->update($id, $posts);
+            $isDescUpdate                 = $this->tourRepository->processTourDescriptions($id, $posts);
+            $this->responseData['status'] = ($isUpdate && $isDescUpdate) ? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '修改成功';
             }
@@ -94,25 +98,13 @@ class Tour extends Controller
         return response()->json($this->responseData);
     }
 
-    public function ajaxDelete(Request $request)
-    {
-        $aId   = $request->input('a_id');
-        $album = $this->albumRepository->getByID($aId);
-        if ($album) {
-            $this->responseData['status'] = $this->albumRepository->update($aId, ['a_status' => 2]);
-            if ($this->responseData['status']) {
-                $this->responseData['message'] = '刪除成功';
-            }
-        } else {
-            $this->responseData['message'] = '請確認資料是否正確';
-        }
-
-        return response()->json($this->responseData);
-    }
-
     protected function validateForm(Request $request)
     {
         $rules = [
+            'c_id'        => 'required|numeric',
+            'a_id'        => 'required|numeric',
+            'cl_id'       => 'required|numeric',
+            'area_id'     => 'required|numeric',
             't_title'     => 'required|max:50',
             't_status'    => 'required',
             't_price'     => 'required|numeric',
@@ -121,11 +113,11 @@ class Tour extends Controller
             'cd_id'       => 'required|array',
         ];
 
-        if ($request->input('a_outside_link')) {
-            $rules['a_outside_link'] = 'url';
-        }
-
         $attributes = [
+            'c_id'        => '行程分類',
+            'a_id'        => '相簿',
+            'cl_id'       => '等級',
+            'area_id'     => '地區',
             't_title'     => '行程名稱',
             't_status'    => '行程狀態',
             't_price'     => '行程金額',

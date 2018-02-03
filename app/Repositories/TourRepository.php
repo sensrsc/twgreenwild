@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Album;
 use App\Models\Area;
 use App\Models\Category;
+use App\Models\CategoryLevel;
 use App\Models\Tour;
 use App\Models\TourDescription;
 
@@ -30,6 +31,7 @@ class TourRepository
         $tour->c_id          = $datas['c_id'];
         $tour->area_id       = $datas['area_id'];
         $tour->cl_id         = $datas['cl_id'];
+        $tour->a_id          = $datas['a_id'];
         $tour->save();
 
         return $tour->t_id;
@@ -99,6 +101,14 @@ class TourRepository
     public function getCategorys()
     {
         return Category::where('c_status', 1)
+            ->get();
+    }
+
+    // category level
+    public function getLevelByCategory($cId)
+    {
+        return CategoryLevel::where('c_id', $cId)
+            ->where('cl_status', 1)
             ->get();
     }
 

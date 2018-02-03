@@ -16,4 +16,5 @@ class CategoryDescription extends Model
     protected $primaryKey = 'cd_id';
 
     protected $fillable = ['c_id', 'cd_title', 'cd_type', 'cd_status'];
+
 }
