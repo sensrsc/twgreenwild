@@ -68,6 +68,8 @@
                                 <th>類型</th>
                                 <th>狀態</th>
                                 <th>金額</th>
+                                <th>不接單開始日</th>
+                                <th>不接單結束日</th>
                                 <th>修改時間</th>
                                 <th></th>
                             </tr>
@@ -77,7 +79,7 @@
                                 @foreach ($lists as $list)
                                 <tr>
                                     <td class="highlight">
-                                    	{{ $list['t_title'] }}
+                                    	{{ $list->t_title }}
                                     </td>
                                     <td>
                                         {{ isset($list->category->c_title)? $list->category->c_title : '' }}
@@ -89,13 +91,19 @@
                                         {{ $list['t_price'] }}
                                     </td>
                                     <td>
+                                        {{ $list->not_accept_start }}
+                                    </td>
+                                    <td>
+                                        {{ $list->not_accept_end }}
+                                    </td>
+                                    <td>
                                         {{ $list['updated_at'] }}
                                     </td>
                                     <td>
                                         <a href="/admin/tour/detail/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
                                             <i class="fa fa-edit">查看/編輯</i></a>
-                                        <!-- <a href="#" data-id="{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm red del_btn">
-                                            <i class="fa fa-edit">刪除</i></a> -->
+                                        <a href="/admin/tour/notaccept/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm green">
+                                            <i class="fa fa-edit">不接單日期設定</i></a>
                                     </td>                                    
                                 </tr>
                                 @endforeach

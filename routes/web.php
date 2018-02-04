@@ -60,7 +60,7 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::post('album/ajaxDelete', 'Admin\\Album@ajaxDelete');
 		Route::post('album/ajaxCover/{id}', 'Admin\\Album@ajaxCover');
 		Route::get('album/ajaxAlbum/{cId}', 'Admin\\Album@ajaxCategoryAlbum');
-
+		// 相片
 		Route::get('picture/index/{aId}', 'Admin\\AlbumPicture@index');
 		Route::get('picture/add/{aId}', 'Admin\\AlbumPicture@add');
 		Route::get('picture/detail/{id}', 'Admin\\AlbumPicture@detail');
@@ -82,6 +82,9 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('tour/detail/{id}', 'Admin\\Tour@detail');
 		Route::post('tour/ajaxAdd', 'Admin\\Tour@ajaxAdd');
 		Route::post('tour/ajaxUpdate/{id}', 'Admin\\Tour@ajaxUpdate');
+		// 行程不接單
+		Route::get('tour/notaccept/{id}', 'Admin\\Tour@notaccept');
+		Route::post('tour/ajaxUpdateDate/{id}', 'Admin\\Tour@ajaxUpdateNotAccept');
 
 		
 		// 系統變數

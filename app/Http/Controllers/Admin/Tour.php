@@ -41,12 +41,29 @@ class Tour extends Controller
     public function detail($id)
     {
         $data = $this->tourRepository->getByID($id);
-        if ($data) {            
+        if ($data) {
             $categorys = $this->tourRepository->getCategorys();
             $areas     = $this->tourRepository->getAreas();
             $levels    = $this->tourRepository->getLevelByCategory($data->c_id);
             $albums    = $this->tourRepository->getAlbumByCategory($data->c_id);
             return view('admin.tour.detail', compact('data', 'categorys', 'areas', 'levels', 'albums'));
+        }
+        // error not found
+        $message = array(
+            'title'    => '錯誤',
+            'caption'  => '錯誤',
+            'message'  => '查無行程資料',
+            'url'      => '/admin/tour',
+            'linkName' => '反回行程管理',
+        );
+        return view('admin.message', $message);
+    }
+
+    public function notaccept($id)
+    {
+        $data = $this->tourRepository->getByID($id);
+        if ($data) {
+            return view('admin.tour.detail_notaccept_date', compact('data'));
         }
         // error not found
         $message = array(
@@ -98,6 +115,24 @@ class Tour extends Controller
         return response()->json($this->responseData);
     }
 
+    public function ajaxUpdateNotAccept(Request $request, $id)
+    {
+        $validator = $this->validateNotAcceptDate($request);
+        $data      = $this->tourRepository->getByID($id);
+        if ($validator->passes() && !empty($data)) {
+            $posts                        = $request->input();
+            $isUpdate                     = $this->tourRepository->update($id, $posts);
+            $this->responseData['status'] = ($isUpdate) ? true : false;
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '修改成功';
+            }
+        } else {
+            $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        }
+
+        return response()->json($this->responseData);
+    }
+
     protected function validateForm(Request $request)
     {
         $rules = [
@@ -124,6 +159,28 @@ class Tour extends Controller
             'min_people'  => '最低人數',
             'full_people' => '滿團人數',
             'cd_id'       => '行程類型說明',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, [], $attributes);
+
+        return $validator;
+    }
+
+    private function validateNotAcceptDate(Request $request)
+    {
+        $rules = [
+            'not_accept_start' => '',
+            'not_accept_end'   => '',
+        ];
+
+        if ($request->input('not_accept_start') || $request->input('not_accept_end')) {
+            $rules['not_accept_start'] = 'date|date_format:Y-m-d';
+            $rules['not_accept_end']   = 'required|date|date_format:Y-m-d|after:not_accept_start';
+        }
+
+        $attributes = [
+            'not_accept_start' => '不接單開始日',
+            'not_accept_end'   => '不接單結束日',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);

@@ -15,7 +15,7 @@ class Tour extends Model
 
     protected $primaryKey = 't_id';
 
-    protected $fillable = ['c_id', 'cl_id', 't_title', 't_description', 't_price', 'a_id', 'area_id', 'min_people', 'full_people', 'days_apply', 't_status'];
+    protected $fillable = ['c_id', 'cl_id', 't_title', 't_description', 't_price', 'a_id', 'area_id', 'min_people', 'full_people', 'days_apply', 'not_accept_start', 'not_accept_end', 'not_accept_reason', 't_status'];
 
     public function category()
     {
