@@ -46,6 +46,7 @@
                 <i class="fa fa-user"></i>{{ $album->a_title }} 相片列表
             </div>
             <div class="actions">
+                <a href="#" class="btn btn-outline btn-sm red multi_del_btn"><i class="fa fa-edit">刪除</i></a>
                 <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/picture/add/{{ $album->a_id }}">
                     <span>新增相片</span>
                 </a>
@@ -57,6 +58,7 @@
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
                             <tr>
+                                <th><input type="checkbox" id="all_checkbox"></th>
                                 <th>相片名稱</th>
                                 <th>相片縮圖</th>
                                 <th>修改時間</th>
@@ -67,6 +69,7 @@
                             @if (!empty($lists))
                                 @foreach ($lists as $list)
                                 <tr>
+                                    <td><input type="checkbox" name="del_id" value="{{ $list['ap_id'] }}"></td>
                                     <td class="highlight">
                                     	{{ $list['ap_image'] }}
                                     </td>

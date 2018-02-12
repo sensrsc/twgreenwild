@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\CategoryLevel;
 use App\Models\Tour;
 use App\Models\TourDescription;
+use Schema;
 
 class TourRepository
 {
@@ -58,13 +59,18 @@ class TourRepository
 
         if ($queryData) {
             foreach ($queryData as $field => $search) {
-                if (strpos($field, 'title') !== false) {
-                    $query->where($field, "LIKE", '%' . $search . '%');
-                } else if ($search) {
-                    $query->where($field, $search);
+                $isHave = Schema::hasColumn($this->model->getTable(), $field);
+                if ($isHave) {
+                    if (strpos($field, 'title') !== false) {
+                        $query->where($field, "LIKE", '%' . $search . '%');
+                    } else if ($search) {
+                        $query->where($field, $search);
+                    }
                 }
             }
         }
+
+        $query->where('t_status', '=', 1);
 
         $lists = $query->paginate($rows);
         if ($queryData) {

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Admin;
+use Schema;
 
 class AdminRepository
 {
@@ -49,10 +50,13 @@ class AdminRepository
 
         if ($queryData) {
             foreach ($queryData as $field => $search) {
-                if (strpos($field, 'title') !== false) {
-                    $query->where($field, "LIKE", '%'.$search.'%');
-                } else if ($search) {
-                    $query->where($field, $search);
+                $isHave = Schema::hasColumn($this->model->getTable(), $field);
+                if ($isHave) {
+                    if (strpos($field, 'title') !== false) {
+                        $query->where($field, "LIKE", '%'.$search.'%');
+                    } else if ($search) {
+                        $query->where($field, $search);
+                    }
                 }
             }
         }

@@ -81,6 +81,14 @@
 										</div>
 									</div>
 								</div>
+								<div class="col-md-6">
+									<div class="control-label col-md-3">相簿日期：</div>
+									<div class="col-md-9">
+										<div class="input-icon right">
+											<input type="text" placeholder="相簿日期" class="form-control date-picker" name="a_date" data-date-format="yyyy-mm-dd" value="{{ isset($data['a_date'])? $data['a_date'] : '' }}" />
+										</div>
+									</div>
+								</div>
 							</div>
 			
                         	
@@ -99,7 +107,12 @@
 @endsection
 
 
+@section('css_link')
+<link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('js_script')
     <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="/assets/apps/scripts/admin/album.js"></script>
 @endsection

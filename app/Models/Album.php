@@ -15,7 +15,7 @@ class Album extends Model
 
     protected $primaryKey = 'a_id';
 
-    protected $fillable = ['a_title', 'a_total_pic', 'c_id', 'a_cover', 'a_description', 'a_status', 'a_outside_link'];
+    protected $fillable = ['a_title', 'a_total_pic', 'c_id', 'a_cover', 'a_description', 'a_status', 'a_outside_link', 'a_date'];
 
     public function category()
     {

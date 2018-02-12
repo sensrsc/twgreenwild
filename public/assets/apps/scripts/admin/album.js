@@ -64,6 +64,15 @@ var Album = function() {
                 return false;
             }
         });
+
+        if (jQuery().datepicker) {
+            $('.date-picker').datepicker({
+                format: 'yyyy-mm-dd',
+                rtl: App.isRTL(),
+                orientation: "left",
+                autoclose: true
+            });
+        }
     }
     
     var formCallback = function(response) {

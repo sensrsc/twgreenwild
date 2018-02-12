@@ -15,5 +15,5 @@ class News extends Model
 
     protected $primaryKey = 'n_id';
 
-    protected $fillable = ['n_title', 'n_content', 'n_status', 'n_top'];
+    protected $fillable = ['n_subject', 'n_content', 'n_status', 'n_top'];
 }

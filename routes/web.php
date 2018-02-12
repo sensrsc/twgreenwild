@@ -16,6 +16,12 @@ Route::get('/', function () {
 });
 
 
+Route::get('test/paytest', 'Test@paytest');
+Route::get('test/payview', 'Test@payview');
+Route::get('test/paycredit', 'Test@paycredit');
+Route::get('test/payatm', 'Test@payatm');
+Route::get('test/checkmac', 'Test@checkmac');
+Route::get('test/test', 'Test@test');
 
 // Admin
 Route::group(['prefix' => 'admin'], function () {

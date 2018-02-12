@@ -5,18 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\AlbumPictureRepository;
 use App\Repositories\AlbumRepository;
+use App\Services\AlbumPictureService;
 use Illuminate\Http\Request;
 use Validator;
 
 class AlbumPicture extends Controller
 {
+    protected $albumPictureService;
     protected $albumRepository;
     protected $albumPictureRepository;
     protected $responseData;
     protected $destinationPath;
 
-    public function __construct(AlbumRepository $repository, AlbumPictureRepository $albumPictureRepository)
+    public function __construct(AlbumPictureService $service, AlbumRepository $repository, AlbumPictureRepository $albumPictureRepository)
     {
+        $this->albumPictureService    = $service;
         $this->albumRepository        = $repository;
         $this->albumPictureRepository = $albumPictureRepository;
         $this->responseData           = [
@@ -105,16 +108,25 @@ class AlbumPicture extends Controller
     {
         $album = $this->albumRepository->getByID($aId);
         if ($album) {
-            $apId         = $request->input('ap_id');
-            $albumPicture = $this->albumPictureRepository->getByID($apId);
-            if ($albumPicture->a_id == $album->a_id) {
-                $this->responseData['status'] = $this->albumPictureRepository->delete($apId, ['ap_status' => 2]);
-                if ($this->responseData['status']) {
-                    $this->responseData['message'] = '刪除成功';
-                }
+            $apIds                        = explode(',', $request->input('ap_id'));
+            $this->responseData['status'] = $this->albumPictureService->multiDelete($aId, $apIds);
+
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '刪除成功';
             } else {
                 $this->responseData['message'] = '請確認刪除資料是否正確';
             }
+            /*
+        $albumPicture = $this->albumPictureRepository->getByID($apId);
+        if ($albumPicture->a_id == $album->a_id) {
+        $this->responseData['status'] = $this->albumPictureRepository->delete($apId, ['ap_status' => 2]);
+        if ($this->responseData['status']) {
+        $this->responseData['message'] = '刪除成功';
+        }
+        } else {
+        $this->responseData['message'] = '請確認刪除資料是否正確';
+        }
+         */
         } else {
             $this->responseData['message'] = '請確認刪除資料是否正確';
         }

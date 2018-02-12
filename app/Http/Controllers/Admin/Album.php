@@ -120,10 +120,9 @@ class Album extends Controller
 
     public function ajaxDelete(Request $request)
     {
-        $aId         = $request->input('a_id');
-        $album = $this->albumRepository->getByID($aId);
-        if ($album) {
-            $this->responseData['status'] = $this->albumRepository->update($aId, ['a_status' => 2]);
+        $aIds   = explode(',', $request->input('a_id'));
+        if ($aIds) {
+            $this->responseData['status'] = $this->albumRepository->multiUpdate($aIds, ['a_status' => 2]);
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '刪除成功';
             }
@@ -138,10 +137,10 @@ class Album extends Controller
     {
         $albums = $this->albumRepository->getByCategory($cId);
         if ($albums) {
-            $this->responseData['status'] = ($albums)? true : false;
+            $this->responseData['status'] = ($albums) ? true : false;
             if ($this->responseData['status']) {
                 $this->responseData['message'] = '成功';
-                $this->responseData['datas'] = $albums;
+                $this->responseData['datas']   = $albums;
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
@@ -156,6 +155,7 @@ class Album extends Controller
             'a_title'  => 'required|max:50',
             'c_id'     => 'required',
             'a_status' => 'required',
+            'a_date'   => 'required|date|date_format:"Y-m-d"',
         ];
 
         if ($request->input('a_outside_link')) {
@@ -167,6 +167,7 @@ class Album extends Controller
             'c_id'           => '行程分類',
             'a_status'       => '相簿狀態',
             'a_outside_link' => '外部連結',
+            'a_date'         => '相簿日期',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);

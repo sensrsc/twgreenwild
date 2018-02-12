@@ -36,6 +36,11 @@ class AlbumRepository
         return false;
     }
 
+    public function multiUpdate($ids, $datas)
+    {
+        return Album::whereIn('a_id', $ids)->update($datas);
+    }
+
     public function getByID($id)
     {
         return $this->model->find($id);

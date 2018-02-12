@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use Schema;
 
 class CategoryRepository
 {
@@ -45,10 +46,13 @@ class CategoryRepository
 
         if ($queryData) {
             foreach ($queryData as $field => $search) {
-                if (strpos($field, 'title') !== false) {
-                    $query->where($field, "LIKE", '%'.$search.'%');
-                } else if ($search) {
-                    $query->where($field, $search);
+                $isHave = Schema::hasColumn($this->model->getTable(), $field);
+                if ($isHave) {
+                    if (strpos($field, 'title') !== false) {
+                        $query->where($field, "LIKE", '%'.$search.'%');
+                    } else if ($search) {
+                        $query->where($field, $search);
+                    }
                 }
             }
         }

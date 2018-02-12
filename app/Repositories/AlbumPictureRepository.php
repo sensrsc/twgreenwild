@@ -38,6 +38,11 @@ class AlbumPictureRepository
         return false;
     }
 
+    public function multiUpdate($aId, $ids, $datas)
+    {
+        return AlbumPicture::whereIn('ap_id', $ids)->where('a_id', $aId)->update($datas);
+    }
+
     public function delete($id, $datas)
     {
         $data = $this->getByID($id);

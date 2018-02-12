@@ -40,7 +40,7 @@ return [
     'distinct'             => ':attribute field has a duplicate value.',
     'email'                => ':attribute 必須是有效的Email地址',
     'exists'               => 'selected :attribute is invalid.',
-    'file'                 => ':attribute must be a file.',
+    'file'                 => ':attribute 必須是檔案',
     'filled'               => ':attribute field must have a value.',
     'image'                => ':attribute 必須是圖片',
     'in'                   => 'selected :attribute is invalid.',
