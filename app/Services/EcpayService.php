@@ -17,15 +17,7 @@ class EcpayService
         $this->hashIv     = env('ECPAY_HASH_IV', '');
     }
 
-    public function test()
-    {
-        var_dump($this->merchantID);
-        var_dump($this->hashKey);
-        var_dump($this->hashIv);
-    }
-
-
-    public function creditToken(array $orderData)
+    public function sptoken(array $orderData)
     {
     	$url = env('ECPAY_CREDIT_URL', '');
 
@@ -65,13 +57,11 @@ class EcpayService
         ];
 
         $postData['CheckMacValue'] = $this->macValue($this->hashKey, $this->hashIv, $postData);
-
         $response = $this->client->request('POST', $url, ['form_params' => $postData]);
-
 
         if ($jsonString = $response->getBody()) {
             $result = json_decode($jsonString, true);
-            if ($this->checkReturn($this->merchantID, $this->hashKey, $this->hashIv, $result)){
+            if ($this->checkReturn($result)){
             	return $result;
             }
         }
@@ -79,16 +69,13 @@ class EcpayService
         return [];
     }
 
-    public function atm()
-    {
-
-    }
-
     public function checkReturn($datas)
     {
         $checkMac = $this->checkMacValue($this->hashKey, $this->hashIv, $datas);
-        if (isset($datas['RtnCode']) && isset($datas['MerchantID']) && isset($datas['MerchantTradeNo']) && isset($datas['SPToken'])) {
+        if (isset($datas['RtnCode']) && isset($datas['MerchantID']) && isset($datas['MerchantTradeNo'])) {
             if ($datas['RtnCode'] === '1' && $this->merchantID === $datas['MerchantID'] && $checkMac) {
+                return true;
+            } else if ($datas['RtnCode'] === '2' && $this->merchantID === $datas['MerchantID'] && $checkMac) {
                 return true;
             }
         }
@@ -110,46 +97,46 @@ class EcpayService
 
     public function macValue($key, $iv, $datas)
     {
-        ksort($datas);
+        $sMacValue = '' ;
+        
+        if(isset($datas))
+        {   
+            unset($datas['CheckMacValue']);
+            ksort($datas);
+               
+            // 組合字串
+            $sMacValue = 'HashKey=' . $key ;
+            foreach($datas as $key => $value)
+            {
+                $sMacValue .= '&' . $key . '=' . $value ;
+            }
+            
+            $sMacValue .= '&HashIV=' . $iv ;    
+            
+            // URL Encode編碼     
+            $sMacValue = urlencode($sMacValue); 
+            
+            // 轉成小寫
+            $sMacValue = strtolower($sMacValue);        
+            
+            // 取代為與 dotNet 相符的字元
+            $sMacValue = str_replace('%2d', '-', $sMacValue);
+            $sMacValue = str_replace('%5f', '_', $sMacValue);
+            $sMacValue = str_replace('%2e', '.', $sMacValue);
+            $sMacValue = str_replace('%21', '!', $sMacValue);
+            $sMacValue = str_replace('%2a', '*', $sMacValue);
+            $sMacValue = str_replace('%28', '(', $sMacValue);
+            $sMacValue = str_replace('%29', ')', $sMacValue);
+                                
+            // 編碼
+            switch ($encType) {
+                default:
+                    $sMacValue = hash('sha256', $sMacValue);
+            }
 
-        $queryString = urldecode(http_build_query($datas));
-        $valueStr    = strtolower(urlencode('HashKey=' . $key . '&' . $queryString . '&HashIV=' . $iv));
+            $sMacValue = strtoupper($sMacValue);
+        } 
 
-        // $valueStr = str_replace('%2d', '-', $valueStr);
-        // $valueStr = str_replace('%5f', '_', $valueStr);
-        // $valueStr = str_replace('%2e', '.', $valueStr);
-        // $valueStr = str_replace('%21', '!', $valueStr);
-        // $valueStr = str_replace('%2a', '*', $valueStr);
-        // $valueStr = str_replace('%28', '(', $valueStr);
-        // $valueStr = str_replace('%29', ')', $valueStr);
-        // $valueStr = str_replace('%20', ' ', $valueStr);
-        // $valueStr = str_replace('%40', '@', $valueStr);
-        // $valueStr = str_replace('%23', '#', $valueStr);
-        // $valueStr = str_replace('%24', '$', $valueStr);
-        // $valueStr = str_replace('%25', '%', $valueStr);
-        // $valueStr = str_replace('%5e', '^', $valueStr);
-        // $valueStr = str_replace('%26', '&', $valueStr);
-        // $valueStr = str_replace('%3d', '=', $valueStr);
-        // $valueStr = str_replace('%2b', '+', $valueStr);
-        // $valueStr = str_replace('%3b', ';', $valueStr);
-        // $valueStr = str_replace('%3f', '?', $valueStr);
-        // $valueStr = str_replace('%2f', '/', $valueStr);
-        // $valueStr = str_replace('%5c', '\\', $valueStr);
-        // $valueStr = str_replace('%3e', '>', $valueStr);
-        // $valueStr = str_replace('%3c', '<', $valueStr);
-        // $valueStr = str_replace('%60', '`', $valueStr);
-        // $valueStr = str_replace('%5b', '[', $valueStr);
-        // $valueStr = str_replace('%5d', ']', $valueStr);
-        // $valueStr = str_replace('%7b', '{', $valueStr);
-        // $valueStr = str_replace('%7d', '}', $valueStr);
-        // $valueStr = str_replace('%3a', ':', $valueStr);
-        // $valueStr = str_replace('%27', '\'', $valueStr);
-        // $valueStr = str_replace('%22', '"', $valueStr);
-        // $valueStr = str_replace('%2c', ',', $valueStr);
-        // $valueStr = str_replace('%7c', '|', $valueStr);
-
-        $macValue = strtoupper(hash('sha256', $valueStr));
-
-        return $macValue;
+        return $sMacValue;
     }
 }

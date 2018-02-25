@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\EcpayService;
 use Illuminate\Http\Request;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
 use Storage;
 
 class Test extends Controller
@@ -18,11 +20,11 @@ class Test extends Controller
 
     public function paytest()
     {
-        $returnUrl      = url('test/returnurl');
-        $paymentInfoUrl = url('test/infourl');
+        $returnUrl      = url('ecpay/returnurl');
+        $paymentInfoUrl = url('ecpay/infourl');
 
         $orderData = [
-            'order_id'         => time(),
+            'order_id'         => 'green' . time(),
             'total_amount'     => 1000,
             'trade_desc'       => '綠葉戶外-訂單交易測試',
             'item_name'        => '登山半日遊 1800 x 3',
@@ -30,8 +32,19 @@ class Test extends Controller
             'payment_info_url' => $paymentInfoUrl,
         ];
 
-        $result = $this->service->creditToken($orderData);
-        var_dump($result);
+        // $result = $this->service->sptoken($orderData);
+        // var_dump($result);
+
+        try {
+            $result = $this->service->sptoken($orderData);
+            var_dump($result);
+        } catch (RequestException $e) {
+            echo Psr7\str($e->getRequest());
+            if ($e->hasResponse()) {
+                echo Psr7\str($e->getResponse());
+            }
+        }
+
 
         /*
     $checkMacVlaue = '';
@@ -76,7 +89,6 @@ class Test extends Controller
 
     var_dump($postData);
 
-    // $this->test();
 
     $response = $client->request('POST', $url, ['form_params' => $postData]);
 
@@ -149,8 +161,8 @@ class Test extends Controller
 
     public function paycredit()
     {
-        $returnUrl      = url('test/returnurl');
-        $paymentInfoUrl = url('test/infourl');
+        $returnUrl      = url('ecpay/returnurl');
+        $paymentInfoUrl = url('ecpay/infourl');
 
         $orderData = [
             'order_id'         => time(),
@@ -160,16 +172,18 @@ class Test extends Controller
             'return_url'       => $returnUrl,
             'payment_info_url' => $paymentInfoUrl,
         ];
-        $result   = $this->service->creditToken($orderData);
+        $result   = $this->service->sptoken($orderData);
         $type     = 'CREDIT';
         $typeName = '信用卡';
+        var_dump($orderData);
+        var_dump($result);
         return view('test', compact('result', 'type', 'typeName'));
     }
 
     public function payatm()
     {
-        $returnUrl      = url('test/returnurl');
-        $paymentInfoUrl = url('test/infourl');
+        $returnUrl      = url('ecpay/returnurl');
+        $paymentInfoUrl = url('ecpay/infourl');
 
         $orderData = [
             'order_id'         => time(),
@@ -179,9 +193,11 @@ class Test extends Controller
             'return_url'       => $returnUrl,
             'payment_info_url' => $paymentInfoUrl,
         ];
-        $result   = $this->service->creditToken($orderData);
+        $result   = $this->service->sptoken($orderData);
         $type     = 'ATM';
         $typeName = 'ATM';
+        var_dump($orderData);
+        var_dump($result);
         return view('test', compact('result', 'type', 'typeName'));
     }
 
@@ -194,6 +210,10 @@ class Test extends Controller
         $returnOk = $this->service->checkReturn($posts);
         if ($returnOk) {
             $posts['check_return_data'] = $returnOk;
+            echo '1|OK';
+        } else {
+            $post['other'] = 'in other';
+            echo $posts['RtnCode'] . '|' . $posts['RtnMsg'];
         }
 
         Storage::disk('local')->put('return_' . $fileName . '.txt', json_encode($posts));
@@ -208,6 +228,10 @@ class Test extends Controller
         $returnOk = $this->service->checkReturn($posts);
         if ($returnOk) {
             $posts['check_info_data'] = $returnOk;
+            echo '1|OK';
+        } else {
+            $post['other'] = 'in info other';
+            echo $posts['RtnCode'] . '|' . $posts['RtnMsg'];
         }
 
         Storage::disk('local')->put('info_' . $fileName . '.txt', json_encode($posts));
@@ -215,8 +239,25 @@ class Test extends Controller
 
     protected function test()
     {
-        // $this->service->test();
-        Storage::disk('local')->put('file.txt', 'Contents');
+        $key = '5294y06JbISpM5x9';
+        $iv = 'v77hoKGq4kWxNNIS';
+        $merchantID = '2000132';
+
+
+        echo '<pre>';
+
+        $str = '{"CustomField1":null,"CustomField2":null,"CustomField3":null,"CustomField4":null,"MerchantID":"2000132","MerchantTradeNo":"1518504406","PaymentDate":"2018\/02\/13 14:47:21","PaymentType":"Credit_CreditCard","PaymentTypeChargeFee":"1","RtnCode":"1","RtnMsg":"\u4ea4\u6613\u6210\u529f","SimulatePaid":"0","StoreID":null,"TradeAmt":"1000","TradeDate":"2018\/02\/13 14:46:46","TradeNo":"1802131446462585","CheckMacValue":"7E8231A11C5D58F120DD5E1D4849E33067B16EA5038645A4B96BC8C7986ECAAF"}';
+        // $str = '{"BankCode":"822","ExpireDate":"2018\/02\/16","MerchantID":"2000132","MerchantTradeNo":"1518505680","PaymentType":"ATM_CHINATRUST","RtnCode":"2","RtnMsg":"Get VirtualAccount Succeeded","TradeAmt":"1000","TradeDate":"2018\/02\/13 15:08:06","TradeNo":"1802131508002613","vAccount":"9829480477210522","StoreID":null,"CustomField1":null,"CustomField2":null,"CustomField3":null,"CustomField4":null,"CheckMacValue":"32CCCE5CF1E17D12F19EA9915270C02AD6AF1DF900BF62A89BAE95ACDD031A0A"}';
+
+        $datas = json_decode($str, true);
+        var_dump($datas);
+
+
+        $returnOK = $this->service->checkReturn($datas);
+        var_dump($returnOK);
+        
+        // $isWrite = Storage::disk('local')->put('file.txt', 'Contents');
+        // var_dump($isWrite);
     }
 
     public function checkmac()

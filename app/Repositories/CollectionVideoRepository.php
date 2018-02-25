@@ -2,30 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\Album;
+use App\Models\CollectionVideo;
 use Schema;
 
-class AlbumRepository
+class CollectionVideoRepository
 {
     protected $model;
 
-    public function __construct(Album $model)
+    public function __construct(CollectionVideo $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $album = new Album;
-        $album->c_id = $datas['c_id'];
-        $album->a_title = $datas['a_title'] ?? '';
-        $album->a_description = $datas['a_description'] ?? '';
-        $album->a_status = $datas['a_status'] ?? 1;
-        $album->a_outside_link = $datas['a_outside_link'] ?? '';
-        $album->a_date = $datas['a_date'] ?? '';
-        $album->save();
+        $video = new CollectionVideo;
+        $video->c_id = $datas['c_id'];
+        $video->cv_name = $datas['cv_name'] ?? '';
+        $video->cv_description = $datas['cv_description'] ?? '';
+        $video->cv_status = $datas['cv_status'] ?? 1;
+        $video->cv_youtube_link = $datas['cv_youtube_link'] ?? '';
+        $video->cv_date = $datas['cv_date'] ?? '';
+        $video->save();
 
-        return $album->a_id;
+        return $video->cv_id;
     }
 
     public function update($id, $datas)
@@ -40,19 +40,12 @@ class AlbumRepository
 
     public function multiUpdate($ids, $datas)
     {
-        return Album::whereIn('a_id', $ids)->update($datas);
+        return CollectionVideo::whereIn('cv_id', $ids)->update($datas);
     }
-
+    
     public function getByID($id)
     {
         return $this->model->find($id);
-    }
-
-    public function getByCategory($cId)
-    {
-        return $this->model->where('c_id', $cId)
-                            ->where('a_status', 1)
-                            ->get(['a_id as id', 'a_title as title', 'a_description']);
     }
 
     public function pages($rows, $queryData)
@@ -72,7 +65,7 @@ class AlbumRepository
             }
         }
 
-        $query->where('a_status', '!=', 2);
+        $query->where('cv_status', '!=', 2);
 
         $lists = $query->paginate($rows);
         if ($queryData) {

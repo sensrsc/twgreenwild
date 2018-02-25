@@ -36,6 +36,11 @@ return [
         '1' => '純文字',
         '2' => '圖文編輯器',
     ],
+    'coach_meta_types' => [
+        '1' => '相關訓練',
+        '2' => '證照',
+        '3' => '經歷',
+    ],
     'menu'         => [
         'admin'    => [
             'title'      => '管理者管理',
@@ -62,11 +67,31 @@ return [
             'icon_class' => 'icon-home',
             'link'       => '/admin/album',
         ],
+        'video'  => [
+            'title'      => '活動影音管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/video',
+        ],
         'tour'  => [
             'title'      => '行程管理',
             'icon_class' => 'icon-home',
             'link'       => '/admin/tour',
         ],
+        'coach'  => [
+            'title'      => '教練管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/coach',
+        ],
+        // 'notestype'  => [
+        //     'title'      => '活動筆記類型管理',
+        //     'icon_class' => 'icon-home',
+        //     'link'       => '/admin/notestype',
+        // ],
+        // 'notes'  => [
+        //     'title'      => '活動筆記管理',
+        //     'icon_class' => 'icon-home',
+        //     'link'       => '/admin/notes',
+        // ],
         'system'   => [
             'title'      => '系統變數管理',
             'icon_class' => 'icon-home',

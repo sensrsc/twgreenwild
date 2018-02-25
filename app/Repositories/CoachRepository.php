@@ -2,30 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\Album;
+use App\Models\Coach;
 use Schema;
 
-class AlbumRepository
+class CoachRepository
 {
     protected $model;
 
-    public function __construct(Album $model)
+    public function __construct(Coach $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $album = new Album;
-        $album->c_id = $datas['c_id'];
-        $album->a_title = $datas['a_title'] ?? '';
-        $album->a_description = $datas['a_description'] ?? '';
-        $album->a_status = $datas['a_status'] ?? 1;
-        $album->a_outside_link = $datas['a_outside_link'] ?? '';
-        $album->a_date = $datas['a_date'] ?? '';
-        $album->save();
+        $coach = new Coach;
+        $coach->c_name = $datas['c_name'] ?? '';
+        $coach->c_motto = $datas['c_motto'] ?? '';
+        $coach->c_avatar = $datas['c_avatar'] ?? '';
+        $coach->c_specialty = $datas['c_specialty'] ?? '';
+        $coach->c_seq = $datas['c_seq'] ?? 1;
+        $coach->c_status = $datas['c_status'] ?? 1;
+        $coach->save();
 
-        return $album->a_id;
+        return $coach->c_id;
     }
 
     public function update($id, $datas)
@@ -40,19 +40,12 @@ class AlbumRepository
 
     public function multiUpdate($ids, $datas)
     {
-        return Album::whereIn('a_id', $ids)->update($datas);
+        return Coach::whereIn('c_id', $ids)->update($datas);
     }
-
+    
     public function getByID($id)
     {
         return $this->model->find($id);
-    }
-
-    public function getByCategory($cId)
-    {
-        return $this->model->where('c_id', $cId)
-                            ->where('a_status', 1)
-                            ->get(['a_id as id', 'a_title as title', 'a_description']);
     }
 
     public function pages($rows, $queryData)
@@ -63,7 +56,7 @@ class AlbumRepository
             foreach ($queryData as $field => $search) {
                 $isHave = Schema::hasColumn($this->model->getTable(), $field);
                 if ($isHave) {
-                    if (strpos($field, 'title') !== false) {
+                    if (strpos($field, 'name') !== false) {
                         $query->where($field, "LIKE", '%'.$search.'%');
                     } else if ($search) {
                         $query->where($field, $search);
@@ -72,7 +65,7 @@ class AlbumRepository
             }
         }
 
-        $query->where('a_status', '!=', 2);
+        $query->where('c_status', '!=', 2);
 
         $lists = $query->paginate($rows);
         if ($queryData) {

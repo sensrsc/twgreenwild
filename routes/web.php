@@ -23,6 +23,14 @@ Route::get('test/payatm', 'Test@payatm');
 Route::get('test/checkmac', 'Test@checkmac');
 Route::get('test/test', 'Test@test');
 
+Route::post('test/returnurl', 'Test@returnurl');
+Route::post('test/infourl', 'Test@infourl');
+
+
+Route::post('ecpay/returnurl', 'Ecpay@returnurl');
+Route::post('ecpay/infourl', 'Ecpay@infourl');
+
+
 // Admin
 Route::group(['prefix' => 'admin'], function () {
 	Route::match(['GET', 'POST'], '/', 'Admin\\Login@index');	
@@ -72,6 +80,13 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('picture/detail/{id}', 'Admin\\AlbumPicture@detail');
 		Route::post('picture/ajaxAdd', 'Admin\\AlbumPicture@ajaxAdd');
 		Route::post('picture/ajaxDelete/{aId}', 'Admin\\AlbumPicture@ajaxDelete');
+		// 活動影音
+		Route::get('video', 'Admin\\Video@index');
+		Route::get('video/add', 'Admin\\Video@add');
+		Route::get('video/detail/{id}', 'Admin\\Video@detail');
+		Route::post('video/ajaxAdd', 'Admin\\Video@ajaxAdd');
+		Route::post('video/ajaxUpdate/{id}', 'Admin\\Video@ajaxUpdate');
+		Route::post('video/ajaxDelete', 'Admin\\Video@ajaxDelete');
 
 
 		// 最新消息
@@ -91,6 +106,23 @@ Route::group(['prefix' => 'admin'], function () {
 		// 行程不接單
 		Route::get('tour/notaccept/{id}', 'Admin\\Tour@notaccept');
 		Route::post('tour/ajaxUpdateDate/{id}', 'Admin\\Tour@ajaxUpdateNotAccept');
+
+
+		// 教練
+		Route::get('coach', 'Admin\\Coach@index');
+		Route::get('coach/add', 'Admin\\Coach@add');
+		Route::get('coach/detail/{id}', 'Admin\\Coach@detail');
+		Route::post('coach/ajaxAdd', 'Admin\\Coach@ajaxAdd');
+		Route::post('coach/ajaxUpdate/{id}', 'Admin\\Coach@ajaxUpdate');
+		Route::post('coach/ajaxDelete', 'Admin\\Coach@ajaxDelete');
+		// meta相關訓練、證照、經歷
+		Route::get('coachmeta/index/{type}/{cId}', 'Admin\\Coachmeta@index');
+		Route::get('coachmeta/add/{type}/{cId}', 'Admin\\Coachmeta@add');
+		Route::get('coachmeta/detail/{id}', 'Admin\\Coachmeta@detail');
+		Route::post('coachmeta/ajaxAdd', 'Admin\\Coachmeta@ajaxAdd');
+		Route::post('coachmeta/ajaxUpdate/{id}', 'Admin\\Coachmeta@ajaxUpdate');
+		Route::post('coachmeta/ajaxDelete/{cId}', 'Admin\\Coachmeta@ajaxDelete');
+
 
 		
 		// 系統變數
