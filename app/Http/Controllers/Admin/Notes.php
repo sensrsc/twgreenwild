@@ -51,7 +51,7 @@ class Notes extends Controller
             'caption'  => '錯誤',
             'message'  => '查無活動筆記資料',
             'url'      => '/admin/notes',
-            'linkName' => '反回活動筆記管理',
+            'linkName' => '返回活動筆記管理',
         );
         return view('admin.message', $message);
     }
