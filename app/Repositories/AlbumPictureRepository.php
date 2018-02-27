@@ -65,7 +65,7 @@ class AlbumPictureRepository
     {
         return AlbumPicture::where('a_id', $aId)
             ->where('ap_status', 1)
-            ->get();
+            ->get(['ap_id as id', 'ap_image as title', 'ap_description']);
     }
 
     public function getByID($id)

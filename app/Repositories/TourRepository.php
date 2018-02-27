@@ -66,10 +66,13 @@ class TourRepository
                     } else if ($search) {
                         $query->where($field, $search);
                     }
+                } else if ($field == 'a_title') {
+                    $query->where('album.a_title', "LIKE", '%' . $search . '%');
                 }
             }
         }
 
+        $query->join('album', 'tour.a_id', 'album.a_id');
         $query->where('t_status', '=', 1);
 
         $lists = $query->paginate($rows);

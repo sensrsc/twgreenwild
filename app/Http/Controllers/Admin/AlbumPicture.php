@@ -134,6 +134,22 @@ class AlbumPicture extends Controller
         return response()->json($this->responseData);
     }
 
+    public function ajaxAlbumPicture($aId)
+    {
+        $pictures = $this->albumPictureRepository->getAlbumPicture($aId);
+        if ($pictures) {
+            $this->responseData['status'] = ($pictures) ? true : false;
+            if ($this->responseData['status']) {
+                $this->responseData['message'] = '成功';
+                $this->responseData['datas']   = $pictures;
+            }
+        } else {
+            $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        }
+
+        return response()->json($this->responseData);
+    }
+
     private function uploadFile(Request $request)
     {
         $posts = $request->input();

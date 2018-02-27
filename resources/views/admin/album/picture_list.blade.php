@@ -73,7 +73,7 @@
                                     <td class="highlight">
                                     	{{ $list['ap_image'] }}
                                     </td>
-                                    <td><img src="{{ '/upload/picture/' . $album->a_id . '/' . $list['ap_image'] }}" width="120px" /></td>
+                                    <td><img src="{{ $list->picturePath }}" width="120px" /></td>
                                     <td>
                                         {{ $list['updated_at'] }}
                                     </td>

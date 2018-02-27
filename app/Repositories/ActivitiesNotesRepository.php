@@ -2,30 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\Album;
+use App\Models\ActivitiesNotes;
 use Schema;
 
-class AlbumRepository
+class ActivitiesNotesRepository
 {
     protected $model;
 
-    public function __construct(Album $model)
+    public function __construct(ActivitiesNotes $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $album = new Album;
-        $album->c_id = $datas['c_id'];
-        $album->a_title = $datas['a_title'] ?? '';
-        $album->a_description = $datas['a_description'] ?? '';
-        $album->a_status = $datas['a_status'] ?? 1;
-        $album->a_outside_link = $datas['a_outside_link'] ?? '';
-        $album->a_date = $datas['a_date'] ?? '';
-        $album->save();
+        $activitiesNotes = new ActivitiesNotes;
+        $activitiesNotes->c_id = $datas['c_id'];
+        $activitiesNotes->an_name = $datas['an_name'] ?? '';
+        $activitiesNotes->an_body = $datas['an_body'] ?? '';
+        $activitiesNotes->an_cover = $datas['an_cover'] ?? 0;
+        $activitiesNotes->an_date = $datas['an_date'] ?? '';
+        $activitiesNotes->an_status = $datas['an_status'] ?? 1;
+        $activitiesNotes->save();
 
-        return $album->a_id;
+        return $activitiesNotes->an_id;
     }
 
     public function update($id, $datas)
@@ -40,19 +40,12 @@ class AlbumRepository
 
     public function multiUpdate($ids, $datas)
     {
-        return Album::whereIn('a_id', $ids)->update($datas);
+        return ActivitiesNotes::whereIn('an_id', $ids)->update($datas);
     }
 
     public function getByID($id)
     {
         return $this->model->find($id);
-    }
-
-    public function getByCategory($cId)
-    {
-        return $this->model->where('c_id', $cId)
-                            ->where('a_status', 1)
-                            ->get(['a_id as id', 'a_title as title', 'a_description']);
     }
 
     public function pages($rows, $queryData)
@@ -72,8 +65,7 @@ class AlbumRepository
             }
         }
 
-        $query->where('a_status', '!=', 2);
-        $query->orderBy('updated_at', 'desc');
+        $query->where('an_status', '!=', 2);
 
         $lists = $query->paginate($rows);
         if ($queryData) {

@@ -21,4 +21,9 @@ class AlbumPicture extends Model
     {
         return $this->hasOne('App\Models\Album', 'a_id', 'a_id');
     }
+
+    public function getPicturePathAttribute()
+    {
+        return '/upload/picture/' . $this->a_id . '/' . $this->ap_image;
+    }
 }

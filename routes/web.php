@@ -80,6 +80,7 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('picture/detail/{id}', 'Admin\\AlbumPicture@detail');
 		Route::post('picture/ajaxAdd', 'Admin\\AlbumPicture@ajaxAdd');
 		Route::post('picture/ajaxDelete/{aId}', 'Admin\\AlbumPicture@ajaxDelete');
+		Route::get('picture/ajaxAlbumPicture/{aId}', 'Admin\\AlbumPicture@ajaxAlbumPicture');
 		// 活動影音
 		Route::get('video', 'Admin\\Video@index');
 		Route::get('video/add', 'Admin\\Video@add');
@@ -123,6 +124,14 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::post('coachmeta/ajaxUpdate/{id}', 'Admin\\Coachmeta@ajaxUpdate');
 		Route::post('coachmeta/ajaxDelete/{cId}', 'Admin\\Coachmeta@ajaxDelete');
 
+
+		// 筆記
+		Route::get('notes', 'Admin\\Notes@index');
+		Route::get('notes/add', 'Admin\\Notes@add');
+		Route::get('notes/detail/{id}', 'Admin\\Notes@detail');
+		Route::post('notes/ajaxAdd', 'Admin\\Notes@ajaxAdd');
+		Route::post('notes/ajaxUpdate/{id}', 'Admin\\Notes@ajaxUpdate');
+		Route::post('notes/ajaxDelete', 'Admin\\Notes@ajaxDelete');
 
 		
 		// 系統變數

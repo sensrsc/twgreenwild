@@ -87,11 +87,11 @@ return [
         //     'icon_class' => 'icon-home',
         //     'link'       => '/admin/notestype',
         // ],
-        // 'notes'  => [
-        //     'title'      => '活動筆記管理',
-        //     'icon_class' => 'icon-home',
-        //     'link'       => '/admin/notes',
-        // ],
+        'notes'  => [
+            'title'      => '活動筆記管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/notes',
+        ],
         'system'   => [
             'title'      => '系統變數管理',
             'icon_class' => 'icon-home',

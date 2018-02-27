@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label">名稱</label>
                         <div class="col-md-2">
-                            <input type="text" name="t_name" class="form-control" placeholder="請輸入行程名稱">
+                            <input type="text" name="an_name" class="form-control" placeholder="請輸入筆記名稱">
                         </div>
 
                         <label class="col-md-1 control-label">分類</label>
@@ -33,11 +33,6 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div>
-
-                        <label class="col-md-1 control-label">相簿名稱</label>
-                        <div class="col-md-2">
-                            <input type="text" name="a_title" class="form-control" placeholder="請輸入相簿名稱">
                         </div>
                     </div>
                 </div>
@@ -55,11 +50,11 @@
     <div class="portlet light portlet-fit ">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-user"></i>行程列表
+                <i class="fa fa-user"></i>活動筆記列表
             </div>
             <div class="actions">
-                <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/tour/add">
-                    <span>新增行程</span>
+                <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/notes/add">
+                    <span>新增活動筆記</span>
                 </a>
             </div>
         </div>
@@ -69,13 +64,10 @@
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
                             <tr>
-                                <th>行程名稱</th>
+                                <th>筆記名稱</th>
+                                <th>封面圖</th>
+                                <th>筆記日期</th>
                                 <th>類型</th>
-                                <th>狀態</th>
-                                <th>金額</th>
-                                <th>不接單開始日</th>
-                                <th>不接單結束日</th>
-                                <th>修改時間</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -84,31 +76,22 @@
                                 @foreach ($lists as $list)
                                 <tr>
                                     <td class="highlight">
-                                    	{{ $list->t_title }}
+                                    	{{ $list->an_name }}
                                     </td>
                                     <td>
-                                        {{ isset($list->category->c_title)? $list->category->c_title : '' }}
+                                        <img src="{{ isset($list->picture->ap_image)? $list->picture->picturePath : '' }}" width="200" />
                                     </td>
                                     <td>
-                                        {{ isset(config('common.general_status')[$list['t_status']])? config('common.general_status')[$list['t_status']] : '' }}
+                                        {{ $list->an_date }}
                                     </td>
                                     <td>
-                                        {{ $list['t_price'] }}
+                                        {{ $list->category->c_title }}
                                     </td>
                                     <td>
-                                        {{ $list->not_accept_start }}
-                                    </td>
-                                    <td>
-                                        {{ $list->not_accept_end }}
-                                    </td>
-                                    <td>
-                                        {{ $list['updated_at'] }}
-                                    </td>
-                                    <td>
-                                        <a href="/admin/tour/detail/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
+                                        <a href="/admin/notes/detail/{{ $list->an_id }}" class="btn btn-outline btn-circle btn-sm blue">
                                             <i class="fa fa-edit">查看/編輯</i></a>
-                                        <a href="/admin/tour/notaccept/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm green">
-                                            <i class="fa fa-edit">不接單日期設定</i></a>
+                                        <a href="#" data-id="{{ $list->an_id }}" class="btn btn-outline btn-circle btn-sm red del_btn">
+                                            <i class="fa fa-edit">刪除</i></a>
                                     </td>                                    
                                 </tr>
                                 @endforeach
@@ -144,7 +127,7 @@
             <div class="modal-footer">
                 <form method="post" id="modal_form" class="form-horizontal" role="form">
                     {{ csrf_field() }}
-                    <input type="hidden" name="a_id" id="a_id" value="">
+                    <input type="hidden" name="an_id" id="an_id" value="">
                 </form>
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal">關閉</button>
                 <button type="button" id="delete_btn" class="btn red">刪除</button>
@@ -154,4 +137,8 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+@endsection
+
+@section('js_script')
+    <script src="/assets/apps/scripts/admin/notes_list.js"></script>
 @endsection
