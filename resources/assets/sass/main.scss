@@ -1,0 +1,22 @@
+body, h1, h2, h3, h4, h5, h6, p, ul, li {
+    margin: 0;
+    padding:0;
+    font-weight: normal;
+}
+
+ul { list-style: none; }
+
+button {
+    display: block;
+    background: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+
+@import "header";
+@import "layout";
+@import "activities";
+@import "carousel";

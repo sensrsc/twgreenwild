@@ -1,0 +1,17 @@
+#header-bar + #main-container {
+    padding-top: 90px;
+}
+
+#header-bar__mobile + #main-container {
+    padding-top: 50px;
+}
+
+#header-bar,
+#header-bar__mobile {
+    z-index: 1;
+}
+
+#header-bar__mobile .header-bar__nav,
+#header-bar__mobile .header-bar__user {
+    z-index: 2;
+}
