@@ -86,6 +86,14 @@ var Tour = function() {
             }
         });  
 
+        var placeholder = "請選擇相簿";
+        $( ".select2-single" ).select2( {
+            placeholder: placeholder,
+            width: null,
+            containerCssClass: ':all:'
+        });
+
+
         checkEditor();
     };
 

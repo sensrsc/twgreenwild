@@ -34,11 +34,6 @@
                                 @endif
                             </select>
                         </div>
-
-                        <label class="col-md-1 control-label">相簿名稱</label>
-                        <div class="col-md-2">
-                            <input type="text" name="a_title" class="form-control" placeholder="請輸入相簿名稱">
-                        </div>
                     </div>
                 </div>
                 <div class="form-actions right">

@@ -85,7 +85,7 @@
 	                            	<div class="control-label col-md-3">相簿：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<select class="form-control" name="a_id">
+											<select class="form-control select2-single" name="a_id">
 												<option value="">請選擇</option>
 												@if (isset($albums))
 				                            		@foreach ($albums as $album)
@@ -184,9 +184,14 @@
 
 @endsection
 
+@section('css_link')
+<link href="/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+@endsection
 
 @section('js_script')
     <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="/assets/global/plugins/select2/js/select2.full.min.js"></script>
     <script src="/js/ckeditor/ckeditor.js"></script>
     <script src="/assets/apps/scripts/admin/tour.js"></script>
 @endsection
