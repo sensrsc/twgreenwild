@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('front/home', ['device' => 'desktop']);
 });
 
+Route::get('/reserve_car', function () {
+    return view('front/reserve_car', ['device' => 'desktop']);
+});
+
 
 Route::get('test/paytest', 'Test@paytest');
 Route::get('test/payview', 'Test@payview');
