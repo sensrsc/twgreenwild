@@ -1,6 +1,12 @@
 @extends('front.common.base')
 @section('title', '預約叫車')
 @section('content')
+    <style>
+        .car-block,
+        .airport-block__back {
+            display: none;
+        }
+    </style>
     <form>
         <p>
             <span>類型</span>
@@ -204,4 +210,54 @@
         <input type="button" value="送出預約">
     </form>
 
+    <script>
+        (function () {
+            var reserveType = document.querySelector('#reserve-type'),
+                reserveTypeOption = document.querySelectorAll('#reserve-type > option'),
+                airportBlock = document.querySelector('#airport-block'),
+                carBlock = document.querySelector('#car-block'),
+                reserveAirportType = document.querySelector('#reserve-airport-type'),
+                reserveAirportTypeOption = document.querySelectorAll('#reserve-airport-type > option'),
+                airportTo = document.querySelector('#airport-block__to'),
+                airportBack = document.querySelector('#airport-block__back');
+
+            reserveType.addEventListener('change', function () {
+                showSelectReserveType();
+            });
+            reserveAirportType.addEventListener('change', function () {
+                showSelectReserveAirportType();
+            });
+
+            function showSelectReserveType () {
+                Array.prototype.forEach.call(reserveTypeOption, function (el) {
+                    if (el.innerText.match(/機場接送/) && el.selected) {
+                        airportBlock.style.display = 'block';
+                        carBlock.style.display = 'none';
+                    }
+                    if (el.innerText.match(/商務包車/) && el.selected) {
+                        carBlock.style.display = 'block';
+                        airportBlock.style.display = 'none';
+                    }
+                });
+            };
+
+            function showSelectReserveAirportType () {
+                Array.prototype.forEach.call(reserveAirportTypeOption, function (el) {
+                    if (el.selected) {
+                        airportTo.style.display = 'block';
+                        airportBack.style.display = 'block';
+
+                        if (el.innerText.match(/去程/)) {
+                            airportTo.style.display = 'block';
+                            airportBack.style.display = 'none';
+                        }
+                        if (el.innerText.match(/回程/)) {
+                            airportBack.style.display = 'block';
+                            airportTo.style.display = 'none';
+                        }
+                    }
+                });
+            };
+        })();
+    </script>
 @endsection
