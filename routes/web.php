@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('front/home', ['device' => 'desktop']);
 });
 
+Route::get('/reserve_car', function () {
+    return view('front/reserve_car', ['device' => 'desktop']);
+});
+
 
 Route::group(['middleware' => 'front'], function () {
 	Route::get('test/testroute', 'Test@testroute');
