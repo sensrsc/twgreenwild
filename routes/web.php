@@ -16,6 +16,12 @@ Route::get('/', function () {
 });
 
 
+Route::group(['middleware' => 'front'], function () {
+	Route::get('test/testroute', 'Test@testroute');
+
+
+});
+
 Route::get('test/paytest', 'Test@paytest');
 Route::get('test/payview', 'Test@payview');
 Route::get('test/paycredit', 'Test@paycredit');
@@ -25,6 +31,8 @@ Route::get('test/test', 'Test@test');
 
 Route::post('test/returnurl', 'Test@returnurl');
 Route::post('test/infourl', 'Test@infourl');
+
+
 
 
 Route::post('ecpay/returnurl', 'Ecpay@returnurl');
