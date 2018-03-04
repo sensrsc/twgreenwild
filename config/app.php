@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\FrontServiceProvider::class,
 
         /*
          * Application Service Providers...
