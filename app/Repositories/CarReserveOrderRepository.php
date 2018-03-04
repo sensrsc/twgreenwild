@@ -2,31 +2,36 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
+use App\Models\CarReserveOrder;
 use Schema;
 
-class CategoryRepository
+class CarReserveOrderRepository
 {
     protected $model;
 
-    public function __construct(Category $model)
+    public function __construct(CarReserveOrder $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $category                = new Category;
-        $category->c_title       = $datas['c_title'] ?? '';
-        $category->c_fee_body    = $datas['c_fee_body'] ?? '';
-        $category->c_issue_body  = $datas['c_issue_body'] ?? '';
-        $category->c_notice_body = $datas['c_notice_body'] ?? '';
-        $category->c_cancel_body = $datas['c_cancel_body'] ?? '';
-        $category->c_file        = $datas['c_file'] ?? '';
-        $category->c_status      = $datas['c_status'] ?? 1;
-        $category->save();
+        $cro                = new CarReserveOrder;
+        $cro->cro_type      = $datas['cro_type'] ?? '';
+        $cro->cro_city      = $datas['cro_city'] ?? '';
+        $cro->cro_district  = $datas['cro_district'] ?? '';
+        $cro->cro_address   = $datas['cro_address'] ?? '';
+        $cro->cro_car_model = $datas['cro_car_model'] ?? '';
+        $cro->cro_way       = $datas['cro_way'] ?? 1;
+        $cro->cro_adult     = $datas['cro_adult'] ?? 1;
+        $cro->cro_children  = $datas['cro_children'] ?? 1;
+        $cro->cro_detail    = $datas['cro_detail'] ?? '';
+        $cro->cro_est_fee   = $datas['cro_est_fee'] ?? 1;
+        $cro->cro_name      = $datas['cro_name'] ?? '';
+        $cro->cro_telno     = $datas['cro_telno'] ?? '';
+        $cro->save();
 
-        return $category->c_id;
+        return $cro->cro_id;
     }
 
     public function update($id, $datas)
@@ -52,7 +57,7 @@ class CategoryRepository
             foreach ($queryData as $field => $search) {
                 $isHave = Schema::hasColumn($this->model->getTable(), $field);
                 if ($isHave) {
-                    if (strpos($field, 'title') !== false) {
+                    if (strpos($field, 'name') !== false) {
                         $query->where($field, "LIKE", '%' . $search . '%');
                     } else if ($search) {
                         $query->where($field, $search);
@@ -61,18 +66,14 @@ class CategoryRepository
             }
         }
 
+        $query->orderBy('cro_created', 'desc');
+        
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);
         }
 
         return $lists;
-    }
-
-    public function getAll($columns = null)
-    {
-        return $this->model->where('c_status', 1)
-            ->get($columns);
     }
 
 }

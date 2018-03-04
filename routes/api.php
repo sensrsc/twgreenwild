@@ -25,3 +25,6 @@ Route::resource('category', 'Api\Category', ['except' => [
 Route::resource('tour', 'Api\Tour', ['except' => [
     'create', 'store', 'update', 'destroy'
 ]]);
+
+Route::get('carreserve/carmodel', 'Api\\CarReserve@carmodel');
+Route::get('carreserve/calculate', 'Api\\CarReserve@calculate');
