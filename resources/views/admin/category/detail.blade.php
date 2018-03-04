@@ -78,6 +78,74 @@
 									</div>
 	                           	</div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="control-label col-md-2">費用包含：</div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="input-icon right">
+                                                    <textarea name="c_fee_body" id="c_fee_body"
+                                                        class="form-control todo-taskbody-taskdesc" rows="8"
+                                                        placeholder="費用包含">{{ isset($data->c_fee_body) ? $data->c_fee_body : '' }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="control-label col-md-2">常見問題：</div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="input-icon right">
+                                                    <textarea name="c_issue_body" id="c_issue_body"
+                                                        class="form-control todo-taskbody-taskdesc" rows="8"
+                                                        placeholder="常見問題">{{ isset($data->c_issue_body) ? $data->c_issue_body : '' }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="control-label col-md-2">注意事項：</div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="input-icon right">
+                                                    <textarea name="c_notice_body" id="c_notice_body"
+                                                        class="form-control todo-taskbody-taskdesc" rows="8"
+                                                        placeholder="注意事項">{{ isset($data->c_notice_body) ? $data->c_notice_body : '' }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="control-label col-md-2">取消辦法：</div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="input-icon right">
+                                                    <textarea name="c_cancel_body" id="c_cancel_body"
+                                                        class="form-control todo-taskbody-taskdesc" rows="8"
+                                                        placeholder="取消辦法">{{ isset($data->c_cancel_body) ? $data->c_cancel_body : '' }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 							
 							<div class="row" id="description_block">
 								@if (!empty($descriptions) && $descriptions->count() > 0)
@@ -113,5 +181,6 @@
 @section('js_script')
     <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
     <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+    <script src="/js/ckeditor/ckeditor.js"></script>
     <script src="/assets/apps/scripts/admin/category.js"></script>
 @endsection

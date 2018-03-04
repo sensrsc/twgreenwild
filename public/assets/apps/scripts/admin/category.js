@@ -1,6 +1,20 @@
 var Category = function() {
 
     var handleCategory = function() {
+        var finder_config = {
+            baseFloatZIndex:30000,
+            filebrowserBrowseUrl : '/js/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl: '/js/ckfinder/ckfinder.html?type=Images',
+            filebrowserFlashBrowseUrl : '/js/ckfinder/ckfinder.html?type=Flash',
+            filebrowserUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+            filebrowserFlashUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+        };
+
+        CKEDITOR.replace('c_fee_body', finder_config);
+        CKEDITOR.replace('c_issue_body', finder_config);
+        CKEDITOR.replace('c_notice_body', finder_config);
+        CKEDITOR.replace('c_cancel_body', finder_config);
     	
         $('#data-form').validate({
             errorElement: 'span', //default input error message container
@@ -47,6 +61,10 @@ var Category = function() {
                     url += 'ajaxUpdate/' + $('[name=c_id]').val();
                 }else {
                     url += 'ajaxAdd'
+                }
+
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].updateElement();
                 }
 
                 var formData = new FormData($('form')[0]);

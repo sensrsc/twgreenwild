@@ -2,8 +2,7 @@ var News = function() {
 
     var handleNews = function() {
 
-        var body = CKEDITOR.replace('n_content',
-        {
+        var finder_config = {
             baseFloatZIndex:30000,
             filebrowserBrowseUrl : '/js/ckfinder/ckfinder.html',
             filebrowserImageBrowseUrl: '/js/ckfinder/ckfinder.html?type=Images',
@@ -11,7 +10,10 @@ var News = function() {
             filebrowserUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
             filebrowserImageUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
             filebrowserFlashUploadUrl : '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
-        });
+        };
+
+        var body = CKEDITOR.replace('n_content', finder_config);
+
     	
         $('#data-form').validate({
             errorElement: 'span', //default input error message container

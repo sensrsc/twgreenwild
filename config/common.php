@@ -41,6 +41,7 @@ return [
         '2' => '證照',
         '3' => '經歷',
     ],
+    'header_cache_key' => 'front_header_cache_key',
     'menu'         => [
         'admin'    => [
             'title'      => '管理者管理',
@@ -82,15 +83,15 @@ return [
             'icon_class' => 'icon-home',
             'link'       => '/admin/coach',
         ],
-        // 'notestype'  => [
-        //     'title'      => '活動筆記類型管理',
-        //     'icon_class' => 'icon-home',
-        //     'link'       => '/admin/notestype',
-        // ],
         'notes'  => [
             'title'      => '活動筆記管理',
             'icon_class' => 'icon-home',
             'link'       => '/admin/notes',
+        ],
+        'reserveorder'  => [
+            'title'      => '預約叫車訂單',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/reserveorder',
         ],
         'system'   => [
             'title'      => '系統變數管理',

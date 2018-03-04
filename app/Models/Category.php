@@ -15,5 +15,5 @@ class Category extends Model
 
     protected $primaryKey = 'c_id';
 
-    protected $fillable = ['c_title', 'c_file', 'c_status'];
+    protected $fillable = ['c_title', 'c_file', 'c_fee_body', 'c_issue_body', 'c_notice_body', 'c_cancel_body', 'c_status'];
 }

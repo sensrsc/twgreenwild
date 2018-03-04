@@ -152,6 +152,25 @@
 							</div>
 
 							<div class="form-group">
+								<div class="col-md-6">
+									<div class="control-label col-md-3">平日價格：</div>
+									<div class="col-md-9">
+										<div class="input-icon right">
+											<input type="number" min="0" placeholder="平日價格" class="form-control" name="t_weekday_price" value="{{ isset($data->t_weekday_price)? $data->t_weekday_price : '' }}" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="control-label col-md-3">優惠價格：</div>
+									<div class="col-md-9">
+										<div class="input-icon right">
+											<input type="number" min="0" placeholder="優惠價格" class="form-control" name="t_discount_price" value="{{ isset($data->t_discount_price)? $data->t_discount_price : '' }}" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
 								<div class="col-md-12">
 									<div class="control-label col-md-2"> 行程說明：</div>
 									<div class="col-md-10">

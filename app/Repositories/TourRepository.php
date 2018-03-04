@@ -21,18 +21,20 @@ class TourRepository
 
     public function insert($datas)
     {
-        $tour                = new Tour;
-        $tour->t_title       = $datas['t_title'] ?? '';
-        $tour->t_description = $datas['t_description'] ?? '';
-        $tour->t_status      = ($datas['t_status'] && $datas['t_price'] <= 1) ? 0 : 1;
-        $tour->t_price       = $datas['t_price'] ?? 1;
-        $tour->min_people    = $datas['min_people'] ?? 1;
-        $tour->full_people   = $datas['full_people'] ?? 1;
-        $tour->days_apply    = $datas['days_apply'] ?? 1;
-        $tour->c_id          = $datas['c_id'];
-        $tour->area_id       = $datas['area_id'];
-        $tour->cl_id         = $datas['cl_id'];
-        $tour->a_id          = $datas['a_id'];
+        $tour                   = new Tour;
+        $tour->t_title          = $datas['t_title'] ?? '';
+        $tour->t_description    = $datas['t_description'] ?? '';
+        $tour->t_status         = ($datas['t_status'] && $datas['t_price'] <= 1) ? 0 : $datas['t_status'];
+        $tour->t_price          = $datas['t_price'] ?? 1;
+        $tour->t_weekday_price  = $datas['t_weekday_price'] ?? 1;
+        $tour->t_discount_price = $datas['t_discount_price'] ?? 1;
+        $tour->min_people       = $datas['min_people'] ?? 1;
+        $tour->full_people      = $datas['full_people'] ?? 1;
+        $tour->days_apply       = $datas['days_apply'] ?? 1;
+        $tour->c_id             = $datas['c_id'];
+        $tour->area_id          = $datas['area_id'];
+        $tour->cl_id            = $datas['cl_id'];
+        $tour->a_id             = $datas['a_id'];
         $tour->save();
 
         return $tour->t_id;
@@ -66,7 +68,7 @@ class TourRepository
                     } else if ($search) {
                         $query->where($field, $search);
                     }
-                } 
+                }
             }
         }
 
