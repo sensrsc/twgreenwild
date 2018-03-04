@@ -21,8 +21,20 @@ Route::get('/reserve_car', function () {
 
 
 Route::group(['middleware' => 'front'], function () {
-	Route::get('test/testroute', 'Test@testroute');
+	Route::get('activities', 'Activities@index');
 
+	Route::get('activity', 'Activity@index');
+
+	Route::get('register', 'Register@index');
+
+	Route::get('login', 'Login@index');
+
+	Route::get('member', 'Member@index');
+	Route::get('member/order', 'Member@order');
+
+
+
+	Route::get('test/testroute', 'Test@testroute');
 
 });
 
@@ -32,6 +44,7 @@ Route::get('test/paycredit', 'Test@paycredit');
 Route::get('test/payatm', 'Test@payatm');
 Route::get('test/checkmac', 'Test@checkmac');
 Route::get('test/test', 'Test@test');
+Route::get('test/modeltest', 'Test@modeltest');
 
 Route::post('test/returnurl', 'Test@returnurl');
 Route::post('test/infourl', 'Test@infourl');
@@ -144,6 +157,12 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::post('notes/ajaxAdd', 'Admin\\Notes@ajaxAdd');
 		Route::post('notes/ajaxUpdate/{id}', 'Admin\\Notes@ajaxUpdate');
 		Route::post('notes/ajaxDelete', 'Admin\\Notes@ajaxDelete');
+
+
+		// 預約叫車
+		Route::get('reserveorder', 'Admin\\ReserveOrder@index');
+		Route::get('reserveorder/info/{id}', 'Admin\\ReserveOrder@info');
+		
 
 		
 		// 系統變數
