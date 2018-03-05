@@ -17,5 +17,8 @@ class Category extends Model
 
     protected $fillable = ['c_title', 'c_file', 'c_fee_body', 'c_issue_body', 'c_notice_body', 'c_cancel_body', 'c_status'];
 
-    
+    public function levels()
+    {
+    	return $this->hasMany('App\Models\CategoryLevel', 'c_id', 'c_id')->where('cl_status', 1);
+    }
 }

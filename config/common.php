@@ -41,7 +41,8 @@ return [
         '2' => '證照',
         '3' => '經歷',
     ],
-    'header_cache_key' => 'front_header_cache_key',
+    'category_cache_key' => 'front_category_cache_key',
+    'area_cache_key' => 'front_area_cache_key',
     'menu'         => [
         'admin'    => [
             'title'      => '管理者管理',
