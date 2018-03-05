@@ -148,8 +148,20 @@
             <!-- 機場接送回程選項 end -->
         </div>
         <!-- 機場接送選項 end -->
+        <p>
+            <span>姓名</span>
+            <input type="text">
+        </p>
+        <p>
+            <span>電話</span>
+            <input type="text">
+        </p>
 
-        <!-- 商務包車選項 -->
+        <input type="button" value="送出預約">
+    </form>
+
+    <!-- 商務包車選項 -->
+    <form>
         <div id="car-block" class="car-block">
             <p>
                 <span>日期</span>
@@ -190,28 +202,25 @@
                 <input type="text">
             </p>
             <p>
-                <span>上車地址</span>
-                <select class="city">
-                    <option value="" selected disabled hidden>都市</option>
-                </select>
-                <select class="area">
-                    <option value="" selected disabled hidden>行政區</option>
+                <span>車型</span>
+                <select class="car">
+                    <option value="" selected disabled hidden>車型</option>
                 </select>
             </p>
+            <p>
+                <span>姓名</span>
+                <input type="text">
+            </p>
+            <p>
+                <span>電話</span>
+                <input type="text">
+            </p>
+
+            <input type="button" value="送出預約">
         </div>
         <!-- 商務包車 end -->
-
-        <p>
-            <span>姓名</span>
-            <input type="text">
-        </p>
-        <p>
-            <span>電話</span>
-            <input type="text">
-        </p>
-
-        <input type="button" value="送出預約">
     </form>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script>
         (function () {
@@ -315,7 +324,7 @@
                         var optionsStr = res.data.data.map(function (value, key) {
                             return '<option value="' + value.cr_id + '">' + value.cr_model + '</option>';
                         });
-                        
+
                         carSelects[areaSelectIndex].insertAdjacentHTML('beforeEnd', optionsStr);
 
                     }).catch(function (error) {
