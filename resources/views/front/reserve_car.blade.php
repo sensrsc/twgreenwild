@@ -84,6 +84,9 @@
                     <select class="area">
                         <option value="" selected disabled hidden>行政區</option>
                     </select>
+                    <select class="car">
+                        <option value="" selected disabled hidden>車型</option>
+                    </select>
                 </p>
             </div>
             <!-- 機場接送去程選項 end -->
@@ -209,7 +212,7 @@
 
         <input type="button" value="送出預約">
     </form>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script>
         (function () {
             var reserveType = document.querySelector('#reserve-type'),
@@ -221,7 +224,8 @@
                 airportTo = document.querySelector('#airport-block__to'),
                 airportBack = document.querySelector('#airport-block__back'),
                 citySelects = document.querySelectorAll('.city'),
-                areaSelects = document.querySelectorAll('.area');
+                areaSelects = document.querySelectorAll('.area'),
+                carSelects = document.querySelectorAll('.car');
 
             reserveType.addEventListener('change', function () {
                 showSelectReserveType();
@@ -297,6 +301,25 @@
 
                             currentAreaSelect.insertAdjacentHTML('beforeEnd', optionsStr);
                         }
+                    });
+
+                });
+            });
+
+            // 取得車型
+            Array.prototype.forEach.call(areaSelects, function (areaSelect, areaSelectIndex) {
+
+                areaSelect.addEventListener('change', function (e) {
+                    axios.get('/api/carreserve/carmodel?city=' + citySelects[areaSelectIndex].value).then(function (res) {
+
+                        var optionsStr = res.data.data.map(function (value, key) {
+                            return '<option value="' + value.cr_id + '">' + value.cr_model + '</option>';
+                        });
+                        
+                        carSelects[areaSelectIndex].insertAdjacentHTML('beforeEnd', optionsStr);
+
+                    }).catch(function (error) {
+                        console.log(error);
                     });
 
                 });
