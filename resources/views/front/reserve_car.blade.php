@@ -207,9 +207,19 @@
             </p>
             <p>
                 <span>車型</span>
-                <select class="car">
+                <select class="city">
+                    <option value="" selected disabled hidden>都市</option>
+                </select>
+                <select class="area">
+                    <option value="" selected disabled hidden>行政區</option>
+                </select>
+                <select class="car" id="car-all-day">
                     <option value="" selected disabled hidden>車型</option>
                 </select>
+            </p>
+            <p>
+                <span>價格:</span>
+                <span id="price-all-day">0</span>
             </p>
             <p>
                 <span>姓名</span>
@@ -349,6 +359,19 @@
                     });
 
                 });
+            });
+
+            
+            // 商務包車取得價格
+            document.querySelector('#car-all-day').addEventListener('change', function (e) {
+
+                axios.get('/api/carreserve/calculate?type=all_day&model=' + e.target.value).then(function (res) {
+                        console.log(res)
+                        document.querySelector('#price-all-day').innerText = res.data.price;
+
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
             });
 
         })();
