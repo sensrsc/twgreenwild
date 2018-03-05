@@ -42,7 +42,6 @@ class FrontServiceProvider extends ServiceProvider
             $areas = $this->areaRepository->getAll($columns)->toArray();
             // Cache::put(config('common.area_cache_key'), $activities, 30);
         }
-        var_dump($areas);
         View::share('areas', $areas);
 
         // 分類
