@@ -84,9 +84,13 @@
                     <select class="area">
                         <option value="" selected disabled hidden>行政區</option>
                     </select>
-                    <select class="car">
+                    <select class="car" id="car-airport">
                         <option value="" selected disabled hidden>車型</option>
                     </select>
+                </p>
+                <p>
+                    <span>價格:</span>
+                    <span id="price-airport">0</span>
                 </p>
             </div>
             <!-- 機場接送去程選項 end -->
@@ -322,10 +326,23 @@
                     axios.get('/api/carreserve/carmodel?city=' + citySelects[areaSelectIndex].value).then(function (res) {
 
                         var optionsStr = res.data.data.map(function (value, key) {
-                            return '<option value="' + value.cr_id + '">' + value.cr_model + '</option>';
+                            return '<option value="' + value.cr_model + '">' + value.cr_model + '</option>';
                         });
 
                         carSelects[areaSelectIndex].insertAdjacentHTML('beforeEnd', optionsStr);
+
+
+                        // 機場接送取得價格
+                        document.querySelector('#car-airport').addEventListener('change', function (e) {
+
+                            axios.get('/api/carreserve/calculate?type=airport&model=' + e.target.value + '&city=' + citySelects[areaSelectIndex].value + '&district=' + areaSelect.value).then(function (res) {
+
+                                    document.querySelector('#price-airport').innerText = res.data.price;
+
+                                }).catch(function (error) {
+                                    console.log(error);
+                                });
+                        });
 
                     }).catch(function (error) {
                         console.log(error);
