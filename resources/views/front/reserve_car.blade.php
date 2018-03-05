@@ -90,7 +90,7 @@
                 </p>
                 <p>
                     <span>價格:</span>
-                    <span id="price-airport">0</span>
+                    <span class="price" id="price-airport">0</span>
                 </p>
             </div>
             <!-- 機場接送去程選項 end -->
@@ -219,7 +219,7 @@
             </p>
             <p>
                 <span>價格:</span>
-                <span id="price-all-day">0</span>
+                <span class="price" id="price-all-day">0</span>
             </p>
             <p>
                 <span>姓名</span>
@@ -248,7 +248,8 @@
                 airportBack = document.querySelector('#airport-block__back'),
                 citySelects = document.querySelectorAll('.city'),
                 areaSelects = document.querySelectorAll('.area'),
-                carSelects = document.querySelectorAll('.car');
+                carSelects = document.querySelectorAll('.car'),
+                prices = document.querySelectorAll('.price');
 
             reserveType.addEventListener('change', function () {
                 showSelectReserveType();
@@ -325,6 +326,10 @@
                             currentAreaSelect.insertAdjacentHTML('beforeEnd', optionsStr);
                         }
                     });
+                    
+
+                    carSelects[citySelectIndex].innerHTML = '<option value="" selected disabled hidden>車型</option>';
+                    prices[citySelectIndex].innerText = 0;
 
                 });
             });
@@ -335,9 +340,14 @@
                 areaSelect.addEventListener('change', function (e) {
                     axios.get('/api/carreserve/carmodel?city=' + citySelects[areaSelectIndex].value).then(function (res) {
 
+                        carSelects[areaSelectIndex].innerText = '';
+                        prices[areaSelectIndex].innerText = 0;
+
                         var optionsStr = res.data.data.map(function (value, key) {
                             return '<option value="' + value.cr_model + '">' + value.cr_model + '</option>';
                         });
+
+                        optionsStr = '<option value="" selected disabled hidden>車型</option>'.concat(optionsStr);
 
                         carSelects[areaSelectIndex].insertAdjacentHTML('beforeEnd', optionsStr);
 
