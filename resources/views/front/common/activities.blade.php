@@ -1,5 +1,7 @@
 <section class="activities">
-    <h2 class="section-title">{{ $section_title }}</h2>
+    @if ($section_title)
+        <h2 class="section-title">{{ $section_title }}</h2>
+    @endif
     @foreach ($activities as $activity)
         <div class="activity">
             <div class="info">
