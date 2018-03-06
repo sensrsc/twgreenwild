@@ -1,22 +1,57 @@
 @extends('front.common.base')
 @section('title', '預約叫車')
 @section('content')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         .car-block,
         .airport-block__back {
             display: none;
         }
+        .bd-example {
+            position: relative;
+            padding: 1rem;
+            border: solid #f7f7f9;
+            border-width: .2rem 0 0;
+        }
+        .bd-example p {
+            color: #818181;
+        }
+        .bd-example input, 
+        .bd-example select {
+            color: #818181;
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .bd-example select {
+            height: calc(2.25rem + 2px);
+        }
+        .bd-example option {
+            font-weight: normal;
+            display: block;
+            white-space: pre;
+            min-height: 1.2em;
+            padding: 0px 2px 1px;
+        }
     </style>
-    <form>
-        <p>
-            <span>類型</span>
-            <select id="reserve-type">
-                <option value="airport">機場接送</option>
-                <option value="car">商務包車</option>
-            </select>
-        </p>
+    <div class="bd-example">
+        <span>類型</span>
+        <select id="reserve-type">
+            <option value="airport">機場接送</option>
+            <option value="car">商務包車</option>
+        </select>
+    </div>
+    <form id="airport-block" class="bd-example airport-block">
+        
         <!-- 機場接送選項 -->
-        <div id="airport-block" class="airport-block">
+        <div class="airport-block">
             <p>
                 <span>選項</span>
                 <select id="reserve-airport-type">
@@ -148,25 +183,27 @@
                     <span>預約時間</span>
                     <input type="text">
                 </p>
+
             </div>
             <!-- 機場接送回程選項 end -->
+            <p>
+                <span>姓名</span>
+                <input type="text">
+            </p>
+            <p>
+                <span>電話</span>
+                <input type="text">
+            </p>
+
+            <input class="btn btn-light" type="button" value="送出預約">
         </div>
         <!-- 機場接送選項 end -->
-        <p>
-            <span>姓名</span>
-            <input type="text">
-        </p>
-        <p>
-            <span>電話</span>
-            <input type="text">
-        </p>
-
-        <input type="button" value="送出預約">
+        
     </form>
 
     <!-- 商務包車選項 -->
-    <form>
-        <div id="car-block" class="car-block">
+    <form id="car-block" class="bd-example car-block">
+        <div>
             <p>
                 <span>日期</span>
                 <span>
@@ -230,7 +267,7 @@
                 <input type="text">
             </p>
 
-            <input type="button" value="送出預約">
+            <input class="btn btn-light" type="button" value="送出預約">
         </div>
         <!-- 商務包車 end -->
     </form>
