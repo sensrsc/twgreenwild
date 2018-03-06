@@ -8,8 +8,9 @@ class Activities extends Controller
 {
     //
 
-    public function index()
+    public function index(Request $request, $id)
     {
-    	echo 'in activities';
+    	
+    	return view('front.activities');
     }
 }
