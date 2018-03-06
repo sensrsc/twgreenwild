@@ -289,7 +289,8 @@
                 citySelects = document.querySelectorAll('.city'),
                 areaSelects = document.querySelectorAll('.area'),
                 carSelects = document.querySelectorAll('.car'),
-                prices = document.querySelectorAll('.price');
+                prices = document.querySelectorAll('.price'),
+                priceAirport = document.querySelector('#price-airport');
 
             reserveType.addEventListener('change', function () {
                 showSelectReserveType();
@@ -311,6 +312,8 @@
                 });
             };
 
+            var selectAll = false;
+
             function showSelectReserveAirportType () {
                 Array.prototype.forEach.call(reserveAirportTypeOption, function (el) {
                     if (el.selected) {
@@ -324,6 +327,15 @@
                         if (el.innerText.match(/回程/)) {
                             airportBack.style.display = 'block';
                             airportTo.style.display = 'none';
+                        }
+                        if (el.innerText.match(/來回/)) {
+                            priceAirport.innerText = priceAirport.innerText * 2;
+                                selectAll = true;
+                        }
+
+                        if (selectAll && !el.innerText.match(/來回/)) {
+                            priceAirport.innerText = priceAirport.innerText / 2;
+                            selectAll = false;
                         }
                     }
                 });
@@ -400,6 +412,10 @@
                             axios.get('/api/carreserve/calculate?type=airport&model=' + e.target.value + '&city=' + citySelects[areaSelectIndex].value + '&district=' + areaSelect.value).then(function (res) {
 
                                     document.querySelector('#price-airport').innerText = res.data.price;
+
+                                    if (selectAll) {
+                                        document.querySelector('#price-airport').innerText = res.data.price * 2;
+                                    }
 
                                 }).catch(function (error) {
                                     console.log(error);
