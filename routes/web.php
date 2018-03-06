@@ -11,14 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('front/home', ['device' => 'desktop']);
-});
+// Route::get('/', function () {
+//     return view('front/home', ['device' => 'desktop']);
+// });
 
 Route::get('/reserve_car', function () {
     return view('front/reserve_car', ['device' => 'desktop']);
 });
 
+
+Route::get('/', 'Index@index');
 
 Route::group(['middleware' => 'front'], function () {
 	Route::get('activities', 'Activities@index');
@@ -129,6 +131,7 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('tour/detail/{id}', 'Admin\\Tour@detail');
 		Route::post('tour/ajaxAdd', 'Admin\\Tour@ajaxAdd');
 		Route::post('tour/ajaxUpdate/{id}', 'Admin\\Tour@ajaxUpdate');
+		Route::post('tour/ajaxRecommend/{id}', 'Admin\\Tour@ajaxRecommend');
 		// 行程不接單
 		Route::get('tour/notaccept/{id}', 'Admin\\Tour@notaccept');
 		Route::post('tour/ajaxUpdateDate/{id}', 'Admin\\Tour@ajaxUpdateNotAccept');
