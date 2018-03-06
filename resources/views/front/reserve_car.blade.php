@@ -243,14 +243,17 @@
                 <input type="text">
             </p>
             <p>
-                <span>車型</span>
+                <span>上車地點</span>
                 <select class="city">
                     <option value="" selected disabled hidden>都市</option>
                 </select>
                 <select class="area">
                     <option value="" selected disabled hidden>行政區</option>
                 </select>
-                <select class="car" id="car-all-day">
+            </p>
+            <p>
+                <span>車型</span>
+                <select id="car-all-day">
                     <option value="" selected disabled hidden>車型</option>
                 </select>
             </p>
@@ -364,9 +367,11 @@
                         }
                     });
                     
-
-                    carSelects[citySelectIndex].innerHTML = '<option value="" selected disabled hidden>車型</option>';
-                    prices[citySelectIndex].innerText = 0;
+                    if (carSelects[citySelectIndex]) {
+                        carSelects[citySelectIndex].innerHTML = '<option value="" selected disabled hidden>車型</option>';
+                    
+                        prices[citySelectIndex].innerText = 0;
+                    }
 
                 });
             });
