@@ -13,10 +13,10 @@ var Login = function() {
                 password: {
                     required: true
                 },
-                check_code: {
-                    required: true,
-                    minlength: 6
-                }
+                // check_code: {
+                //     required: true,
+                //     minlength: 6
+                // }
             },
 
             messages: {
@@ -26,10 +26,10 @@ var Login = function() {
                 password: {
                     required: '請輸入密碼'
                 },
-                check_code: {
-                    required: '請輸入驗證碼',
-                    minlength: '請輸入6個字元',
-                }
+                // check_code: {
+                //     required: '請輸入驗證碼',
+                //     minlength: '請輸入6個字元',
+                // }
             },
 
             invalidHandler: function(event, validator) { //display error alert on form submit   
