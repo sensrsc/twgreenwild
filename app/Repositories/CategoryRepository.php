@@ -78,9 +78,8 @@ class CategoryRepository
     public function getAllWithLevel($columns = null)
     {
         return $this->model->where('c_status', 1)
-            ->with('levels')
+            ->with('levels:cl_id,c_id,cl_title')
             ->get($columns);
-        // return Category::where('c_status', 1)->with('levels:cl_id as id,cl_title as title')->get();
     }
 
 }
