@@ -59,8 +59,14 @@
             </div>
         </div>
         <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>季節推薦設定數量： <span id="season_num">{{ isset($seasonFlagNum)? $seasonFlagNum : 0 }}</span></p>
+                    <p>熱門活動設定數量： <span id="hot_num">{{ isset($hotFlagNum)? $hotFlagNum : 0 }}</span></p>
+                </div>
+            </div>
             <div class="dataTables_wrapper no-footer">
-                <div class="table-scrollable">
+                <div class="table-scrollable table-responsive">
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
                             <tr>
@@ -71,6 +77,7 @@
                                 <th>不接單開始日</th>
                                 <th>不接單結束日</th>
                                 <th>修改時間</th>
+                                <th>首頁設定</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -98,6 +105,12 @@
                                     </td>
                                     <td>
                                         {{ $list['updated_at'] }}
+                                    </td>
+                                    <td>
+                                        <select name="tour_set" data-id="{{ $list['t_id'] }}" multiple="multiple">
+                                            <option value="season" {{ $list['season_flag'] == 1? 'selected' : '' }}>季節</option>
+                                            <option value="hot" {{ $list['hot_flag'] == 1? 'selected' : '' }}>熱門</option>
+                                        </select>
                                     </td>
                                     <td>
                                         <a href="/admin/tour/detail/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
@@ -149,4 +162,20 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+@endsection
+
+
+@section('css_link')
+    <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <style>
+        .table-responsive {
+          overflow-x: visible !important;
+          overflow-y: visible !important;
+        }
+    </style>
+@endsection
+
+@section('js_script')
+    <script src="/assets/global/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+    <script src="/assets/apps/scripts/admin/tour_list.js"></script>
 @endsection
