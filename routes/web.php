@@ -15,12 +15,13 @@
 //     return view('front/home', ['device' => 'desktop']);
 // });
 
-Route::get('/reserve_car', function () {
-    return view('front/reserve_car', ['device' => 'desktop']);
-});
+// Route::get('/reserve_car', function () {
+//     return view('front/reserve_car', ['device' => 'desktop']);
+// });
 
 
 Route::get('/', 'Index@index');
+Route::get('/reserve_car', 'Reserve@index');
 
 Route::group(['middleware' => 'front'], function () {
 	Route::get('activities/{id}', 'Activities@index');
@@ -74,6 +75,15 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::get('admin/detail/{id}', 'Admin\\Admin@detail');
 		Route::post('admin/ajaxAdd', 'Admin\\Admin@ajaxAdd');
 		Route::post('admin/ajaxUpdate/{id}', 'Admin\\Admin@ajaxUpdate');
+
+		// 首頁輪播
+		Route::get('slide', 'Admin\\Slide@index');
+		Route::get('slide/add', 'Admin\\Slide@add');
+		Route::get('slide/detail/{id}', 'Admin\\Slide@detail');
+		Route::post('slide/ajaxAdd', 'Admin\\Slide@ajaxAdd');
+		Route::post('slide/ajaxUpdate/{id}', 'Admin\\Slide@ajaxUpdate');
+		Route::post('slide/ajaxDelete', 'Admin\\Slide@ajaxDelete');
+
 
 		// 行程分類
 		Route::get('category', 'Admin\\Category@index');

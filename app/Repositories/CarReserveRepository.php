@@ -69,6 +69,13 @@ class CarReserveRepository
         return $lists;
     }
 
+    public function getAllDayModel()
+    {
+        $models = $this->model->where('cr_type', '=', 'all_day')
+                            ->get();
+        return $models;
+    }
+
     public function getModelByCity($city)
     {
         $models = $this->model->where('cr_type', '=', 'city')
