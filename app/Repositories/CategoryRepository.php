@@ -80,6 +80,7 @@ class CategoryRepository
         return $this->model->where('c_status', 1)
             ->with('levels')
             ->get($columns);
+        // return Category::where('c_status', 1)->with('levels:cl_id as id,cl_title as title')->get();
     }
 
 }
