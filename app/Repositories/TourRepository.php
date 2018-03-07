@@ -151,7 +151,6 @@ class TourRepository
     public function getByRecommendJoin($type)
     {
         $column = ($type == 'hot')? 'tour.hot_flag' : 'tour.season_flag';
-        $sectionTitle = ($type == 'hot')? '熱門活動' : '季節推薦';
         $tours = $this->model->where($column, 1)
                     ->where('tour.t_status', 1)
                     ->join('category', 'tour.c_id', '=', 'category.c_id')
@@ -166,7 +165,7 @@ class TourRepository
             return $tour;
         });
 
-        return ['section_title' => '季節推薦', 'activities' => $tours->toArray()];
+        return $tours->toArray();
     }
 
 }

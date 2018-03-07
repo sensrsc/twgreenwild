@@ -10,7 +10,7 @@
                 <p class="desc">{{ $activity['type'] }} · {{ $activity['region'] }}</p>
             </div>
             <img class="cover" src="{{ $activity['cover'] }}">
-            <p class="price"><span>TWD.</span>{{ $activity['price'] }}7</p>
+            <p class="price"><span>TWD.</span>{{ $activity['price'] }}</p>
         </div>
     @endforeach
 </section>
