@@ -27,9 +27,13 @@ Route::group(['middleware' => 'front'], function () {
 
 	Route::get('activity', 'Activity@index');
 
-	Route::get('register', 'Register@index');
+	Route::get('register', function () {
+		return view('front/register');
+	});
 
-	Route::get('login', 'Login@index');
+	Route::get('login', function () {
+		return view('front/login');
+	});
 
 	Route::get('member', 'Member@index');
 	Route::get('member/order', 'Member@order');
