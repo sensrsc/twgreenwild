@@ -37,6 +37,10 @@ Route::group(['middleware' => 'front'], function () {
 		return view('front/login');
 	});
 
+	Route::get('member/info', function () {
+		return view('front/member_info');
+	});
+
 	Route::get('member', 'Member@index');
 	Route::get('member/order', 'Member@order');
 
