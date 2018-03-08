@@ -30,6 +30,7 @@ class CarReserveOrderRepository
         $cro->cro_name      = $datas['cro_name'] ?? '';
         $cro->cro_telno     = $datas['cro_telno'] ?? '';
         $cro->cro_email     = $datas['cro_email'] ?? '';
+        $cro->order_id      = $datas['order_id'] ?? '';
         $cro->save();
 
         return $cro->cro_id;
@@ -68,7 +69,7 @@ class CarReserveOrderRepository
         }
 
         $query->orderBy('cro_created', 'desc');
-        
+
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);
