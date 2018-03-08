@@ -22,6 +22,7 @@
 
 Route::get('/', 'Index@index');
 Route::get('/reserve_car', 'Reserve@index');
+Route::post('/reserve/create', 'Reserve@createReserve');
 
 Route::group(['middleware' => 'front'], function () {
 	Route::get('activities/{id}', 'Activities@index');

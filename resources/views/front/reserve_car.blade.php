@@ -43,21 +43,21 @@
     </style>
     <div class="bd-example">
         <span>類型</span>
-        <select id="reserve-type">
+        <select name="type" id="reserve-type">
             <option value="airport">機場接送</option>
             <option value="car">商務包車</option>
         </select>
     </div>
     <form id="airport-block" class="bd-example airport-block">
-        
+        {{ csrf_field() }}
         <!-- 機場接送選項 -->
         <div class="airport-block">
             <p>
                 <span>選項</span>
-                <select id="reserve-airport-type">
-                    <option>去程</option>
-                    <option>回程</option>
-                    <option>來回</option>
+                <select name="way" id="reserve-airport-type">
+                    <option value="去程">去程</option>
+                    <option value="回程">回程</option>
+                    <option value="來回">來回</option>
                 </select>
             </p>
 
@@ -66,22 +66,22 @@
                 <p>
                     <span>人數</span>
                     <span>
-                        <input type="number" value="1">大人
-                        <input type="number" value="1">小孩
+                        <input name="go_adult" type="number" value="1">大人
+                        <input name="go_children" type="number" value="1">小孩
                     </span>
                 </p>
                 <p>
                     <span>去程日期</span>
                     <span>
-                        <select>
+                        <select name="date_go_year">
                             <option value="" selected disabled hidden>年</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
+                            @for ($i = 0; $i < 3; $i++)
+                                <option value="{{ date('Y') + $i }}">{{ date('Y') + $i }}</option>
+                            @endfor
                         </select>
                     </span>
                     <span>
-                            <select>
+                            <select name="date_go_month">
                                 <option value="" selected disabled hidden>月</option>
                                 @for ($month = 1; $month <= 12; $month++)
                                     <option value="{{ $month }}">{{ $month }}</option>
@@ -89,7 +89,7 @@
                             </select>
                     </span>
                     <span>
-                            <select>
+                            <select name="date_go_day">
                                 <option value="" selected disabled hidden>日</option>
                                 @for ($day = 1; $day <= 31; $day++)
                                     <option value="{{ $day }}">{{ $day }}</option>
@@ -101,7 +101,7 @@
                     <span>機場</span>
                     <span>
                         桃園國際機場
-                        <select>
+                        <select name="airport_go">
                             <option value="第一航廈" selected>第一航廈</option>
                             <option value="第二航廈">第二航廈</option>
                         </select>
@@ -109,19 +109,23 @@
                 </p>
                 <p>
                     <span>上車時間</span>
-                    <input type="text">
+                    <input name="time_go" type="text">
                 </p>
                 <p>
                     <span>上車地址</span>
-                    <select class="city">
+                    <select name="city" class="city">
                         <option value="" selected disabled hidden>都市</option>
                     </select>
-                    <select class="area">
+                    <select name="district" class="area">
                         <option value="" selected disabled hidden>行政區</option>
                     </select>
-                    <select class="car" id="car-airport">
+                    <select name="model" class="car" id="car-airport">
                         <option value="" selected disabled hidden>車型</option>
                     </select>
+                </p>
+                <p>
+                    <span>地址</span>
+                    <input name="address" type="text">
                 </p>
                 <p>
                     <span>價格:</span>
@@ -134,15 +138,15 @@
                 <p>
                     <span>回程日期</span>
                     <span>
-                        <select>
+                        <select name="date_back_year">
                             <option value="" selected disabled hidden>年</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
+                            @for ($i = 0; $i < 3; $i++)
+                                <option value="{{ date('Y') + $i }}">{{ date('Y') + $i }}</option>
+                            @endfor
                         </select>
                     </span>
                     <span>
-                            <select>
+                            <select name="date_back_month">
                                 <option value="" selected disabled hidden>月</option>
                                 @for ($month = 1; $month <= 12; $month++)
                                     <option value="{{ $month }}">{{ $month }}</option>
@@ -150,7 +154,7 @@
                             </select>
                     </span>
                     <span>
-                            <select>
+                            <select name="date_back_day">
                                 <option value="" selected disabled hidden>日</option>
                                 @for ($day = 1; $day <= 31; $day++)
                                     <option value="{{ $day }}">{{ $day }}</option>
@@ -161,15 +165,15 @@
                 <p>
                     <span>人數</span>
                     <span>
-                        <input type="number" value="1">大人
-                        <input type="number" value="1">小孩
+                        <input name="back_adult" type="number" value="1">大人
+                        <input name="back_children" type="number" value="1">小孩
                     </span>
                 </p>
                 <p>
                     <span>機場</span>
                     <span>
                         桃園國際機場
-                        <select>
+                        <select name="airport_back">
                             <option value="第一航廈" selected>第一航廈</option>
                             <option value="第二航廈">第二航廈</option>
                         </select>
@@ -177,25 +181,25 @@
                 </p>
                 <p>
                     <span>航班</span>
-                    <input type="text">
+                    <input name="flight" type="text">
                 </p>
                 <p>
                     <span>預約時間</span>
-                    <input type="text">
+                    <input name="time_back" type="text">
                 </p>
 
             </div>
             <!-- 機場接送回程選項 end -->
             <p>
                 <span>姓名</span>
-                <input type="text">
+                <input name="name" type="text">
             </p>
             <p>
                 <span>電話</span>
-                <input type="text">
+                <input name="phone" type="text">
             </p>
 
-            <input class="btn btn-light" type="button" value="送出預約">
+            <input class="btn btn-light" data-type="airport" type="button" value="送出預約">
         </div>
         <!-- 機場接送選項 end -->
         
@@ -203,19 +207,20 @@
 
     <!-- 商務包車選項 -->
     <form id="car-block" class="bd-example car-block">
+        {{ csrf_field() }}
         <div>
             <p>
                 <span>日期</span>
                 <span>
-                    <select>
+                    <select name="date_year">
                         <option value="" selected disabled hidden>年</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
+                        @for ($i = 0; $i < 3; $i++)
+                            <option value="{{ date('Y') + $i }}">{{ date('Y') + $i }}</option>
+                        @endfor
                     </select>
                 </span>
                 <span>
-                        <select>
+                        <select name="date_month">
                             <option value="" selected disabled hidden>月</option>
                             @for ($month = 1; $month <= 12; $month++)
                                 <option value="{{ $month }}">{{ $month }}</option>
@@ -223,7 +228,7 @@
                         </select>
                 </span>
                 <span>
-                        <select>
+                        <select name="date_day">
                             <option value="" selected disabled hidden>日</option>
                             @for ($day = 1; $day <= 31; $day++)
                                 <option value="{{ $day }}">{{ $day }}</option>
@@ -234,26 +239,30 @@
             <p>
                 <span>人數</span>
                 <span>
-                    <input type="number" value="1">大人
-                    <input type="number" value="1">小孩
+                    <input name="adult" type="number" value="1">大人
+                    <input name="children" type="number" value="1">小孩
                 </span>
             </p>
             <p>
                 <span>上車時間</span>
-                <input type="text">
+                <input name="time" type="text">
             </p>
             <p>
                 <span>上車地點</span>
-                <select class="city">
+                <select name="city" class="city">
                     <option value="" selected disabled hidden>都市</option>
                 </select>
-                <select class="area">
+                <select name="district" class="area">
                     <option value="" selected disabled hidden>行政區</option>
                 </select>
             </p>
             <p>
+                <span>地址</span>
+                <input name="address" type="text">
+            </p>
+            <p>
                 <span>車型</span>
-                <select id="car-all-day">
+                <select name="model" id="car-all-day">
                     <option value="" selected disabled hidden>車型</option>
                 </select>
             </p>
@@ -263,14 +272,14 @@
             </p>
             <p>
                 <span>姓名</span>
-                <input type="text">
+                <input name="name" type="text">
             </p>
             <p>
                 <span>電話</span>
-                <input type="text">
+                <input name="phone" type="text">
             </p>
 
-            <input class="btn btn-light" type="button" value="送出預約">
+            <input class="btn btn-light" data-type="car" type="button" value="送出預約">
         </div>
         <!-- 商務包車 end -->
     </form>
@@ -440,6 +449,34 @@
                     }).catch(function (error) {
                         console.log(error);
                     });
+            });
+
+            document.querySelector('.btn').addEventListener('click', function(e) {
+                console.log(e);
+                console.log(this.dataset.type);
+
+
+
+                var formData = new FormData(airportBlock);
+                formData.forEach(function(value, key){
+                    console.log(key, value);
+                });
+                formData.append('type', document.querySelector('#reserve-type').value);
+                // console.log(formData.get('city'));
+                // console.log(airportBlock);
+                // console.log(formData);
+                // console.log(document.forms[0]);
+                // console.log(new FormData(document.querySelector("#airport-block")));
+
+
+
+                axios.post('/reserve/create', formData)
+                  .then(function (response) {
+                    console.log(response);
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
             });
 
         })();

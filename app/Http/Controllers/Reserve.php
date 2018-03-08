@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Repositories\CarReserveOrderRepository;
 use App\Repositories\CarReserveRepository;
+use App\Services\CarReserveOrderService;
+use Illuminate\Http\Request;
 use Validator;
 
 class Reserve extends Controller
 {
     protected $carReserveRepository;
+    protected $carReserveOrderRepository;
+    protected $carReserveOrderService;
 
-    public function __construct(CarReserveRepository $repository, CarReserveOrderRepository $carReserveOrderRepository)
+    public function __construct(CarReserveRepository $repository, CarReserveOrderRepository $carReserveOrderRepository, CarReserveOrderService $carReserveOrderService)
     {
         $this->carReserveRepository      = $repository;
         $this->carReserveOrderRepository = $carReserveOrderRepository;
+        $this->carReserveOrderService    = $carReserveOrderService;
     }
 
     public function index()
@@ -25,29 +29,43 @@ class Reserve extends Controller
 
     public function createReserve(Request $request)
     {
-        $validator = $this->validateForm($request);
-        $posts = $request->input();
-        if ($validator->passes()){
+        $status  = false;
+        $message = '預約已送出，我們將會盡速與您聯絡';
 
+        $validator = $this->validateForm($request);
+        $type      = $request->input('type');
+        $posts     = $request->input();
+
+        if ($validator->passes()) {
+            $insertData = $this->carReserveOrderService->postDataTrans($type, $posts);
+            $cro_id     = $this->carReserveOrderRepository->insert($insertData);
+            $status     = ($cro_id > 0) ? true : false;
+            if ($status === false) {
+                $message = '預約發生錯誤';
+            } else {
+                $this->carReserveOrderService->sendEmail($posts);
+            }
+        } else {
+            $message = join('<br />', $validator->messages()->all());
         }
+
+        return response()->json(compact('status', 'message'));
     }
 
     protected function validateForm(Request $request)
     {
         $rules = [
-            'is_title' => 'required|max:255',
-            'is_file'  => 'required',
-            'is_link'  => 'url',
-            'is_start' => 'required|date_format:Y-m-d',
-            'is_end'   => 'required|date_format:Y-m-d||after:is_start',
+            'model'    => 'required',
+            'city'     => 'required',
+            'district' => 'required',
+            'type'     => 'required',
         ];
 
         $attributes = [
-            'is_title' => '輪播名稱',
-            'is_file'  => '輪播圖',
-            'is_link'  => '輪播連結',
-            'is_start' => '輪播開始日',
-            'is_end'   => '輪播結束日',
+            'model'    => '車型',
+            'city'     => '縣市',
+            'district' => '行政區',
+            'type'     => '類型',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);
