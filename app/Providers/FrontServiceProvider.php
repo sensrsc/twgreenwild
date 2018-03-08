@@ -46,13 +46,13 @@ class FrontServiceProvider extends ServiceProvider
 
         // 分類
         if (Cache::has(config('common.category_cache_key'))) {
-            $activities = Cache::get(config('common.category_cache_key'));
+            $categorys = Cache::get(config('common.category_cache_key'));
         } else {
             $columns = ['c_id', 'c_title'];
-            $activities = $this->repository->getAllWithLevel($columns)->toArray();
+            $categorys = $this->repository->getAllWithLevel($columns)->toArray();
             // Cache::put(config('common.category_cache_key'), $activities, 30);
         }
-        View::share('activities', $activities);
+        View::share('categorys', $categorys);
     }
 
     /**

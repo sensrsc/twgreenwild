@@ -10,7 +10,7 @@ class Activity extends Controller
 
     public function index()
     {
-    	echo 'in activity';
+    	return view('front.activity');
     }
 
 }

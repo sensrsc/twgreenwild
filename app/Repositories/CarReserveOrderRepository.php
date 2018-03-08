@@ -25,10 +25,12 @@ class CarReserveOrderRepository
         $cro->cro_way       = $datas['cro_way'] ?? 1;
         $cro->cro_adult     = $datas['cro_adult'] ?? 1;
         $cro->cro_children  = $datas['cro_children'] ?? 1;
-        $cro->cro_detail    = $datas['cro_detail'] ?? '';
+        $cro->cro_detail    = json_encode($datas['cro_detail']) ?? '';
         $cro->cro_est_fee   = $datas['cro_est_fee'] ?? 1;
         $cro->cro_name      = $datas['cro_name'] ?? '';
         $cro->cro_telno     = $datas['cro_telno'] ?? '';
+        $cro->cro_email     = $datas['cro_email'] ?? '';
+        $cro->order_id      = $datas['order_id'] ?? '';
         $cro->save();
 
         return $cro->cro_id;
@@ -67,7 +69,7 @@ class CarReserveOrderRepository
         }
 
         $query->orderBy('cro_created', 'desc');
-        
+
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);

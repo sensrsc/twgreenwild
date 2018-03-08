@@ -1,35 +1,17 @@
-var Login = function() {
+var Slide = function() {
 
-    var handleLogin = function() {
-
-        $('#login_form').validate({
+    var handleSlide = function() {
+    	
+        $('#data-form').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                account: {
-                    required: true
-                },
-                password: {
-                    required: true
-                },
-                // check_code: {
-                //     required: true,
-                //     minlength: 6
-                // }
+            	
             },
 
             messages: {
-                account: {
-                    required: '請輸入帳號'
-                },
-                password: {
-                    required: '請輸入密碼'
-                },
-                // check_code: {
-                //     required: '請輸入驗證碼',
-                //     minlength: '請輸入6個字元',
-                // }
+            	
             },
 
             invalidHandler: function(event, validator) { //display error alert on form submit   
@@ -59,36 +41,59 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
-                form.submit(); // form validation success, call ajax form submit
+                // form.submit(); // form validation success, call ajax form submit
+            	var url = '/admin/slide/';
+                if (parseInt($('[name=is_id]').val()) > 0){
+                    url += 'ajaxUpdate/' + $('[name=is_id]').val();
+                }else {
+                    url += 'ajaxAdd'
+                }
+
+                var formData = new FormData($('form')[0]);
+                Site.ajaxTask('post', true, false, url, formData, formCallback, null, false);
+               
+                return false;
             }
         });
 
-        $('#login_form input').keypress(function(e) {
-            if (e.which == 13 && $('#login_form').attr('disabled') !== 'disabled') {
-                if ($('#login_form').validate().form()) {
-                    $('#login_form').submit(); //form validation success, call ajax form submit
+        $('#data-form input').keypress(function(e) {
+            if (e.which == 13 && $('#data-form #peronsal_login').attr('disabled') !== 'disabled') {
+                if ($('#data-form').validate().form()) {
+                    $('#data-form').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }
         });
 
-        $('#new_captcha').click(function(){
-            var timestamp = new Date().getTime()
-            $('#captcha_img').attr('src', '/admin/login/captcha' + '?' + timestamp);
-            return false;
-        });
+        if (jQuery().datepicker) {
+            $('.date-picker').datepicker({
+                format: 'yyyy-mm-dd',
+                rtl: App.isRTL(),
+                orientation: "left",
+                autoclose: true
+            });
+        }
     }
+    
+    var formCallback = function(response) {
+   	    // console.log(response);
+    	if (response.status) {
+            Site.showAlert(true, 'success', '成功', response.message, 'success', '/admin/slide');
+    	} else {
+    		$('#data-form-btn').removeAttr('disabled');
+    		Site.showAlert(true, 'error', '失敗', response.message);
+    	}
+    };
 
     return {
         //main function to initiate the module
         init: function() {
-            handleLogin();
+            handleSlide();
         }
-
     };
 
 }();
 
 jQuery(document).ready(function() {
-    Login.init();        
+    Slide.init();        
 });

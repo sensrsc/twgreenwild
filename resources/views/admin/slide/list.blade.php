@@ -18,21 +18,9 @@
             <form class="form-horizontal">
                 <div class="form-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label">名稱</label>
+                        <label class="col-md-1 control-label">名稱：</label>
                         <div class="col-md-2">
-                            <input type="text" name="t_name" class="form-control" placeholder="請輸入行程名稱">
-                        </div>
-
-                        <label class="col-md-1 control-label">分類</label>
-                        <div class="col-md-2">
-                            <select id="country" name="c_id" class="form-control country">
-                                <option value="">請選擇</option>
-                                @if (isset($categorys))
-                                    @foreach ($categorys as $category)
-                                        <option value="{{ $category->c_id }}">{{ $category->c_title }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <input type="text" name="is_title" class="form-control" placeholder="請輸入名稱">
                         </div>
                     </div>
                 </div>
@@ -50,34 +38,24 @@
     <div class="portlet light portlet-fit ">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-user"></i>行程列表
+                <i class="fa fa-user"></i>首頁輪播列表
             </div>
             <div class="actions">
-                <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/tour/add">
-                    <span>新增行程</span>
+                <a class="dt-button buttons-print btn dark btn-outline" tabindex="0" href="/admin/slide/add">
+                    <span>新增首頁輪播</span>
                 </a>
             </div>
         </div>
         <div class="portlet-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <p>季節推薦設定數量： <span id="season_num">{{ isset($seasonFlagNum)? $seasonFlagNum : 0 }}</span></p>
-                    <p>熱門活動設定數量： <span id="hot_num">{{ isset($hotFlagNum)? $hotFlagNum : 0 }}</span></p>
-                </div>
-            </div>
             <div class="dataTables_wrapper no-footer">
-                <div class="table-scrollable table-responsive">
+                <div class="table-scrollable">
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
                             <tr>
-                                <th>行程名稱</th>
-                                <th>類型</th>
-                                <th>狀態</th>
-                                <th>金額</th>
-                                <th>不接單開始日</th>
-                                <th>不接單結束日</th>
-                                <th>修改時間</th>
-                                <th>首頁設定</th>
+                                <th>名稱</th>
+                                <th>輪播圖</th>
+                                <th>開始日期</th>
+                                <th>結束日期</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -86,37 +64,22 @@
                                 @foreach ($lists as $list)
                                 <tr>
                                     <td class="highlight">
-                                    	{{ $list->t_title }}
+                                    	{{ $list->is_title }}
                                     </td>
                                     <td>
-                                        {{ isset($list->category->c_title)? $list->category->c_title : '' }}
+                                        <img src="{{ $list->picturePath }}" width="120px" />
                                     </td>
                                     <td>
-                                        {{ isset(config('common.general_status')[$list['t_status']])? config('common.general_status')[$list['t_status']] : '' }}
+                                        {{ $list->is_start }}
                                     </td>
                                     <td>
-                                        {{ $list['t_price'] }}
+                                        {{ $list->is_end }}
                                     </td>
                                     <td>
-                                        {{ $list->not_accept_start }}
-                                    </td>
-                                    <td>
-                                        {{ $list->not_accept_end }}
-                                    </td>
-                                    <td>
-                                        {{ $list['updated_at'] }}
-                                    </td>
-                                    <td>
-                                        <select name="tour_set" data-id="{{ $list['t_id'] }}" multiple="multiple">
-                                            <option value="season" {{ $list['season_flag'] == 1? 'selected' : '' }}>季節</option>
-                                            <option value="hot" {{ $list['hot_flag'] == 1? 'selected' : '' }}>熱門</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <a href="/admin/tour/detail/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm blue">
+                                        <a href="/admin/slide/detail/{{ $list->is_id }}" class="btn btn-outline btn-circle btn-sm blue">
                                             <i class="fa fa-edit">查看/編輯</i></a>
-                                        <a href="/admin/tour/notaccept/{{ $list['t_id'] }}" class="btn btn-outline btn-circle btn-sm green">
-                                            <i class="fa fa-edit">不接單日期設定</i></a>
+                                        <a href="#" data-id="{{ $list->is_id }}" class="btn btn-outline btn-circle btn-sm red del_btn">
+                                            <i class="fa fa-edit">刪除</i></a>
                                     </td>                                    
                                 </tr>
                                 @endforeach
@@ -152,7 +115,7 @@
             <div class="modal-footer">
                 <form method="post" id="modal_form" class="form-horizontal" role="form">
                     {{ csrf_field() }}
-                    <input type="hidden" name="a_id" id="a_id" value="">
+                    <input type="hidden" name="is_id" id="is_id" value="">
                 </form>
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal">關閉</button>
                 <button type="button" id="delete_btn" class="btn red">刪除</button>
@@ -164,18 +127,6 @@
 </div>
 @endsection
 
-
-@section('css_link')
-    <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-    <style>
-        .table-responsive {
-          overflow-x: visible !important;
-          overflow-y: visible !important;
-        }
-    </style>
-@endsection
-
 @section('js_script')
-    <script src="/assets/global/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
-    <script src="/assets/apps/scripts/admin/tour_list.js"></script>
+    <script src="/assets/apps/scripts/admin/slide_list.js"></script>
 @endsection

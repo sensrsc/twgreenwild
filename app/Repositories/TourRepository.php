@@ -144,28 +144,46 @@ class TourRepository
     {
         $column = ($type == 'hot')? 'hot_flag' : 'season_flag';
         return Tour::where($column, 1)->where('t_status', 1)
-                // ->with(['area', 'album.cover', 'category'])
                 ->get();
     }
 
     public function getByRecommendJoin($type)
     {
         $column = ($type == 'hot')? 'tour.hot_flag' : 'tour.season_flag';
-        $sectionTitle = ($type == 'hot')? '熱門活動' : '季節推薦';
         $tours = $this->model->where($column, 1)
                     ->where('tour.t_status', 1)
                     ->join('category', 'tour.c_id', '=', 'category.c_id')
                     ->join('album', 'tour.a_id', '=', 'album.a_id')
                     ->join('area', 'tour.area_id', '=', 'area.area_id')
                     ->join('album_picture', 'album.a_cover', '=', 'album_picture.ap_id')
-                    ->select(['tour.t_id as id', 'tour.t_title as title', 'category.c_title as type', 'album_picture.a_id', 'album_picture.ap_image as cover', 'tour.t_price as price', 'area.area_name as region'])->get();
+                    ->orderBy('tour.created_at', 'desc')
+                    ->get(['tour.t_id as id', 'tour.t_title as title', 'category.c_title as type', 'album_picture.a_id', 'album_picture.ap_image as cover', 'tour.t_price as price', 'area.area_name as region']);
         $tours = $tours->map(function($tour){
             $tour->cover = '/upload/picture/' . $tour->a_id . '/' . $tour->cover;
             $tour->price = number_format($tour->price);
             return $tour;
         });
 
-        return ['section_title' => '季節推薦', 'activities' => $tours->toArray()];
+        return $tours->toArray();
+    }
+
+    public function getByCategoryJoin($cId)
+    {
+        $tours = $this->model->where('tour.c_id', $cId)
+                    ->where('tour.t_status', 1)
+                    ->join('category', 'tour.c_id', '=', 'category.c_id')
+                    ->join('album', 'tour.a_id', '=', 'album.a_id')
+                    ->join('area', 'tour.area_id', '=', 'area.area_id')
+                    ->join('album_picture', 'album.a_cover', '=', 'album_picture.ap_id')
+                    ->orderBy('tour.created_at', 'desc')
+                    ->get(['tour.t_id as id', 'tour.t_title as title', 'category.c_title as type', 'album_picture.a_id', 'album_picture.ap_image as cover', 'tour.t_price as price', 'area.area_name as region']);
+        $tours = $tours->map(function($tour){
+            $tour->cover = '/upload/picture/' . $tour->a_id . '/' . $tour->cover;
+            $tour->price = number_format($tour->price);
+            return $tour;
+        });
+
+        return $tours->toArray();
     }
 
 }

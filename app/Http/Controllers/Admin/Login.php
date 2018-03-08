@@ -26,15 +26,16 @@ class Login extends Controller
             $admin = $this->adminRepository->getByAccount($request->input('account'));
             if ($admin) {
                 $isLogin = $this->adminService->checkLogin($admin, $request->input('account'), $request->input('password'));
-                $checkCaptcha = $this->adminService->checkCaptcha($request->input('check_code'));
+                // $checkCaptcha = $this->adminService->checkCaptcha($request->input('check_code'));
+                $checkCaptcha = true;
                 if ($isLogin && $checkCaptcha) {
                     $this->adminService->login($admin);
                     return redirect('/admin/index');
                 } else {
                     $errorMsg = '請確認帳號或密碼是否正確';
-                    if (!$checkCaptcha) {
-                        $errorMsg = '請確認驗證碼是否正確';
-                    }
+                    // if (!$checkCaptcha) {
+                    //     $errorMsg = '請確認驗證碼是否正確';
+                    // }
                 }
             } else {
                 $errorMsg = '請確認帳號或密碼是否正確';

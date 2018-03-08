@@ -24,11 +24,13 @@ class Tour extends Controller
     public function index(Request $request)
     {
 
-        $queryData = $request->query();
-        $lists     = $this->tourRepository->pages(env('PRE_PAGE'), $queryData);
-        $categorys = $this->tourRepository->getCategorys();
-        $areas     = $this->tourRepository->getAreas();
-        return view('admin.tour.list', compact('lists', 'categorys', 'areas'));
+        $queryData     = $request->query();
+        $lists         = $this->tourRepository->pages(env('PRE_PAGE'), $queryData);
+        $categorys     = $this->tourRepository->getCategorys();
+        $areas         = $this->tourRepository->getAreas();
+        $seasonFlagNum = $this->tourRepository->countRecommend('season');
+        $hotFlagNum    = $this->tourRepository->countRecommend('hot');
+        return view('admin.tour.list', compact('lists', 'categorys', 'areas', 'seasonFlagNum', 'hotFlagNum'));
     }
 
     public function add()
@@ -128,6 +130,32 @@ class Tour extends Controller
             }
         } else {
             $this->responseData['message'] = join('<br />', $validator->messages()->all());
+        }
+
+        return response()->json($this->responseData);
+    }
+
+    public function ajaxRecommend(Request $request, $id)
+    {
+        $data = $this->tourRepository->getByID($id);
+        if (!empty($data)) {
+            $type    = $request->input('type');
+            $checked = $request->input('checked') == 'true' ? 1 : 0;
+            
+            if ($type == 'season') {
+                $updateData['season_flag'] = $checked;
+            } else {
+                $updateData['hot_flag'] = $checked;
+            }
+
+            $isUpdate                     = $this->tourRepository->update($id, $updateData);
+            $this->responseData['status'] = ($isUpdate) ? true : false;
+            if ($this->responseData['status']) {
+                $this->responseData[$type]     = $this->tourRepository->countRecommend($type);
+                $this->responseData['message'] = '修改成功';
+            }
+        } else {
+            $this->responseData['message'] = '請確認資料是否正確';
         }
 
         return response()->json($this->responseData);

@@ -2,31 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
+use App\Models\IndexSlide;
 use Schema;
 
-class CategoryRepository
+class IndexSlideRepository
 {
     protected $model;
 
-    public function __construct(Category $model)
+    public function __construct(IndexSlide $model)
     {
         $this->model = $model;
     }
 
     public function insert($datas)
     {
-        $category                = new Category;
-        $category->c_title       = $datas['c_title'] ?? '';
-        $category->c_fee_body    = $datas['c_fee_body'] ?? '';
-        $category->c_issue_body  = $datas['c_issue_body'] ?? '';
-        $category->c_notice_body = $datas['c_notice_body'] ?? '';
-        $category->c_cancel_body = $datas['c_cancel_body'] ?? '';
-        $category->c_file        = $datas['c_file'] ?? '';
-        $category->c_status      = $datas['c_status'] ?? 1;
-        $category->save();
+        $indexSlide            = new IndexSlide;
+        $indexSlide->is_title  = $datas['is_title'] ?? '';
+        $indexSlide->is_file   = $datas['is_file'] ?? '';
+        $indexSlide->is_link   = $datas['is_link'] ?? '';
+        $indexSlide->is_start  = $datas['is_start'] ?? '';
+        $indexSlide->is_end    = $datas['is_end'] ?? '';
+        $indexSlide->is_status = $datas['is_status'] ?? 1;
+        $indexSlide->save();
 
-        return $category->c_id;
+        return $indexSlide->is_id;
     }
 
     public function update($id, $datas)
@@ -37,6 +36,11 @@ class CategoryRepository
             return $data->save();
         }
         return false;
+    }
+
+    public function multiUpdate($ids, $datas)
+    {
+        return IndexSlide::whereIn('is_id', $ids)->update($datas);
     }
 
     public function getByID($id)
@@ -61,25 +65,14 @@ class CategoryRepository
             }
         }
 
+        $query->where('is_status', '!=', 2);
+
         $lists = $query->paginate($rows);
         if ($queryData) {
             $lists->appends($queryData);
         }
 
         return $lists;
-    }
-
-    public function getAll($columns = null)
-    {
-        return $this->model->where('c_status', 1)
-            ->get($columns);
-    }
-
-    public function getAllWithLevel($columns = null)
-    {
-        return $this->model->where('c_status', 1)
-            ->with('levels:cl_id,c_id,cl_title')
-            ->get($columns);
     }
 
 }

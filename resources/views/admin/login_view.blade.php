@@ -77,12 +77,12 @@
                         <i class="fa fa-lock"></i>
                         <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" /> </div>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="control-label visible-ie8 visible-ie9">驗證碼</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="驗證碼" name="check_code" /> </div>
                 <div class="form-group">
                     <img id="captcha_img" src="/admin/login/captcha" /> <a href="#" id="new_captcha">更換驗證碼</a>
-                </div>
+                </div> -->
                 <div class="form-actions">
                     <label class="checkbox">
                        

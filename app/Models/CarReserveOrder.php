@@ -29,5 +29,5 @@ class CarReserveOrder extends Model
 
     protected $primaryKey = 'cro_id';
 
-    protected $fillable = ['cro_type', 'cro_city', 'cro_district', 'cro_address', 'cro_car_model', 'cro_way', 'cro_adult', 'cro_children', 'cro_detail', 'cro_est_fee', 'cro_name', 'cro_telno'];
+    protected $fillable = ['cro_type', 'cro_city', 'cro_district', 'cro_address', 'cro_car_model', 'cro_way', 'cro_adult', 'cro_children', 'cro_detail', 'cro_est_fee', 'cro_name', 'cro_telno', 'cro_email', 'order_id'];
 }
