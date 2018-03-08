@@ -198,6 +198,10 @@
                 <span>電話</span>
                 <input name="phone" type="text">
             </p>
+            <p>
+                <span>Email</span>
+                <input name="email" type="text">
+            </p>
 
             <input class="btn btn-light" data-type="airport" type="button" value="送出預約">
         </div>
@@ -277,6 +281,10 @@
             <p>
                 <span>電話</span>
                 <input name="phone" type="text">
+            </p>
+            <p>
+                <span>Email</span>
+                <input name="email" type="text">
             </p>
 
             <input class="btn btn-light" data-type="car" type="button" value="送出預約">

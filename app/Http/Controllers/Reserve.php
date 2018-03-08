@@ -43,7 +43,7 @@ class Reserve extends Controller
             if ($status === false) {
                 $message = '預約發生錯誤';
             } else {
-                $this->carReserveOrderService->sendEmail($posts);
+                $this->carReserveOrderService->sendEmail($insertData);
             }
         } else {
             $message = join('<br />', $validator->messages()->all());
@@ -59,6 +59,9 @@ class Reserve extends Controller
             'city'     => 'required',
             'district' => 'required',
             'type'     => 'required',
+            'name'     => 'required',
+            'phone'    => 'required',
+            'email'    => 'required|email',
         ];
 
         $attributes = [
@@ -66,6 +69,9 @@ class Reserve extends Controller
             'city'     => '縣市',
             'district' => '行政區',
             'type'     => '類型',
+            'name'     => '姓名',
+            'phone'    => '電話',
+            'email'    => 'Email',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);
