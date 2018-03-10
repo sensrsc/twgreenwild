@@ -30,9 +30,7 @@ Route::get('activities/{id}', 'Activities@index');
 Route::get('activity/{id}', 'Activity@index');
 
 Route::group(['middleware' => 'front'], function () {
-    Route::get('member/info', function () {
-        return view('front/member_info');
-    });
+    Route::match(['get', 'post'], 'member/info', 'Member@info');
 
     Route::get('member', 'Member@index');
     Route::get('member/order', 'Member@order');
