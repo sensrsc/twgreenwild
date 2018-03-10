@@ -28,8 +28,9 @@ class Notes extends Controller
     {
         $queryData = $request->query();
         $lists     = $this->activitiesNotesRepository->pages(env('PRE_PAGE'), $queryData);
+        $categorys = $this->categoryRepository->getAll();
 
-        return view('admin.notes.list', compact('lists'));
+        return view('admin.notes.list', compact('lists', 'categorys'));
     }
 
     public function add()
