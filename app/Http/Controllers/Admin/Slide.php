@@ -138,10 +138,12 @@ class Slide extends Controller
         $rules = [
             'is_title' => 'required|max:255',
             'is_file'  => $avatarRule,
-            'is_link'  => 'url',
             'is_start' => 'required|date_format:Y-m-d',
             'is_end'   => 'required|date_format:Y-m-d||after:is_start',
         ];
+        if ($request->input('is_link')) {
+            $rules['is_link'] = 'url';
+        }
 
         $attributes = [
             'is_title' => '輪播名稱',
