@@ -49,11 +49,11 @@ return [
             'icon_class' => 'icon-home',
             'link'       => '/admin/admin',
         ],
-        // 'indexslide' => [
-        //     'title'      => '首頁輪播管理',
-        //     'icon_class' => 'icon-home',
-        //     'link'       => '/admin/indexslide',
-        // ],
+        'slide' => [
+            'title'      => '首頁輪播管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/slide',
+        ],
         'news'     => [
             'title'      => '最新消息管理',
             'icon_class' => 'icon-home',
