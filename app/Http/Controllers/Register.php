@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Facebook\Facebook;
 use Illuminate\Http\Request;
 use Session;
@@ -10,11 +11,13 @@ use Validator;
 
 class Register extends Controller
 {
+    protected $userService;
     protected $userRepository;
     protected $facebook;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserService $userService, UserRepository $userRepository)
     {
+        $this->userService    = $userService;
         $this->userRepository = $userRepository;
         $this->facebook       = new \Facebook\Facebook([
             'app_id'                => env('FB_APP_ID', ''),
@@ -29,10 +32,12 @@ class Register extends Controller
         if ($request->isMethod('post')) {
             $validator = $this->validateForm($request);
             if ($validator->passes()) {
-                $uID = $this->userRepository->insert($request->input());
-		        if ($uID) {
-		            return redirect('/');
-		        } 
+                $user = $this->userRepository->insert($request->input());
+                if (!empty($user)) {
+                    session()->forget('access_token');
+                    $this->userService->login($user);
+                    return redirect('/');
+                }
                 $msg = '註冊失敗';
             } else {
                 $msg = join('<br />', $validator->messages()->all());
