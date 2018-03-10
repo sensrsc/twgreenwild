@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ReserveOrder extends Controller
 {
-    protected $adminRepository;
+    protected $carReserveOrderRepository;
     protected $responseData;
 
     public function __construct(CarReserveOrderRepository $repository)

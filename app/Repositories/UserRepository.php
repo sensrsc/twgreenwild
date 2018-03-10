@@ -56,12 +56,11 @@ class UserRepository
     public function pages($rows, $queryData)
     {
         $query = $this->model->query();
-
         if ($queryData) {
             foreach ($queryData as $field => $search) {
                 $isHave = Schema::hasColumn($this->model->getTable(), $field);
                 if ($isHave) {
-                    if (strpos($field, 'subject') !== false) {
+                    if (strpos($field, 'u_account') !== false || strpos($field, 'u_name') !== false && $search) {
                         $query->where($field, "LIKE", '%' . $search . '%');
                     } else if ($search) {
                         $query->where($field, $search);

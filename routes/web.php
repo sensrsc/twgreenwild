@@ -26,11 +26,10 @@ Route::get('/logout', 'Login@logout');
 Route::get('/reserve_car', 'Reserve@index');
 Route::post('/reserve/create', 'Reserve@createReserve');
 
+Route::get('activities/{id}', 'Activities@index');
+Route::get('activity/{id}', 'Activity@index');
+
 Route::group(['middleware' => 'front'], function () {
-    Route::get('activities/{id}', 'Activities@index');
-
-    Route::get('activity/{id}', 'Activity@index');
-
     Route::get('member/info', function () {
         return view('front/member_info');
     });
@@ -162,6 +161,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('notes/ajaxAdd', 'Admin\\Notes@ajaxAdd');
         Route::post('notes/ajaxUpdate/{id}', 'Admin\\Notes@ajaxUpdate');
         Route::post('notes/ajaxDelete', 'Admin\\Notes@ajaxDelete');
+
+        // 會員
+        Route::get('user', 'Admin\\User@index');
+        Route::get('user/info/{id}', 'Admin\\User@info');
 
         // 預約叫車
         Route::get('reserveorder', 'Admin\\ReserveOrder@index');
