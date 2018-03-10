@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\News;
+use Schema;
 
 class NewsRepository
 {
@@ -46,10 +47,13 @@ class NewsRepository
 
         if ($queryData) {
             foreach ($queryData as $field => $search) {
-                if (strpos($field, 'subject') !== false) {
-                    $query->where($field, "LIKE", '%' . $search . '%');
-                } else if ($search) {
-                    $query->where($field, $search);
+                $isHave = Schema::hasColumn($this->model->getTable(), $field);
+                if ($isHave) {
+                    if (strpos($field, 'subject') !== false) {
+                        $query->where($field, "LIKE", '%' . $search . '%');
+                    } else if ($search) {
+                        $query->where($field, $search);
+                    }
                 }
             }
         }
