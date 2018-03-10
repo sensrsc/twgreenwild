@@ -21,4 +21,9 @@ class Album extends Model
     {
         return $this->hasOne('App\Models\Category', 'c_id', 'c_id');
     }
+
+    public function cover()
+    {
+        return $this->hasOne('App\Models\AlbumPicture', 'ap_id', 'a_cover');
+    }
 }
