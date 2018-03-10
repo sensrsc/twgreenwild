@@ -23,7 +23,7 @@ class UserRepository
         $user->u_status   = $datas['u_status'] ?? 1;
         $user->save();
 
-        return $user->u_id;
+        return $user;
     }
 
     public function update($id, $datas)

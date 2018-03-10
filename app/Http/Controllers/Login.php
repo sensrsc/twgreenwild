@@ -52,7 +52,6 @@ class Login extends Controller
         }
 
         if ($request->isMethod('post')) {
-            $posts = $request->input();
             $user  = $this->userRepository->getByAccount($request->input('account'));
             if ($user) {
                 $isLogin = $this->userService->checkLogin($user, $request->input('account'), $request->input('password'));
