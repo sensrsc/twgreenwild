@@ -52,6 +52,7 @@
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
                             <tr>
+                                <th>預約單號</th>
                                 <th>類型</th>
                                 <th>車型</th>
                                 <th>縣市</th>
@@ -63,9 +64,12 @@
                                 @foreach ($lists as $list)
                                 <tr>
                                     <td class="highlight">
-                                    	{{ $list->cro_type }}
+                                        {{ $list->order_id }}
                                     </td>
-                                    <td class="hidden-xs">
+                                    <td>
+                                        {{ isset(config('common.reserve_type')[$list->cro_type])? config('common.reserve_type')[$list->cro_type] : '' }}
+                                    </td>
+                                    <td>
                                         {{ $list->cro_car_model }}
                                     </td>
                                     <td>

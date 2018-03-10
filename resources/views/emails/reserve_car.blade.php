@@ -11,11 +11,12 @@
 
 	@if ($data['cro_type'] == 'airport')
 		@if ($data['cro_way'] == '去程' || $data['cro_way'] == '來回')
-			<div>日期：{{ $data['cro_detail']['date_go'] }}</div>
-			<div>時間：{{ $data['cro_detail']['time_go'] }}</div>
-		@else
-			<div>日期：{{ $data['cro_detail']['date_back'] }}</div>
-			<div>時間：{{ $data['cro_detail']['time_back'] }}</div>
+			<div>去程日期：{{ $data['cro_detail']['date_go'] }}</div>
+			<div>去程時間：{{ $data['cro_detail']['time_go'] }}</div>
+		@endif
+		@if ($data['cro_way'] == '回程' || $data['cro_way'] == '來回')
+			<div>回程日期：{{ $data['cro_detail']['date_back'] }}</div>
+			<div>回程時間：{{ $data['cro_detail']['time_back'] }}</div>
 		@endif
 	@else
 		<div>日期：{{ $data['cro_detail']['date'] }}</div>
@@ -32,16 +33,16 @@
 		
 		@if ($data['cro_way'] == '去程' || $data['cro_way'] == '來回')
 			<div>去程：機場 桃園國際機場 {{ $data['cro_detail']['airport_go'] }}</div>
-			<div>大人人數：{{ $data['cro_detail']['go_adult'] }}</div>
-			<div>小孩人數：{{ $data['cro_detail']['go_children'] }}</div>
+			<div>去程大人人數：{{ $data['cro_detail']['go_adult'] }}</div>
+			<div>去程小孩人數：{{ $data['cro_detail']['go_children'] }}</div>
 		@endif
 
 		@if ($data['cro_way'] == '回程' || $data['cro_way'] == '來回')
 			<br />
 			<div>回程：機場 桃園國際機場 {{ $data['cro_detail']['airport_back'] }}</div>
 			<div>航班： {{ $data['cro_detail']['flight'] }}</div>
-			<div>大人人數：{{ $data['cro_adult'] }}</div>
-			<div>小孩人數：{{ $data['cro_children'] }}</div>
+			<div>回程大人人數：{{ $data['cro_adult'] }}</div>
+			<div>回程小孩人數：{{ $data['cro_children'] }}</div>
 		@endif
 
 	@else

@@ -32,6 +32,7 @@ class ReserveOrder extends Controller
     {
         $data = $this->carReserveOrderRepository->getByID($id);
         if ($data) {
+            $data->cro_detail = json_decode($data->cro_detail);
             return view('admin.reserve_order.info', compact('data'));
         }
         $message = array(

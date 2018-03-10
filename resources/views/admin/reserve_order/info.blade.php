@@ -23,70 +23,197 @@
                         <input type="hidden" name="cro_id" value="{{ isset($data->cro_id)? $data->cro_id : '0' }}" />
                         <input type="hidden" id="role_permission" value="{{ isset($role_permission)? $role_permission : '' }}" />
                         <div class="form-body">
+
                         	<div class="form-group">
-								<div class="col-md-6">
-									<div class="control-label col-md-4">接送類型：</div>
-									<div class="col-md-8">
-                                        <p class="form-control-static"> {{ $data->cro_type }} </p>
-                                    </div>
-								</div>
-								<div class="col-md-6">
-									<div class="control-label col-md-4">車型：</div>
-									<div class="col-md-8">
-                                        <p class="form-control-static"> {{ $data->cro_car_model }} </p>
+								<div class="col-md-12">
+									<div class="control-label col-md-2">預約單號：</div>
+									<div class="col-md-10">
+                                        <p class="form-control-static"> {{ $data->order_id }} </p>
                                     </div>
 								</div>
 							</div>
-							
-							<div class="form-group">
-								<div class="col-md-6">
-									<div class="control-label col-md-4">縣市：</div>
-									<div class="col-md-8">
-                                        <p class="form-control-static"> {{ $data->cro_city }} </p>
-                                    </div>
-								</div>
-								<div class="col-md-6">
-									<div class="control-label col-md-4">行政區：</div>
-									<div class="col-md-8">
-                                        <p class="form-control-static"> {{ $data->cro_district }} </p>
+
+                        	<div class="form-group">
+								<div class="col-md-12">
+									<div class="control-label col-md-2">接送類型：</div>
+									<div class="col-md-10">
+                                        <p class="form-control-static"> {{ isset(config('common.reserve_type')[$data->cro_type])? config('common.reserve_type')[$data->cro_type] : '' }} {{ $data->cro_type == 'airport'? '（' . $data->cro_way . '）' : '' }}</p>
                                     </div>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<div class="col-md-6">
-									<div class="control-label col-md-4">大人人數：</div>
-									<div class="col-md-8">
-                                        <p class="form-control-static"> {{ $data->cro_adult }} </p>
-                                    </div>
-								</div>
-								<div class="col-md-6">
-									<div class="control-label col-md-4">小孩人數：</div>
-									<div class="col-md-8">
-                                        <p class="form-control-static"> {{ $data->cro_children }} </p>
-                                    </div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="col-md-6">
-									<div class="control-label col-md-4">預約者姓名：</div>
-									<div class="col-md-8">
+								<div class="col-md-12">
+									<div class="control-label col-md-2">姓名：</div>
+									<div class="col-md-10">
                                         <p class="form-control-static"> {{ $data->cro_name }} </p>
                                     </div>
 								</div>
-								<div class="col-md-6">
-									<div class="control-label col-md-4">預約者電話：</div>
-									<div class="col-md-8">
+							</div>
+
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="control-label col-md-2">電話：</div>
+									<div class="col-md-10">
                                         <p class="form-control-static"> {{ $data->cro_telno }} </p>
                                     </div>
 								</div>
 							</div>
 
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="control-label col-md-2">地址：</div>
+									<div class="col-md-10">
+                                        <p class="form-control-static"> {{ $data->address }} </p>
+                                    </div>
+								</div>
+							</div>
 
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="control-label col-md-2">車款：</div>
+									<div class="col-md-10">
+                                        <p class="form-control-static"> {{ $data->cro_car_model }} </p>
+                                    </div>
+								</div>
+							</div>
 
+							@if ($data->cro_type == 'airport')
+								@if ($data->cro_way == '去程' || $data->cro_way == '來回')
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">去程日期：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->date_go }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">去程時間：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->time_go }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">去程：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> 機場 桃園國際機場 {{ $data->cro_detail->airport_go }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">去程大人人數：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->go_adult }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">去程小孩人數：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->go_children }} </p>
+		                                    </div>
+										</div>
+									</div>
+								@endif
+								@if ($data->cro_way == '回程' || $data->cro_way == '來回')
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">回程日期：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->date_back }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">回程時間：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->time_back }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">回程：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> 機場 桃園國際機場 {{ $data->cro_detail->airport_back }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">航班：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->flight }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">回程大人人數：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->back_adult }} </p>
+		                                    </div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="control-label col-md-2">回程小孩人數：</div>
+											<div class="col-md-10">
+		                                        <p class="form-control-static"> {{ $data->cro_detail->back_children }} </p>
+		                                    </div>
+										</div>
+									</div>
+								@endif
+							@else 
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="control-label col-md-2">日期：</div>
+										<div class="col-md-10">
+	                                        <p class="form-control-static"> {{ $data->cro_detail->date }} </p>
+	                                    </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="control-label col-md-2">時間：</div>
+										<div class="col-md-10">
+	                                        <p class="form-control-static"> {{ $data->cro_detail->time }} </p>
+	                                    </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="control-label col-md-2">大人人數：</div>
+										<div class="col-md-10">
+	                                        <p class="form-control-static"> {{ $data->cro_adult }} </p>
+	                                    </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="control-label col-md-2">小孩人數：</div>
+										<div class="col-md-10">
+	                                        <p class="form-control-static"> {{ $data->cro_children }} </p>
+	                                    </div>
+									</div>
+								</div>
+							@endif
 
-							
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="control-label col-md-2">價格：</div>
+									<div class="col-md-10">
+                                        <p class="form-control-static"> {{ $data->cro_est_fee }} </p>
+                                    </div>
+								</div>
+							</div>
                         
 	                        <div class="form-actions right">
 	                            <a href="/admin/reserveorder" class="btn btn-default"> 返回預約叫車列表 </a>
