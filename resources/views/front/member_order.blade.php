@@ -6,7 +6,7 @@
 .btn-order-status { 
     position: relative; 
     margin-right: 10px; 
-    bottom: 15px;
+    bottom: 25px;
 }
 @media (min-width: 642px) {
     .btn-order-status {
