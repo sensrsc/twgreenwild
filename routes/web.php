@@ -168,6 +168,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('reserveorder', 'Admin\\ReserveOrder@index');
         Route::get('reserveorder/info/{id}', 'Admin\\ReserveOrder@info');
 
+        // 訂單
+        Route::get('order', 'Admin\\Order@index');
+        Route::get('order/add/{uID?}', 'Admin\\Order@add');
+        Route::get('order/detail/{id}', 'Admin\\Order@detail');
+        Route::post('order/ajaxAdd', 'Admin\\Order@ajaxAdd');
+        Route::post('order/ajaxUpdate/{id}', 'Admin\\Order@ajaxUpdate');
+
         // 系統變數
         Route::get('system', 'Admin\\SystemVariable@index');
         Route::get('system/add', 'Admin\\SystemVariable@add');
