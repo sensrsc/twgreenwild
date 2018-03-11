@@ -33,10 +33,13 @@ Route::group(['middleware' => 'front'], function () {
     Route::match(['get', 'post'], 'member/info', 'Member@info');
 
     Route::get('member', 'Member@index');
-    Route::get('member/order', 'Member@order');
 
     Route::get('test/testroute', 'Test@testroute');
 
+});
+
+Route::get('member/order', function () {
+    return view('front/member_order');
 });
 
 Route::get('test/paytest', 'Test@paytest');
