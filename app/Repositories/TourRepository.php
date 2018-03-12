@@ -55,6 +55,14 @@ class TourRepository
         return $this->model->find($id);
     }
 
+    public function search($string)
+    {
+        return $this->model->where('t_title', "LIKE", '%' . $string . '%')
+                    ->where('t_status', 1)
+                    ->get(['t_id', 't_title', 't_price', 't_weekday_price', 't_discount_price'])
+                    ->toArray();
+    }
+
     public function pages($rows, $queryData)
     {
         $query = $this->model->query();

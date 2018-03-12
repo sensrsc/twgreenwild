@@ -33,14 +33,12 @@ Route::group(['middleware' => 'front'], function () {
     Route::match(['get', 'post'], 'member/info', 'Member@info');
 
     Route::get('member', 'Member@index');
+    Route::get('member/order', 'Member@order');
 
     Route::get('test/testroute', 'Test@testroute');
 
 });
 
-Route::get('member/order', function () {
-    return view('front/member_order');
-});
 
 Route::get('test/paytest', 'Test@paytest');
 Route::get('test/payview', 'Test@payview');
@@ -136,6 +134,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('tour/ajaxAdd', 'Admin\\Tour@ajaxAdd');
         Route::post('tour/ajaxUpdate/{id}', 'Admin\\Tour@ajaxUpdate');
         Route::post('tour/ajaxRecommend/{id}', 'Admin\\Tour@ajaxRecommend');
+        Route::get('tour/ajaxSearch', 'Admin\\Tour@ajaxSearch');
         // 行程不接單
         Route::get('tour/notaccept/{id}', 'Admin\\Tour@notaccept');
         Route::post('tour/ajaxUpdateDate/{id}', 'Admin\\Tour@ajaxUpdateNotAccept');

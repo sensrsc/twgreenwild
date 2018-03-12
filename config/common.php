@@ -45,6 +45,32 @@ return [
         'airport' => '機場接送',
         'car'     => '商務包車',
     ],
+    'gender'             => [
+        '0' => '女',
+        '1' => '男',
+    ],
+    'order_status'       => [
+        '1' => '訂單審核中',
+        '2' => '訂單待付款',
+        '3' => '訂單完成',
+        '4' => '訂單付款失敗',
+        '5' => '訂單取消',
+    ],
+    'order_status_css'       => [
+        '1' => 'btn-secondary',
+        '2' => 'btn-primary',
+        '3' => 'btn-light',
+        '4' => 'btn-warring',
+        '5' => 'btn-danger',
+    ],
+    
+    'order_front_status'       => [
+        '1' => '確認中',
+        '2' => '待付款',
+        '3' => '完成',
+        '4' => '失敗',
+        '5' => '取消',
+    ],
     'category_cache_key' => 'front_category_cache_key',
     'area_cache_key'     => 'front_area_cache_key',
     'menu'               => [
@@ -102,6 +128,11 @@ return [
             'title'      => '預約叫車訂單',
             'icon_class' => 'icon-home',
             'link'       => '/admin/reserveorder',
+        ],
+        'order'        => [
+            'title'      => '訂單管理',
+            'icon_class' => 'icon-home',
+            'link'       => '/admin/order',
         ],
         'system'       => [
             'title'      => '系統變數管理',

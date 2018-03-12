@@ -16,41 +16,21 @@
 </style>
 <h1 class="title--mobile">訂單資料</h1>
 <section class="activities">
-    <div class="activity">
-        <div class="info">
-            <h3 class="title">新竹尖石梅花溪溯溪</h3>
-            <p class="desc">2017-12-02</p>
-            <span class="price price--order">
-                <span>TWD.</span>10000
-                <button class="btn btn-secondary btn-order-status float-right">確認中</button>
-            </span>
-            
-        </div>
-        <img class="cover" src="http://twgreenwild.chibakuma.com/images/river.jpg">
-    </div>
-    <div class="activity">
-        <div class="info">
-            <h3 class="title">新竹尖石梅花溪溯溪</h3>
-            <p class="desc">2017-12-02</p>
-            <span class="price price--order">
-                <span>TWD.</span>10000
-                <button class="btn btn-primary btn-order-status float-right">待付款</button>
-            </span>
-            
-        </div>
-        <img class="cover" src="http://twgreenwild.chibakuma.com/images/river.jpg">
-    </div>
-    <div class="activity">
-        <div class="info">
-            <h3 class="title">新竹尖石梅花溪溯溪</h3>
-            <p class="desc">2017-12-02</p>
-            <span class="price price--order">
-                <span>TWD.</span>10000
-                <button class="btn btn-light btn-order-status float-right">已付款</button>
-            </span>
-            
-        </div>
-        <img class="cover" src="http://twgreenwild.chibakuma.com/images/river.jpg">
-    </div>
+    @if (!empty($lists))
+        @foreach ($lists as $list)
+            <div class="activity">
+                <div class="info">
+                    <h3 class="title">{{ $list->tour->t_title }}</h3>
+                    <p class="desc">{{ $list->apply_date }}</p>
+                    <span class="price price--order">
+                        <span>TWD.</span>{{ $list->total_price }}
+                        <button class="btn {{ isset(config('common.order_status_css')[$list['o_status']])? config('common.order_status_css')[$list['o_status']] : 'btn_loght' }} btn-order-status float-right">{{ isset(config('common.order_front_status')[$list['o_status']])? config('common.order_front_status')[$list['o_status']] : '' }}</button>
+                    </span>
+                </div>
+                <img class="cover" src="{{ $list->tour->album->cover->picturePath }}">
+            </div>
+        @endforeach
+    @endif
+
 </section>
 @endsection

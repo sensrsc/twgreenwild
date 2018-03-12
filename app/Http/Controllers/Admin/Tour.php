@@ -161,6 +161,15 @@ class Tour extends Controller
         return response()->json($this->responseData);
     }
 
+    public function ajaxSearch(Request $request)
+    {
+        $q = $request->query('q');
+
+        $this->responseData['data'] = $this->tourRepository->search($q);
+
+        return response()->json($this->responseData);
+    }
+
     protected function validateForm(Request $request)
     {
         $rules = [

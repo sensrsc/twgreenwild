@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -11,11 +12,13 @@ class Member extends Controller
 {
     protected $userService;
     protected $userRepository;
+    protected $orderRepository;
 
-    public function __construct(UserService $userService, UserRepository $userRepository)
+    public function __construct(UserService $userService, UserRepository $userRepository, OrderRepository $orderRepository)
     {
-        $this->userService    = $userService;
-        $this->userRepository = $userRepository;
+        $this->userService     = $userService;
+        $this->userRepository  = $userRepository;
+        $this->orderRepository = $orderRepository;
     }
 
     public function info(Request $request)
@@ -40,9 +43,12 @@ class Member extends Controller
         return view('front/member_info', compact('user', 'msg'));
     }
 
-    public function order()
+    public function order(Request $request)
     {
-        echo 'in member order';
+        $queryData = $request->query();
+        $lists     = $this->orderRepository->pages(env('PRE_PAGE'), $queryData);
+
+        return view('front/member_order', compact('lists'));
     }
 
     protected function validateForm(Request $request)
