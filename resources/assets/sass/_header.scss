@@ -17,6 +17,10 @@
         padding: 22px 6px;
         cursor: pointer;
 
+        a {
+            color: inherit;
+        }
+
         &:hover {
             color: #0b54ba;
             font-weight: 500;

@@ -36,7 +36,6 @@ $box-width: 280px;
     position: relative;
     display: flex;
     flex-direction: column;
-    width: $box-width;
     margin: 20px 10px 0;
     border: 2px solid #ddd;
 
@@ -169,4 +168,27 @@ $box-width: 280px;
             width: 100px;
         }
     }
+}
+
+.activity-form {
+    width: 800px;
+    margin: 0 auto;
+}
+
+#calendar > div {
+    margin: 20px auto;
+}
+
+.nav-item {
+    width: 50%;
+    text-align: center;
+}
+
+#form-tab-content {
+    margin: 10px 30px;
+}
+
+#open-form {
+    margin: 0 auto;
+    display: block;
 }
