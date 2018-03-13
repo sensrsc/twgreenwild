@@ -28,7 +28,12 @@
 									<div class="control-label col-md-3">會員帳號：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<input type="text" placeholder="會員帳號" class="form-control" name="account" value="{{ isset($user->u_account)? $user->u_account : '' }}" />
+											<select class="form-control" name="u_id">
+												<option value="">請選擇</option>
+												@if (isset($data->u_id))
+													<option value="{{ $user->u_id }}" selected="selected">{{ $user->u_account }}</option>
+												@endif
+											</select>
 										</div>
 									</div>
 								</div>

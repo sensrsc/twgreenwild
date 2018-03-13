@@ -41,6 +41,14 @@ class UserRepository
         return $this->model->find($id);
     }
 
+    public function search($string)
+    {
+        return $this->model->where('u_account', "LIKE", '%' . $string . '%')
+                    ->where('u_status', 1)
+                    ->get(['u_id', 'u_account'])
+                    ->toArray();
+    }
+
     public function getByAccount($account)
     {
         return $this->model->where('u_account', $account)

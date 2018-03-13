@@ -165,6 +165,7 @@ Route::group(['prefix' => 'admin'], function () {
         // 會員
         Route::get('user', 'Admin\\User@index');
         Route::get('user/info/{id}', 'Admin\\User@info');
+        Route::get('user/ajaxSearch', 'Admin\\User@ajaxSearch');
 
         // 預約叫車
         Route::get('reserveorder', 'Admin\\ReserveOrder@index');

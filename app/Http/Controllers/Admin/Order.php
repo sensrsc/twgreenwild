@@ -64,7 +64,7 @@ class Order extends Controller
     public function ajaxAdd(Request $request)
     {
         $validator = $this->validateForm($request);
-        $posts = $this->orderService->adminOrderDataProcess($request->input());
+        $posts     = $this->orderService->adminOrderDataProcess($request->input());
         $checkDate = $this->orderService->notApplyDateCheck($posts);
         if ($validator->passes()) {
             $oID                          = $this->orderRepository->insert($posts);
@@ -105,7 +105,7 @@ class Order extends Controller
     protected function validateForm(Request $request)
     {
         $rules = [
-            'account'       => 'required|email|exists:user,u_account',
+            'u_id'          => 'required|exists:user,u_id',
             'apply_date'    => 'required|date|date_format:Y-m-d',
             'adult_num'     => 'required|numeric',
             'child_num'     => 'required|numeric',
@@ -129,7 +129,7 @@ class Order extends Controller
         }
 
         $attributes = [
-            'account'               => '帳號',
+            'u_id'                  => '帳號',
             'apply_date'            => '報名日期',
             'adult_num'             => '大人人數',
             'child_num'             => '小孩人數',
