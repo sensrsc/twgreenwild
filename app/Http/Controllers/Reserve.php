@@ -46,7 +46,7 @@ class Reserve extends Controller
                 $this->carReserveOrderService->sendEmail($insertData);
             }
         } else {
-            $message = join('<br />', $validator->messages()->all());
+            $message = join("\n", $validator->messages()->all());
         }
 
         return response()->json(compact('status', 'message'));
