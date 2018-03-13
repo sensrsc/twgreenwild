@@ -216,7 +216,7 @@
             </p>
             <p>
                 <span>上車時間</span>
-                <input name="time" type="text">
+                <input name="time" type="date">
             </p>
             <p>
                 <span>上車地點</span>
