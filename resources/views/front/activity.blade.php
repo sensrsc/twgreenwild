@@ -50,7 +50,9 @@
             var groupTab = document.getElementById('group-tab');
             var singleContent = document.getElementById('single');
             var groupContent = document.getElementById('group');
+            var singleApplyDateInput = document.getElementById('single-apply-date-input');
             var singleApplyDate = document.getElementById('single-apply-date');
+            var groupApplyDateInput = document.getElementById('group-apply-date-input');
             var groupApplyDate = document.getElementById('group-apply-date');
             var activityDate = JSON.parse('{!! json_encode($activityDate) !!}');
 
@@ -61,6 +63,8 @@
 
             singleApplyDate.innerText = activityDate.apply_date;
             groupApplyDate.innerText = activityDate.apply_date;
+            singleApplyDateInput.value = activityDate.apply_date;
+            groupApplyDateInput.value = activityDate.apply_date;
 
             // datepicker
             $('#calendar').datepicker({
@@ -77,6 +81,8 @@
                 onSelect: function (dateText) {
                     singleApplyDate.innerText = dateText;
                     groupApplyDate.innerText = dateText;
+                    singleApplyDateInput.value = dateText;
+                    groupApplyDateInput.value = dateText;
                 },
             });
 
