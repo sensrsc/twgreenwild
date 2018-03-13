@@ -1,4 +1,4 @@
-<form action="activity/apply" method="POST">
+<form action="apply" method="POST">
     <div class="form-group row">
         <label class="col-4 col-form-label">行程名稱</label>
         <div class="col-8">{{$tour['t_title']}}</div>
