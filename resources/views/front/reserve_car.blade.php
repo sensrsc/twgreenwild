@@ -235,6 +235,9 @@
                 <span>車型</span>
                 <select name="model" id="car-all-day">
                     <option value="" selected disabled hidden>車型</option>
+                    @foreach ($models as $model)
+                        <option value="{{ $model->cr_model }}">{{ $model->cr_model }}</option>
+                    @endforeach
                 </select>
             </p>
             <p>
