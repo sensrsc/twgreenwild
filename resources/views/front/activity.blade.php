@@ -12,7 +12,8 @@
     </style>
     <div class="activity-form">
         <div id="calendar"></div>
-        <div id="form-container">
+        <button id="open-form" class="btn btn-primary">我要報名</button>
+        <div id="form-container" style="display: none;">
             <ul class="nav nav-tabs" id="form-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="single-tab" data-toggle="tab" href="#single" role="tab" aria-controls="single" aria-selected="true">個人報名</a>
@@ -37,6 +38,14 @@
 
     <script>
         $(document).ready(function() {
+            var openFormBtn = document.getElementById('open-form');
+            var formContainer = document.getElementById('form-container');
+
+            openFormBtn.addEventListener('click', function (e) {
+                e.target.style.display = 'none';
+                formContainer.style.display = 'block';
+            });
+
             var singleTab = document.getElementById('single-tab');
             var groupTab = document.getElementById('group-tab');
             var singleContent = document.getElementById('single');

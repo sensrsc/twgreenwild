@@ -141,4 +141,7 @@
             <input class="form-control" type="text" value="" id="single-note">
         </div>
     </div>
+    <div class="row">
+        <button type="submit" class="col-4 btn btn-primary" style="margin: 0 auto;">送出</button>
+    </div>
 </form>
