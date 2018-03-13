@@ -28,6 +28,7 @@ Route::post('/reserve/create', 'Reserve@createReserve');
 
 Route::get('activities/{id}', 'Activities@index');
 Route::get('activity/{id}', 'Activity@index');
+Route::post('activity/{id}/apply', 'Activity@apply')->name('apply');
 
 Route::group(['middleware' => 'front'], function () {
     Route::match(['get', 'post'], 'member/info', 'Member@info');

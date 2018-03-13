@@ -1,4 +1,5 @@
-<form>
+<form action="{{ route('apply', ['id' => $id]) }}" method="POST">
+    {{ csrf_field() }}                                                                               
     <div class="form-group row">
         <label class="col-4 col-form-label">行程名稱</label>
         <div class="col-8">{{$tour['t_title']}}</div>
@@ -44,7 +45,7 @@
     <div class="form-group row">
         <label for="single-name" class="col-4 col-form-label">姓名</label>
         <div class="col-8">
-            <input class="form-control" type="text" value="" id="single-name">
+            <input class="form-control" type="text" name="name" value="" id="single-name">
         </div>
     </div>
     <div class="form-group row">

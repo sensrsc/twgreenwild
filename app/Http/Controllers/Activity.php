@@ -23,7 +23,14 @@ class Activity extends Controller
     		'ready_date' => [],	
     	];
 
-    	return view('front.activity', compact('activityDate', 'tour'));
+    	return view('front.activity', compact('activityDate', 'tour', 'id'));
+    }
+
+    public function apply(Request $request, $id)
+    {
+        var_dump($id);
+        $name = $request->input('name');
+        var_dump($name);
     }
 
 }
