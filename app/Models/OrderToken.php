@@ -22,4 +22,13 @@ class OrderToken extends Model
         return $this->hasOne('App\Models\Order', 'o_id', 'o_id');
     }
 
+    public function payment()
+    {
+        return $this->hasOne('App\Models\PaymentReturn', 'order_id', 'order_id');
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d H:i:s');
+    }
 }

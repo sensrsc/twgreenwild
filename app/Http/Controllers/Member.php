@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
+use App\Services\OrderTokenService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Validator;
@@ -11,14 +12,16 @@ use Validator;
 class Member extends Controller
 {
     protected $userService;
+    protected $orderTokenService;
     protected $userRepository;
     protected $orderRepository;
 
-    public function __construct(UserService $userService, UserRepository $userRepository, OrderRepository $orderRepository)
+    public function __construct(UserService $userService, UserRepository $userRepository, OrderRepository $orderRepository, OrderTokenService $orderTokenService)
     {
-        $this->userService     = $userService;
-        $this->userRepository  = $userRepository;
-        $this->orderRepository = $orderRepository;
+        $this->userService       = $userService;
+        $this->orderTokenService = $orderTokenService;
+        $this->userRepository    = $userRepository;
+        $this->orderRepository   = $orderRepository;
     }
 
     public function info(Request $request)
@@ -49,6 +52,20 @@ class Member extends Controller
         $lists     = $this->orderRepository->pages(env('PRE_PAGE'), $queryData);
 
         return view('front/member_order', compact('lists'));
+    }
+
+    public function token(Request $request)
+    {
+        $oID   = $request->query('o_id', 0);
+        $order = $this->orderRepository->getByID($oID);
+        if ($order) {
+            $token    = $this->orderTokenService->getOrderToken($order->o_id);
+            $type     = ($order->payment_type == 2) ? 'ATM' : 'CREDIT';
+            $typeName = ($order->payment_type == 2) ? 'ATM' : '信用卡';
+            $status   = true;
+
+            return response()->json(compact('status', 'token', 'type', 'typeName'));
+        }
     }
 
     protected function validateForm(Request $request)

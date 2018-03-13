@@ -115,6 +115,8 @@ class Order extends Controller
             'apply_address' => 'required|max:100',
             'apply_email'   => 'required|email|max:45',
             't_id'          => 'required|numeric',
+            'total_price'   => 'required|numeric',
+            'payment_type'  => 'required|numeric',
         ];
 
         $totalPeople = $request->input('adult_num') + $request->input('child_num');
@@ -146,6 +148,8 @@ class Order extends Controller
             'apply_foot'            => '腳掌',
             'apply_emergency_name'  => '緊急聯絡人姓名',
             'apply_emergency_phone' => '緊急聯絡人電話',
+            'total_price'           => '訂單金額',
+            'payment_type'          => '付款方式',
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);
