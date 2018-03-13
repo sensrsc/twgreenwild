@@ -1,5 +1,7 @@
 <header id="header-bar">
-    <img class="header__logo" src="{{ asset('images/logo.png') }}" height="60">
+    <a href="/">
+        <img class="header__logo" src="{{ asset('images/logo.png') }}" height="60">
+    </a>
     <nav>
         <span class="header__nav">
             <a href="/reserve_car">接送預約</a>

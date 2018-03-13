@@ -1,7 +1,9 @@
 <header id="header-bar__mobile">
     <div class="header-bar__btns">
         <button class="header-bar__hamburger"><i class="fas fa-bars"></i></button>
-        <img class="header__logo" src="{{ asset('images/logo.png') }}" height="40">
+        <a href="/">
+            <img class="header__logo" src="{{ asset('images/logo.png') }}" height="40">
+        </a>
         <button class="header-bar__ellips"><i class="fas fa-ellipsis-v"></i></button>
     </div>
 
