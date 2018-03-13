@@ -76,7 +76,7 @@
                 </p>
                 <p>
                     <span>上車時間</span>
-                    <input name="time_go" type="date">
+                    <input name="time_go" type="time">
                 </p>
                 <p>
                     <span>上車地址</span>
@@ -152,7 +152,7 @@
                 </p>
                 <p>
                     <span>預約時間</span>
-                    <input name="time_back" type="text">
+                    <input name="time_back" type="time">
                 </p>
 
             </div>
@@ -216,7 +216,7 @@
             </p>
             <p>
                 <span>上車時間</span>
-                <input name="time" type="date">
+                <input name="time" type="time">
             </p>
             <p>
                 <span>上車地點</span>
