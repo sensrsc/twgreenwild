@@ -76,7 +76,7 @@
                 </p>
                 <p>
                     <span>上車時間</span>
-                    <input name="time_go" type="text">
+                    <input name="time_go" type="date">
                 </p>
                 <p>
                     <span>上車地址</span>
