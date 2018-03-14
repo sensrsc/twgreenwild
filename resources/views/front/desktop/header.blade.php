@@ -10,22 +10,22 @@
             <span>活動類型</span>
             <ul class="header__nav-dropdown">
                 <li class="header__nav-dropdown-item">
-                    <a href="/activities/">朔溪</a>
+                    <a href="/activities/1">登山健行</a>
                 </li>
                 <li class="header__nav-dropdown-item">
-                    <a href="/activities/">攀岩</a>
+                    <a href="/activities/2">朔溪</a>
                 </li>
                 <li class="header__nav-dropdown-item">
-                    <a href="/activities/">健行</a>
+                    <a href="/activities/3">攀岩</a>
                 </li>
                 <li class="header__nav-dropdown-item">
-                    <a href="/activities/">團體教育</a>
+                    <a href="/activities/4">職人課程</a>
                 </li>
                 <li class="header__nav-dropdown-item">
-                    <a href="/activities/">職人課程</a>
+                    <a href="/activities/5">立式划槳</a>
                 </li>
                 <li class="header__nav-dropdown-item">
-                    <a href="/activities/">包車</a>
+                    <a href="/activities/6">團體教育</a>
                 </li>
             </ul>
         </span>
