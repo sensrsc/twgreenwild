@@ -1,27 +1,13 @@
 .carousel {
     width: 1200px;
-    height: 400px;
     margin: 0 auto;
     background: #efefef;
 
     @media (min-width: 948px) and (max-width: 1235px) {
         max-width: 910px;
-        height: 300px;
     }
 
     @media (max-width: 947px) {
         width: 100%;
-    }
-
-    @media (min-width: 643px) and (max-width: 947px) {
-        height: 300px;
-    }
-
-    @media (min-width: 380px) and (max-width: 642px) {
-        height: 280px;
-    }
-
-    @media (max-width: 380px) {
-        height: 200px;
     }
 }
