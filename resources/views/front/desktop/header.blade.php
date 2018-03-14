@@ -29,6 +29,8 @@
                 </li>
             </ul>
         </span>
-        <span class="header__nav">登入/註冊</span>
+        <span class="header__nav">
+            <a href="/member">登入/註冊</a>
+        </span>
     </nav>
 </header>
