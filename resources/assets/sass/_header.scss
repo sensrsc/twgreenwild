@@ -139,15 +139,20 @@
             font-size: 25px;
             letter-spacing: 1.4px;
             font-weight: 300;
+
+            a {
+                color: inherit;
+            }
         }
 
-        .header-bar__nav-list-itme.close {
+        .header-bar__nav-list-itme.close-nav {
             height: 40px;
 
             button {
                 float: right;
                 color: #fff;
                 height: 40px;
+                line-height: 40px;
                 font-size: 25px;
             }
         }

@@ -45,10 +45,10 @@ class EcpayService
             'ExpireDate'        => 3,
             // CVS or ALL
             'StoreExpireDate'   => 7,
-            'Desc_1'            => '',
-            'Desc_2'            => '',
-            'Desc_3'            => '',
-            'Desc_4'            => '',
+            'Desc_1'            => $orderData['desc1'] ?? '',
+            'Desc_2'            => $orderData['desc2'] ?? '',
+            'Desc_3'            => $orderData['desc3'] ?? '',
+            'Desc_4'            => $orderData['desc4'] ?? '',
             'PaymentInfoURL'    => $orderData['payment_info_url'] ?? '',
             // CREDIT or ALL
             'BindingCard'       => 0,
@@ -64,6 +64,7 @@ class EcpayService
             if ($this->checkReturn($result)){
             	return $result;
             }
+            return $result;
         }
 
         return [];

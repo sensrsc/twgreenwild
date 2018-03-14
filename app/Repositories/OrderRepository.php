@@ -33,21 +33,22 @@ class OrderRepository
         $order->total_price   = $datas['total_price'];
         $order->o_detail      = json_encode($datas['o_detail']);
         $order->o_status      = $datas['o_status'] ?? 0;
+        $order->payment_type  = $datas['payment_type'] ?? 1;
         $order->save();
 
         if ($order->user) {
             $user = $order->user;
             if (!$user->u_name) {
-                $user->u_name = $datas['apply_name'];    
+                $user->u_name = $datas['apply_name'];
             }
             if (!$user->u_gender) {
-                $user->u_gender = $datas['apply_gender'];    
+                $user->u_gender = $datas['apply_gender'];
             }
             if (!$user->apply_phone) {
-                $user->u_phone = $datas['apply_phone'];    
+                $user->u_phone = $datas['apply_phone'];
             }
             if (!$user->u_address) {
-                $user->u_address = $datas['apply_address'];    
+                $user->u_address = $datas['apply_address'];
             }
             if (!$user->u_height && isset($datas['o_detail']['apply_height'])) {
                 $user->u_height = $datas['o_detail']['apply_height'];
@@ -72,7 +73,7 @@ class OrderRepository
             }
             $user->save();
         }
-        
+
         return $order->o_id;
     }
 
@@ -89,6 +90,9 @@ class OrderRepository
 
     public function getByID($id)
     {
+        if (session()->has('user')) {
+            return $this->model->where('u_id', session()->get('user')->u_id)->find($id);
+        }
         return $this->model->find($id);
     }
 

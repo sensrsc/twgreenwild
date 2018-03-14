@@ -42,8 +42,8 @@ class OrderService
     public function adminOrderDataProcess($datas)
     {
         // 帳號換u_id
-        $user          = $this->userRepository->getByAccount($datas['account']);
-        $datas['u_id'] = $user->u_id;
+        // $user          = $this->userRepository->getByAccount($datas['account']);
+        // $datas['u_id'] = $user->u_id;
         // 訂單編號
         $datas['o_order_id'] = $this->orderRepository->getOrderID();
         // deatil資料

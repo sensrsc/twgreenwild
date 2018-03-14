@@ -119,6 +119,38 @@ var Order = function() {
             var data = e.params.data;
         });
 
+        $('[name=u_id]').select2({
+            width: "off",
+            ajax: {
+                url: "/admin/user/ajaxSearch",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data, page) {
+                    // parse the results into the format expected by Select2.
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data
+                    return {
+                        results: $.map(data.data, function (item) {
+                            return {
+                                text: item.u_account,
+                                id: item.u_id,
+                            }
+                        })
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            }, // let our custom formatter work
+            minimumInputLength: 1,
+        })
 
         $('[name=adult_num], [name=child_num], [name=t_id], [name=apply_date]').change(function(){
             var num = parseInt($('[name=adult_num]').val()) + parseInt($('[name=child_num]').val());

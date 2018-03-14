@@ -76,7 +76,7 @@
                 </p>
                 <p>
                     <span>上車時間</span>
-                    <input name="time_go" type="text">
+                    <input name="time_go" type="time">
                 </p>
                 <p>
                     <span>上車地址</span>
@@ -152,7 +152,7 @@
                 </p>
                 <p>
                     <span>預約時間</span>
-                    <input name="time_back" type="text">
+                    <input name="time_back" type="time">
                 </p>
 
             </div>
@@ -170,7 +170,7 @@
                 <input name="email" type="text">
             </p>
 
-            <input class="btn btn-light" data-type="airport" type="button" value="送出預約">
+            <input class="btn btn-light" id="airport_btn" data-type="airport" type="button" value="送出預約">
         </div>
         <!-- 機場接送選項 end -->
         
@@ -216,7 +216,7 @@
             </p>
             <p>
                 <span>上車時間</span>
-                <input name="time" type="text">
+                <input name="time" type="time">
             </p>
             <p>
                 <span>上車地點</span>
@@ -235,6 +235,9 @@
                 <span>車型</span>
                 <select name="model" id="car-all-day">
                     <option value="" selected disabled hidden>車型</option>
+                    @foreach ($models as $model)
+                        <option value="{{ $model->cr_model }}">{{ $model->cr_model }}</option>
+                    @endforeach
                 </select>
             </p>
             <p>
@@ -254,7 +257,7 @@
                 <input name="email" type="text">
             </p>
 
-            <input class="btn btn-light" data-type="car" type="button" value="送出預約">
+            <input class="btn btn-light" id="car_btn" data-type="car" type="button" value="送出預約">
         </div>
         <!-- 商務包車 end -->
     </form>
@@ -426,28 +429,36 @@
                     });
             });
 
-            document.querySelector('.btn').addEventListener('click', function(e) {
-                console.log(e);
-                console.log(this.dataset.type);
-
-
-
+            document.getElementById('airport_btn').addEventListener('click', function(e) {
                 var formData = new FormData(airportBlock);
-                formData.forEach(function(value, key){
-                    console.log(key, value);
-                });
+                // formData.forEach(function(value, key){
+                //     console.log(key, value);
+                // });
                 formData.append('type', document.querySelector('#reserve-type').value);
-                // console.log(formData.get('city'));
-                // console.log(airportBlock);
-                // console.log(formData);
-                // console.log(document.forms[0]);
-                // console.log(new FormData(document.querySelector("#airport-block")));
-
-
 
                 axios.post('/reserve/create', formData)
                   .then(function (response) {
-                    console.log(response);
+                        if (response.data) {
+                            alert(response.data.message); 
+                        }
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+            });
+
+            document.getElementById('car_btn').addEventListener('click', function(e) {
+                var formData = new FormData(carBlock);
+                // formData.forEach(function(value, key){
+                //     console.log(key, value);
+                // });
+                formData.append('type', document.querySelector('#reserve-type').value);
+
+                axios.post('/reserve/create', formData)
+                  .then(function (response) {
+                        if (response.data) {
+                            alert(response.data.message); 
+                        }
                   })
                   .catch(function (error) {
                     console.log(error);

@@ -44,4 +44,13 @@ class User extends Controller
         return view('admin.message', $message);
     }
 
+    public function ajaxSearch(Request $request)
+    {
+        $q = $request->query('q');
+
+        $this->responseData['data'] = $this->userRepository->search($q);
+
+        return response()->json($this->responseData);
+    }
+
 }

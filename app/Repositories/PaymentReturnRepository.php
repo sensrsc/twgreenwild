@@ -2,28 +2,32 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\PaymentReturn;
+use Request;
 use Schema;
 
-class UserRepository
+class PaymentReturnRepository
 {
     protected $model;
 
-    public function __construct(User $model)
+    public function __construct(PaymentReturn $model)
     {
         $this->model = $model;
     }
 
-    public function insert($datas)
+    public function insert($type, $datas)
     {
-        $user             = new User;
-        $user->u_account  = $datas['account'];
-        $user->u_password = password_hash($datas['password'], PASSWORD_DEFAULT);
-        $user->fb_id      = $datas['fb_id'] ?? '';
-        $user->u_status   = $datas['u_status'] ?? 1;
-        $user->save();
+        $paymentReturn              = new PaymentReturn;
+        $paymentReturn->pr_type     = $type ?? 1;
+        $paymentReturn->order_id    = $datas['MerchantTradeNo'];
+        $paymentReturn->trade_no    = $datas['TradeNo'] ?? '';
+        $paymentReturn->post_data   = json_encode($datas);
+        $paymentReturn->return_code = $datas['RtnCode'];
+        $paymentReturn->return_msg  = $datas['RtnMsg'];
+        $paymentReturn->ip          = Request::ip();
+        $paymentReturn->save();
 
-        return $user;
+        return $paymentReturn;
     }
 
     public function update($id, $datas)
@@ -41,26 +45,6 @@ class UserRepository
         return $this->model->find($id);
     }
 
-    public function search($string)
-    {
-        return $this->model->where('u_account', "LIKE", '%' . $string . '%')
-                    ->where('u_status', 1)
-                    ->get(['u_id', 'u_account'])
-                    ->toArray();
-    }
-
-    public function getByAccount($account)
-    {
-        return $this->model->where('u_account', $account)
-            ->first();
-    }
-
-    public function getByFbID($fbID)
-    {
-        return $this->model->where('fb_id', $fbID)
-            ->first();
-    }
-
     public function pages($rows, $queryData)
     {
         $query = $this->model->query();
@@ -68,7 +52,7 @@ class UserRepository
             foreach ($queryData as $field => $search) {
                 $isHave = Schema::hasColumn($this->model->getTable(), $field);
                 if ($isHave) {
-                    if (strpos($field, 'u_account') !== false || strpos($field, 'u_name') !== false && $search) {
+                    if (strpos($field, 'status') !== false) {
                         $query->where($field, "LIKE", '%' . $search . '%');
                     } else if ($search) {
                         $query->where($field, $search);

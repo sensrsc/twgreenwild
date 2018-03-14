@@ -27,17 +27,22 @@ Route::get('/reserve_car', 'Reserve@index');
 Route::post('/reserve/create', 'Reserve@createReserve');
 
 Route::get('activities/{id}', 'Activities@index');
+
+Route::get('activity/check', 'Activity@check');
 Route::get('activity/{id}', 'Activity@index');
 Route::post('activity/{id}/apply', 'Activity@apply')->name('apply');
+
 
 Route::group(['middleware' => 'front'], function () {
     Route::match(['get', 'post'], 'member/info', 'Member@info');
 
     Route::get('member', 'Member@index');
     Route::get('member/order', 'Member@order');
+    Route::get('member/token', 'Member@token');
+
+    Route::post('activity/apply', 'Activity@apply');
 
     Route::get('test/testroute', 'Test@testroute');
-
 });
 
 
@@ -49,9 +54,11 @@ Route::get('test/checkmac', 'Test@checkmac');
 Route::get('test/test', 'Test@test');
 Route::get('test/modeltest', 'Test@modeltest');
 Route::get('test/sessiontest', 'Test@sessiontest');
-
+Route::get('test/ordertest/{oID}', 'Test@ordertest');
 Route::post('test/returnurl', 'Test@returnurl');
 Route::post('test/infourl', 'Test@infourl');
+
+
 
 Route::post('ecpay/returnurl', 'Ecpay@returnurl');
 Route::post('ecpay/infourl', 'Ecpay@infourl');
@@ -166,6 +173,7 @@ Route::group(['prefix' => 'admin'], function () {
         // 會員
         Route::get('user', 'Admin\\User@index');
         Route::get('user/info/{id}', 'Admin\\User@info');
+        Route::get('user/ajaxSearch', 'Admin\\User@ajaxSearch');
 
         // 預約叫車
         Route::get('reserveorder', 'Admin\\ReserveOrder@index');

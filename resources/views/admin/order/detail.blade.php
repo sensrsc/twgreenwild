@@ -28,7 +28,12 @@
 									<div class="control-label col-md-3">會員帳號：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">
-											<input type="text" placeholder="會員帳號" class="form-control" name="account" value="{{ isset($user->u_account)? $user->u_account : '' }}" />
+											<select class="form-control" name="u_id">
+												<option value="">請選擇</option>
+												@if (isset($data->u_id))
+													<option value="{{ $user->u_id }}" selected="selected">{{ $user->u_account }}</option>
+												@endif
+											</select>
 										</div>
 									</div>
 								</div>
@@ -216,7 +221,21 @@
 										</div>
 									</div>
 								</div>
-	                            <div class="col-md-6">
+								<div class="col-md-6">
+	                            	<div class="control-label col-md-3">付款方式：</div>
+									<div class="col-md-9 radio-list">
+										<div class="input-icon right">
+											<label class="radio-inline">
+                                                <input type="radio" name="payment_type" id="optionsRadios2" value="1" {{ isset($data->payment_type) && $data->payment_type == 1? 'checked' : 'checked' }}> 信用卡 </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="payment_type" id="optionsRadios3" value="2" {{ isset($data->payment_type) && $data->payment_type == 2? 'checked' : '' }}> ATM </label>
+										</div>
+									</div>
+	                           	</div>
+                            </div>
+
+                            <div class="form-group">
+                            	<div class="col-md-6">
 	                            	<div class="control-label col-md-3">狀態：</div>
 									<div class="col-md-9">
 										<div class="input-icon right">

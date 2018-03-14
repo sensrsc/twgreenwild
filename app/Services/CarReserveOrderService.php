@@ -125,7 +125,7 @@ class CarReserveOrderService
             $subject = '【預約單：' . $data['order_id'] . '】';
 
             foreach ($emails as $email) {
-                $this->send($data, $email, $subject);
+                $this->send($data, trim($email), $subject);
             }
         }
     }

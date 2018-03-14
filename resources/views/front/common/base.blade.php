@@ -26,4 +26,34 @@
         <footer></footer>
     </div>
 </body>
+<script>
+$(document).ready(function() {
+    var hamburger = document.getElementById('header-hamburger');
+    var ellips = document.getElementById('header-ellips');
+    var hamburgerClose = document.getElementById('header-hamburger__close');
+    var ellipsClose = document.getElementById('header-ellips__close');
+    var hamburgerNav = document.getElementById('header-hamburger__nav');
+    var ellipsNav = document.getElementById('header-ellips__nav');
+
+    hamburger.addEventListener('click', function (e) {
+        hamburgerNav.classList.add('show');
+        ellipsNav.classList.remove('show');
+    });
+
+    ellips.addEventListener('click', function (e) {
+        hamburgerNav.classList.remove('show');
+        ellipsNav.classList.add('show');
+    });
+
+    hamburgerClose.addEventListener('click', function (e) {
+        hamburgerNav.classList.remove('show');
+        ellipsNav.classList.remove('show');
+    });
+
+    ellipsClose.addEventListener('click', function (e) {
+        hamburgerNav.classList.remove('show');
+        ellipsNav.classList.remove('show');
+    });
+});
+</script>
 </html>
